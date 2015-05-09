@@ -11,6 +11,7 @@ public class Init : MonoBehaviour {
 	public static float ANCHO_CALLEAV = 0.25f;
 	public static float DESP_CALLEAV = ANCHO_CALLEAV * 2;
 	public static float ELEVACION_PAPEL = 0.015f;
+	public static float ELEVACION_FLOR = 0.15f;
 
 	// Prefab ciudad, calles y avenidas para inicializar ciudad
 	public Transform ciudadPrefab;
@@ -18,6 +19,7 @@ public class Init : MonoBehaviour {
 	public Transform avenidaPrefab; 
 	public Transform robotPrefab; 
 	public Transform papelPrefab;
+	public Transform florPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -47,6 +49,16 @@ public class Init : MonoBehaviour {
 				int count = Random.Range(0, 2);
 				for (int c = 0; c < count; c++) {
 					Instantiate(papelPrefab, new Vector3(x, ELEVACION_PAPEL, z), Quaternion.identity);
+				}
+			}
+		}
+
+		// Inicializar flores de manera aleatoria
+		for (int z = 1; z < CANT_CALLES; z++) {
+			for (int x = 1; x < CANT_AVENIDAS; x++) {
+				int count = Random.Range(0, 2);
+				for (int c = 0; c < count; c++) {
+					Instantiate(florPrefab, new Vector3(x, ELEVACION_FLOR, z), Quaternion.identity);
 				}
 			}
 		}

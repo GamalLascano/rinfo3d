@@ -9,8 +9,8 @@ public class UI : MonoBehaviour {
 	public const int STATE_CONFIG  = 2;
 
 	// Tamaño default de los botones 
-	public static int buttonWidth = 80;
-	public static int buttonHeight = 25;
+	public static int buttonWidth = 60;
+	public static int buttonHeight = 15;
 	public static int margin = 10;
 
 	// Estado actual de la GUI. Inicia en EDITING logicamente
@@ -40,19 +40,19 @@ public class UI : MonoBehaviour {
 	void renderEditing() {
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Abrir")) { 
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Open")) { 
 			// TODO: Implementar
 		}
-		GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Guardar");	
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Ejecutar")) {
+		GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save");	
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Run")) {
 			currentState = STATE_RUNNING;
 			return;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Configurar")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Settings")) {
 			currentState = STATE_CONFIG;
 			return;
 		}
-		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: EDICION ::.");
+		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: EDITING ::.");
 
 		// Visualizacion de codigo fuente
 		sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode);
@@ -63,15 +63,15 @@ public class UI : MonoBehaviour {
 	void renderRunning() {
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Pausar")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Pause")) {
 			currentState = STATE_EDITING;
 			return;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Continuar")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Resume")) {
 			currentState = STATE_EDITING;
 			return;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Detener")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Stop")) {
 			currentState = STATE_EDITING;
 			return;
 		}
@@ -82,15 +82,15 @@ public class UI : MonoBehaviour {
 	void renderConfig() {
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Aceptar")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Accept")) {
 			currentState = STATE_EDITING;
 			return;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Cancelar")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Cancel")) {
 			currentState = STATE_EDITING;
 			return;
 		}
-		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: CONFIGURACION ::.");
+		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: CONFIGURATION ::.");
 	}
 
 }
