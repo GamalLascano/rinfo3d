@@ -8,6 +8,12 @@ public class UI : MonoBehaviour {
 	public const int STATE_RUNNING = 1;
 	public const int STATE_CONFIG  = 2;
 
+	// Camaras 
+	public const int CAMARA_3DCAM   = 0;
+	public const int CAMARA_HEADCAM = 1;
+	public const int CAMARA_TOPCAM  = 2;
+	public const int CAMERA_END_OF 	= 3;
+
 	// Tamaño default de los botones 
 	public static int buttonWidth = 60;
 	public static int buttonHeight = 15;
@@ -15,6 +21,13 @@ public class UI : MonoBehaviour {
 
 	// Estado actual de la GUI. Inicia en EDITING logicamente
 	public static int currentState = STATE_EDITING;
+
+	// Estado actual de la GUI bajo ejecucion STATE_RUNNING (bajo RUNNIG pude estar activo o pausado).  Inicia en false logicamente
+	public static bool currentRunningState = false;
+	// Velocidad de ejecucion
+	public static float currentRunningSpeed = .5f;
+	// Camara actual
+	public static int currentCamera = CAMARA_3DCAM;
 
 	// Codigo a visualizar y ejecutar
 	protected string sourceCode = "SOURCE CODE HERE";
@@ -46,6 +59,7 @@ public class UI : MonoBehaviour {
 		GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save");	
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Run")) {
 			currentState = STATE_RUNNING;
+			currentRunningState = true;
 			return;
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Settings")) {
@@ -63,18 +77,40 @@ public class UI : MonoBehaviour {
 	void renderRunning() {
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Pause")) {
-			currentState = STATE_EDITING;
-			return;
-		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Resume")) {
-			currentState = STATE_EDITING;
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), currentRunningState ? "Pause" : "Resume")) {
+			currentRunningState = !currentRunningState;
 			return;
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Stop")) {
 			currentState = STATE_EDITING;
 			return;
 		}
+		// Separador
+		i++;
+		// Camara
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Cam: " + currentCamera )) {
+			currentCamera++;
+			if (currentCamera >= CAMERA_END_OF)
+				currentCamera = 0;
+		}
+		// Separador
+		i++;
+		// Velocidad
+		if (GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth / 2, margin + buttonHeight), "-")) {
+			currentRunningSpeed -= .1f;;
+			if (currentRunningSpeed < 0)
+				currentRunningSpeed = 0;
+			return;
+		}
+		GUI.TextArea (new Rect (margin + i++ * buttonWidth + buttonWidth / 2, margin, buttonWidth, margin + buttonHeight), "Vel: " + Mathf.RoundToInt(currentRunningSpeed * 10));
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth + buttonWidth / 2, margin, buttonWidth / 2, margin + buttonHeight), "+")) {
+			currentRunningSpeed += .1f;
+			if (currentRunningSpeed > 1)
+				currentRunningSpeed = 1;
+			return;
+		}
+
+		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), "Ready.");
 	}
 
 

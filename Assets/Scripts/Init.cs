@@ -21,6 +21,10 @@ public class Init : MonoBehaviour {
 	public Transform papelPrefab;
 	public Transform florPrefab;
 
+	// Preferencias
+	public bool instanciarFloresRandom = false;
+	public bool instanciarPapelesRandom = false;
+
 	// Use this for initialization
 	void Start () {
 		// Inicializar ciudad
@@ -44,21 +48,25 @@ public class Init : MonoBehaviour {
 		}
 
 		// Inicializar papeles de manera aleatoria
-		for (int z = 1; z < CANT_CALLES; z++) {
-			for (int x = 1; x < CANT_AVENIDAS; x++) {
-				int count = Random.Range(0, 2);
-				for (int c = 0; c < count; c++) {
-					Instantiate(papelPrefab, new Vector3(x, ELEVACION_PAPEL, z), Quaternion.identity);
+		if (instanciarPapelesRandom) { 
+			for (int z = 1; z < CANT_CALLES; z++) {
+				for (int x = 1; x < CANT_AVENIDAS; x++) {
+					int count = Random.Range(0, 2);
+					for (int c = 0; c < count; c++) {
+						Instantiate(papelPrefab, new Vector3(x, ELEVACION_PAPEL, z), Quaternion.identity);
+					}
 				}
 			}
 		}
 
 		// Inicializar flores de manera aleatoria
-		for (int z = 1; z < CANT_CALLES; z++) {
-			for (int x = 1; x < CANT_AVENIDAS; x++) {
-				int count = Random.Range(0, 2);
-				for (int c = 0; c < count; c++) {
-					Instantiate(florPrefab, new Vector3(x, ELEVACION_FLOR, z), Quaternion.identity);
+		if (instanciarFloresRandom) { 
+			for (int z = 1; z < CANT_CALLES; z++) {
+				for (int x = 1; x < CANT_AVENIDAS; x++) {
+					int count = Random.Range (0, 2);
+					for (int c = 0; c < count; c++) {
+						Instantiate (florPrefab, new Vector3 (x, ELEVACION_FLOR, z), Quaternion.identity);
+					}
 				}
 			}
 		}
