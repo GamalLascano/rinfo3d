@@ -21,16 +21,37 @@ public class UI : MonoBehaviour {
 
 	// Estado actual de la GUI. Inicia en EDITING logicamente
 	public static int currentState = STATE_EDITING;
-
-	// Estado actual de la GUI bajo ejecucion STATE_RUNNING (bajo RUNNIG pude estar activo o pausado).  Inicia en false logicamente
-	public static bool currentRunningState = false;
 	// Velocidad de ejecucion
 	public static float currentRunningSpeed = .5f;
 	// Camara actual
 	public static int currentCamera = CAMARA_3DCAM;
+	// Demora en segundos
+	protected float waitDelaySeconds = .5f;
 
-	// Codigo a visualizar y ejecutar
-	protected string sourceCode = "SOURCE CODE HERE";
+	// Codigo fuente
+	protected string sourceCode = "Mover;\nMover;\nDerecha;\nMover;";
+	// Contenido de la linea de estado
+	protected string statusText = "Ready.";
+	// Liena actual
+	protected int currentLine = -1;
+	// Conjunto de instrucciones
+	protected ArrayList sentences = new ArrayList();
+	// Codigo parseado
+	protected bool codeParsed = false;
+	// Error al interpretar linea
+	protected bool angry = false;
+	// Estado actual de la GUI bajo ejecucion STATE_RUNNING (pude estar activo o pausado).  Inicia en false logicamente.
+	protected bool run = false;
+	// Periodo durante la ejecucion de una instruccion
+	protected bool step = false;
+	// Animando la instruccion actual
+	protected bool executingCurrentLine = false;
+	// Robot fuera de los limites de la ciudad?
+	protected bool alive = true;
+	// Ya se ejecutaron todas las instrucciones del programa?
+	protected bool ended = false;
+
+
 
 	void OnGUI() { 
 		switch (currentState) { 	
@@ -58,8 +79,10 @@ public class UI : MonoBehaviour {
 		}
 		GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save");	
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Run")) {
+			parseCode();
 			currentState = STATE_RUNNING;
-			currentRunningState = true;
+			run = true;
+			step = false;
 			return;
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Settings")) {
@@ -77,8 +100,8 @@ public class UI : MonoBehaviour {
 	void renderRunning() {
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), currentRunningState ? "Pause" : "Resume")) {
-			currentRunningState = !currentRunningState;
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? "Pause" : "Resume")) {
+			run = !run;
 			return;
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Stop")) {
@@ -109,8 +132,8 @@ public class UI : MonoBehaviour {
 				currentRunningSpeed = 1;
 			return;
 		}
-
-		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), "Ready.");
+		// Linea de estado
+		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), statusText);
 	}
 
 
@@ -128,5 +151,78 @@ public class UI : MonoBehaviour {
 		}
 		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: CONFIGURATION ::.");
 	}
+
+
+	void parseCode() {
+		// FIXME: Esto en realidad se debe delegar a la libreria
+		sentences = new ArrayList ();
+		string[] insts = sourceCode.Replace("\n", "").Replace(" ", "").Split(";"[0]);
+		for (int i=0; i<insts.Length; i++)
+			sentences.Add(insts[i].Trim());
+		codeParsed = true;
+		angry = false;
+		currentLine = -1;
+	}
+
+
+
+	// Update is called once per frame
+	void Update () {
+		// Si no esta ejecutando, no hay nada mas que hacer
+		if (currentState != STATE_RUNNING)
+			return;
+
+		// Si el codigo no fue parseado no puede continuar
+		if (!codeParsed)
+			return;
+
+		// Ejecutar una instruccion unicamente si: 1) estamos en ejecucion, 2) si no se esta animando una instruccion previa, 3) si el robot sigue vivo
+		if (run && !step && alive) {
+			StartCoroutine(executeStep());
+		}
+
+	}
+
+	/** Ejecucion de una instruccion */
+	IEnumerator executeStep(){
+
+		step = true;
+		currentLine++;
+
+		if (currentLine == sentences.Count-1) {
+			statusText = "Finalizado. ";
+			currentLine = -1;
+			run = false;
+			ended = true;
+		}
+		else if (sentences[currentLine] != null && sentences[currentLine].ToString().Length > 0) {
+			executingCurrentLine = true;
+			executeLine(currentLine);
+		}
+
+		// Mientras que este ejecutando, esperar
+		while (executingCurrentLine) {
+			yield return new WaitForSeconds(1 - waitDelaySeconds);
+		}
+
+		step = false;
+
+	}
+
+	/** Efectiviza la animacion de la instruccion */
+	void executeLine(int lineNo) {
+
+		// FIXME: Aqui deberia delegarse al robot a fin de que realice la animacion
+
+
+		string status = "Executing line: " + (currentLine + 1) + ": " + sentences [lineNo];
+		statusText = status;
+		Debug.Log (status);
+
+
+		executingCurrentLine = false;
+
+	}
+
 
 }

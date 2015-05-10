@@ -49,32 +49,33 @@ public class Init : MonoBehaviour {
 
 		// Inicializar papeles de manera aleatoria
 		if (instanciarPapelesRandom) { 
-			for (int z = 1; z < CANT_CALLES; z++) {
-				for (int x = 1; x < CANT_AVENIDAS; x++) {
-					int count = Random.Range(0, 2);
-					for (int c = 0; c < count; c++) {
-						Instantiate(papelPrefab, new Vector3(x, ELEVACION_PAPEL, z), Quaternion.identity);
-					}
-				}
-			}
+			addRandomPrefab (papelPrefab, 1, ELEVACION_PAPEL);
 		}
 
 		// Inicializar flores de manera aleatoria
 		if (instanciarFloresRandom) { 
-			for (int z = 1; z < CANT_CALLES; z++) {
-				for (int x = 1; x < CANT_AVENIDAS; x++) {
-					int count = Random.Range (0, 2);
-					for (int c = 0; c < count; c++) {
-						Instantiate (florPrefab, new Vector3 (x, ELEVACION_FLOR, z), Quaternion.identity);
-					}
-				}
-			}
+			addRandomPrefab (florPrefab, 1, ELEVACION_FLOR);
 		}
 
 		// Inicializar robot
 		Object robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
 	}
-	
+
+	/**
+	 * Crea aleatoriamente a lo largo de la ciudad aPrefab object, 
+	 * con una cantidad entre 0 y maxCount de instancias en cada esquina; con elevacionY sobre el nivel de la ciudad
+	 */
+	protected void addRandomPrefab(Object aPrefab, int maxCount, float elevacionY) { 
+		for (int z = 1; z < CANT_CALLES; z++) {
+			for (int x = 1; x < CANT_AVENIDAS; x++) {
+				int count = Random.Range (0, maxCount+1);
+				for (int c = 0; c < count; c++) {
+					Instantiate (aPrefab, new Vector3 (x, elevacionY, z), Quaternion.identity);
+				}
+			}
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 	

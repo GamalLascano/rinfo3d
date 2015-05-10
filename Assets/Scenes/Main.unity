@@ -122,9 +122,9 @@ MonoBehaviour:
   avenidaPrefab: {fileID: 426144, guid: 0d12161577b4e5049a0a23c30230ce23, type: 2}
   robotPrefab: {fileID: 426936, guid: 70993a1478d1433449055a664616714a, type: 2}
   papelPrefab: {fileID: 448458, guid: 34389486fb3a1c04c9ee91ed027ddaed, type: 2}
-  florPrefab: {fileID: 490596, guid: 0ff37c16dd81b4547b9e4ad2cbe790e5, type: 2}
-  instanciarFloresRandom: 0
-  instanciarPapelesRandom: 0
+  florPrefab: {fileID: 440708, guid: fdfda45db29e3144a876e44dee353283, type: 2}
+  instanciarFloresRandom: 1
+  instanciarPapelesRandom: 1
 --- !u!4 &480324322
 Transform:
   m_ObjectHideFlags: 0
