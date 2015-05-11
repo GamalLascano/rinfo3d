@@ -115,8 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c7a9d744ec67a46a7e31844a61e8f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CANT_CALLES: 100
-  CANT_AVENIDAS: 100
+  CANT_CALLES: 5
+  CANT_AVENIDAS: 5
   ciudadPrefab: {fileID: 441382, guid: 500e4f01c2d01b641898f5ec074cba47, type: 2}
   callePrefab: {fileID: 479752, guid: ef0dc47c6c7b98348befdb2dd2fed50d, type: 2}
   avenidaPrefab: {fileID: 426144, guid: 0d12161577b4e5049a0a23c30230ce23, type: 2}
