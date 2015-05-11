@@ -115,14 +115,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c7a9d744ec67a46a7e31844a61e8f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CANT_CALLES: 5
-  CANT_AVENIDAS: 5
+  CANT_CALLES: 100
+  CANT_AVENIDAS: 100
   ciudadPrefab: {fileID: 441382, guid: 500e4f01c2d01b641898f5ec074cba47, type: 2}
   callePrefab: {fileID: 479752, guid: ef0dc47c6c7b98348befdb2dd2fed50d, type: 2}
   avenidaPrefab: {fileID: 426144, guid: 0d12161577b4e5049a0a23c30230ce23, type: 2}
   robotPrefab: {fileID: 426936, guid: 70993a1478d1433449055a664616714a, type: 2}
-  papelPrefab: {fileID: 448458, guid: 34389486fb3a1c04c9ee91ed027ddaed, type: 2}
-  florPrefab: {fileID: 440708, guid: fdfda45db29e3144a876e44dee353283, type: 2}
+  papelPrefab: {fileID: 446554, guid: 145e61ff71f3e064d9c5a422dc608ba9, type: 2}
+  florPrefab: {fileID: 453128, guid: f470375d51e5385468e618fa84565667, type: 2}
   instanciarFloresRandom: 1
   instanciarPapelesRandom: 1
 --- !u!4 &480324322
