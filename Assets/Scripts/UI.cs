@@ -5,6 +5,9 @@ using System;
 
 public class UI : MonoBehaviour {
 
+	// Referencia a object de creacion
+	static GameObject bigBang = null;
+
 	// Posibles estados de la GUI
 	public const int STATE_EDITING = 0;
 	public const int STATE_RUNNING = 1;
@@ -224,9 +227,8 @@ public class UI : MonoBehaviour {
 		try {
 			object result = null;
 			// Recuperar el BigBang, y a partir de alli el Robot que se tenga configurado
-			GameObject bigBang = GameObject.Find("BigBang");
-			Init init = bigBang.GetComponent<Init> ();
-			RobotBehaviour behaviour = (RobotBehaviour)init.robotPrefab.GetComponent ("SimpleRobotBehaviour"); // FIXME: Descardcode!
+			Init init = getBigBang().GetComponent<Init> ();
+			RobotBehaviour behaviour = (RobotBehaviour)init.robotPrefab.GetComponent<RobotBehaviour>();
 			Type type = behaviour.GetType();
 			MethodInfo methodInfo = type.GetMethod((string)sentences[lineNo]);
 			ParameterInfo[] parameters = methodInfo.GetParameters();
@@ -243,15 +245,19 @@ public class UI : MonoBehaviour {
 				result = methodInfo.Invoke(behaviour, parametersArray);
 			}
 		} catch (Exception) {
-			Debug.Log("ERROR EXECUTING: " + (string)sentences[lineNo]);
+			statusText = "Unknown instruction at line " + (currentLine+1) + ": " + sentences[currentLine];
+			run = false;
 		}
-		
-		
-		
-		
-		
+
 		executingCurrentLine = false;
 		
+	}
+
+	/** Retorna la referencia al "creador" */
+	public GameObject getBigBang() {
+		if (bigBang == null)
+			bigBang = GameObject.Find("BigBang");
+		return bigBang;
 	}
 	
 	
