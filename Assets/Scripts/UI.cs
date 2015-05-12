@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Reflection;
+using System; 
 
 public class UI : MonoBehaviour {
 
@@ -29,7 +31,7 @@ public class UI : MonoBehaviour {
 	protected float waitDelaySeconds = .5f;
 
 	// Codigo fuente
-	protected string sourceCode = "Mover;\nMover;\nDerecha;\nMover;";
+	protected string sourceCode = "mover;\nmover;\nderecha;\nmover;";
 	// Contenido de la linea de estado
 	protected string statusText = "Ready.";
 	// Liena actual
@@ -77,7 +79,9 @@ public class UI : MonoBehaviour {
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Open")) { 
 			// TODO: Implementar
 		}
-		GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save");	
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save")) { 
+			// TODO: Implementar
+		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Run")) {
 			parseCode();
 			currentState = STATE_RUNNING;
@@ -213,16 +217,42 @@ public class UI : MonoBehaviour {
 	void executeLine(int lineNo) {
 
 		// FIXME: Aqui deberia delegarse al robot a fin de que realice la animacion
-
-
 		string status = "Executing line: " + (currentLine + 1) + ": " + sentences [lineNo];
 		statusText = status;
-		Debug.Log (status);
 
-
+		// Invocar ejecucion visual via reflection
+		try {
+			object result = null;
+			// Recuperar el BigBang, y a partir de alli el Robot que se tenga configurado
+			GameObject bigBang = GameObject.Find("BigBang");
+			Init init = bigBang.GetComponent<Init> ();
+			RobotBehaviour behaviour = (RobotBehaviour)init.robotPrefab.GetComponent ("SimpleRobotBehaviour"); // FIXME: Descardcode!
+			Type type = behaviour.GetType();
+			MethodInfo methodInfo = type.GetMethod((string)sentences[lineNo]);
+			ParameterInfo[] parameters = methodInfo.GetParameters();
+			//object classInstance = Activator.CreateInstance(type, null);
+			if (parameters.Length == 0)
+			{
+				// Caso general: mover, derecha, etc.
+				result = methodInfo.Invoke(behaviour, null);
+			}
+			else
+			{
+				// Caso INFORMAR, en donde se requeiere un parametro adicional
+				object[] parametersArray = new object[] { "Hola!!" };
+				result = methodInfo.Invoke(behaviour, parametersArray);
+			}
+		} catch (Exception) {
+			Debug.Log("ERROR EXECUTING: " + (string)sentences[lineNo]);
+		}
+		
+		
+		
+		
+		
 		executingCurrentLine = false;
-
+		
 	}
-
-
+	
+	
 }

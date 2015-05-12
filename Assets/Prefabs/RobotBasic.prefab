@@ -44,6 +44,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 426936}
+  - 114: {fileID: 11453898}
   m_Layer: 0
   m_Name: RobotBasic
   m_TagString: Untagged
@@ -213,6 +214,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 120318}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &11453898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807db517618b74a48839e2b3a6c72bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posCa: -1
+  posAv: -1
+  heading: -1
+  papeles: -1
+  flores: -1
 --- !u!135 &13597196
 SphereCollider:
   m_ObjectHideFlags: 1

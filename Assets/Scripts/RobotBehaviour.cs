@@ -18,6 +18,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	/**
 	 * Metodo a implementar
 	 */
-	public abstract void rotarIzq();
+	public abstract void derecha();
 
 }
