@@ -25,6 +25,9 @@ public class Init : MonoBehaviour {
 	public bool instanciarFloresRandom = false;
 	public bool instanciarPapelesRandom = false;
 
+	// Referencia al robot
+	public static Object robotInstance = null;
+
 	// Use this for initialization
 	void Start () {
 		// Inicializar ciudad
@@ -58,7 +61,7 @@ public class Init : MonoBehaviour {
 		}
 
 		// Inicializar robot
-		Object robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
+		robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
 	}
 
 	/**

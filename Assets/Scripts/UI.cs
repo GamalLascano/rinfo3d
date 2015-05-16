@@ -227,21 +227,21 @@ public class UI : MonoBehaviour {
 		try {
 			object result = null;
 			// Recuperar el BigBang, y a partir de alli el Robot que se tenga configurado
-			Init init = getBigBang().GetComponent<Init> ();
-			RobotBehaviour behaviour = (RobotBehaviour)init.robotPrefab.GetComponent<RobotBehaviour>();
+			Transform theRobot = (Transform)Init.robotInstance;
+			RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
 			Type type = behaviour.GetType();
 			MethodInfo methodInfo = type.GetMethod((string)sentences[lineNo]);
 			ParameterInfo[] parameters = methodInfo.GetParameters();
 			//object classInstance = Activator.CreateInstance(type, null);
 			if (parameters.Length == 0)
 			{
-				// Caso general: mover, derecha, etc.
-				result = methodInfo.Invoke(behaviour, null);
+				// Caso general: mover, derecha, etc.  LIMITACION: NO puede recibir argumentos adicionales
+				behaviour.StartCoroutine(methodInfo.Name, 0);
 			}
 			else
 			{
-				// Caso INFORMAR, en donde se requeiere un parametro adicional
-				object[] parametersArray = new object[] { "Hola!!" };
+				// Caso INFORMAR, en donde se requeiere un parametro adicional. 
+				object[] parametersArray = new object[] { "Hola!!" };  // TODO: deshardcode
 				result = methodInfo.Invoke(behaviour, parametersArray);
 			}
 		} catch (Exception) {
@@ -254,11 +254,11 @@ public class UI : MonoBehaviour {
 	}
 
 	/** Retorna la referencia al "creador" */
-	public GameObject getBigBang() {
+	public static GameObject getBigBang() {
 		if (bigBang == null)
 			bigBang = GameObject.Find("BigBang");
 		return bigBang;
 	}
 	
-	
+
 }

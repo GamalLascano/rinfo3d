@@ -11,13 +11,13 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	public int flores  = -1;
 	
 	/**
-	 * Metodo a implementar
+	 * Desplaza el robot en una posicion hacia adelante segun su heading
 	 */
-	public abstract void mover();
+	public abstract IEnumerator mover();
 
 	/**
-	 * Metodo a implementar
+	 * Realiza una rotacion del robot de 90 grados hacia la derecha sobre su eje
 	 */
-	public abstract void derecha();
+	public abstract IEnumerator derecha();
 
 }
