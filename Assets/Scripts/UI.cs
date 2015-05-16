@@ -90,7 +90,7 @@ public class UI : MonoBehaviour {
 			currentState = STATE_RUNNING;
 			run = true;
 			step = false;
-			return;
+			ended = false;
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Reset")) { 
 			Application.LoadLevel(Application.loadedLevel);
@@ -110,13 +110,12 @@ public class UI : MonoBehaviour {
 	void renderRunning() {
 		// Botonera principal
 		int i = 0;
-		if (!ended && GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? "Pause" : "Resume")) {
+		if (!ended && GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? "Pause" : "Resume")) {
 			run = !run;
-			return;
 		}
+		i++;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Stop")) {
 			currentState = STATE_EDITING;
-			return;
 		}
 		// Separador
 		i++;
@@ -133,17 +132,18 @@ public class UI : MonoBehaviour {
 			currentRunningSpeed -= .1f;;
 			if (currentRunningSpeed < 0)
 				currentRunningSpeed = 0;
-			return;
 		}
 		GUI.TextArea (new Rect (margin + i++ * buttonWidth + buttonWidth / 2, margin, buttonWidth, margin + buttonHeight), "Vel: " + Mathf.RoundToInt(currentRunningSpeed * 10));
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth + buttonWidth / 2, margin, buttonWidth / 2, margin + buttonHeight), "+")) {
 			currentRunningSpeed += .1f;
 			if (currentRunningSpeed > 1)
 				currentRunningSpeed = 1;
-			return;
 		}
 		// Linea de estado
 		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), statusText);
+
+		if (Input.GetKey(KeyCode.Escape))
+			Application.Quit();
 	}
 
 
@@ -153,11 +153,9 @@ public class UI : MonoBehaviour {
 		int i = 0;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Accept")) {
 			currentState = STATE_EDITING;
-			return;
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Cancel")) {
 			currentState = STATE_EDITING;
-			return;
 		}
 		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: CONFIGURATION ::.");
 	}
