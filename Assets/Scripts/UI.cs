@@ -34,7 +34,7 @@ public class UI : MonoBehaviour {
 	protected float waitDelaySeconds = .5f;
 
 	// Codigo fuente
-	protected string sourceCode = "mover;\nmover;\nderecha;\nmover;";
+	protected string sourceCode = "mover;\nmover;\nderecha;\nmover;\nderecha;\nmover;\nderecha;\nmover;\nderecha;\nmover;";
 	// Contenido de la linea de estado
 	protected string statusText = "Ready.";
 	// Liena actual
@@ -50,7 +50,7 @@ public class UI : MonoBehaviour {
 	// Periodo durante la ejecucion de una instruccion
 	protected bool step = false;
 	// Animando la instruccion actual
-	protected bool executingCurrentLine = false;
+	public static bool executingCurrentLine = false;
 	// Robot fuera de los limites de la ciudad?
 	protected bool alive = true;
 	// Ya se ejecutaron todas las instrucciones del programa?
@@ -92,6 +92,9 @@ public class UI : MonoBehaviour {
 			step = false;
 			return;
 		}
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Reset")) { 
+			Application.LoadLevel(Application.loadedLevel);
+		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Settings")) {
 			currentState = STATE_CONFIG;
 			return;
@@ -107,7 +110,7 @@ public class UI : MonoBehaviour {
 	void renderRunning() {
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? "Pause" : "Resume")) {
+		if (!ended && GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? "Pause" : "Resume")) {
 			run = !run;
 			return;
 		}
@@ -197,7 +200,7 @@ public class UI : MonoBehaviour {
 		currentLine++;
 
 		if (currentLine == sentences.Count-1) {
-			statusText = "Finalizado. ";
+			statusText = "Finished. ";
 			currentLine = -1;
 			run = false;
 			ended = true;
@@ -235,7 +238,7 @@ public class UI : MonoBehaviour {
 			//object classInstance = Activator.CreateInstance(type, null);
 			if (parameters.Length == 0)
 			{
-				// Caso general: mover, derecha, etc.  LIMITACION: NO puede recibir argumentos adicionales
+				// Caso general de visualizacion: mover, derecha, etc.  LIMITACION: NO puede recibir argumentos adicionales
 				behaviour.StartCoroutine(methodInfo.Name, 0);
 			}
 			else
@@ -248,9 +251,6 @@ public class UI : MonoBehaviour {
 			statusText = "Unknown instruction at line " + (currentLine+1) + ": " + sentences[currentLine];
 			run = false;
 		}
-
-		executingCurrentLine = false;
-		
 	}
 
 	/** Retorna la referencia al "creador" */
