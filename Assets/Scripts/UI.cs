@@ -12,13 +12,7 @@ public class UI : MonoBehaviour {
 	public const int STATE_EDITING = 0;
 	public const int STATE_RUNNING = 1;
 	public const int STATE_CONFIG  = 2;
-
-	// Camaras 
-	public const int CAMARA_3DCAM   = 0;
-	public const int CAMARA_HEADCAM = 1;
-	public const int CAMARA_TOPCAM  = 2;
-	public const int CAMERA_END_OF 	= 3;
-
+	
 	// Tamaño default de los botones 
 	public static int buttonWidth = 60;
 	public static int buttonHeight = 15;
@@ -28,8 +22,6 @@ public class UI : MonoBehaviour {
 	public static int currentState = STATE_EDITING;
 	// Velocidad de ejecucion
 	public static float currentRunningSpeed = .5f;
-	// Camara actual
-	public static int currentCamera = CAMARA_3DCAM;
 	// Demora en segundos
 	protected float waitDelaySeconds = .5f;
 
@@ -56,6 +48,29 @@ public class UI : MonoBehaviour {
 	// Ya se ejecutaron todas las instrucciones del programa?
 	protected bool ended = false;
 
+	// Listado de Camaras
+	protected ArrayList cameras  = null;
+	// Camara superior
+	public Camera cameraTop 	 = null;
+	// Camara desde la esquina
+	public Camera cameraAngle   = null;
+	// Camara on-board
+	Camera cameraOnBoard  = null;
+	// Camara actual
+	public static int currentCamera = 0;
+	
+
+	// Carga las camaras
+	void loadCameras() {
+		if (cameras == null) {
+			cameras = new ArrayList();
+			cameraOnBoard = (Camera)((Transform)Init.robotInstance).GetComponentInChildren<Camera>();
+			cameras.Add(cameraTop);
+			cameras.Add(cameraOnBoard);
+			cameras.Add(cameraAngle);
+			setCurrentCamera(currentCamera);
+		}
+	}
 
 
 	void OnGUI() { 
@@ -122,8 +137,9 @@ public class UI : MonoBehaviour {
 		// Camara
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Cam: " + currentCamera )) {
 			currentCamera++;
-			if (currentCamera >= CAMERA_END_OF)
+			if (currentCamera >= cameras.Count)
 				currentCamera = 0;
+			setCurrentCamera(currentCamera);
 		}
 		// Separador
 		i++;
@@ -161,6 +177,14 @@ public class UI : MonoBehaviour {
 	}
 
 
+	/** Actualiza la camara actual */
+	void setCurrentCamera(int cameraNo) {
+		for (int i = 0; i < cameras.Count; i++)
+			((Camera)cameras[i]).enabled = false;
+		((Camera)cameras[cameraNo]).enabled = true;
+	}
+
+	/** Parse de codigo */
 	void parseCode() {
 		// FIXME: Esto en realidad se debe delegar a la libreria
 		sentences = new ArrayList ();
@@ -171,11 +195,14 @@ public class UI : MonoBehaviour {
 		angry = false;
 		currentLine = -1;
 	}
-
-
+	
 
 	// Update is called once per frame
 	void Update () {
+
+		// Configurar las camaras
+		loadCameras();
+
 		// Si no esta ejecutando, no hay nada mas que hacer
 		if (currentState != STATE_RUNNING)
 			return;
