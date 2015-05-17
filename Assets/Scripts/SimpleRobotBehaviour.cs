@@ -29,7 +29,7 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 	/**
 	 * Metodo a implementar
 	 */
-	public override IEnumerator derecha()
+	public override IEnumerator Derecha()
 	{
 		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando derecha!");
 		Transform theRobot = (Transform)Init.robotInstance;

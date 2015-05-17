@@ -18,6 +18,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	/**
 	 * Realiza una rotacion del robot de 90 grados hacia la derecha sobre su eje
 	 */
-	public abstract IEnumerator derecha();
+	public abstract IEnumerator Derecha();
 
 }

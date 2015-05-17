@@ -164,7 +164,7 @@ GameObject:
   - 81: {fileID: 630355852}
   - 114: {fileID: 630355857}
   m_Layer: 0
-  m_Name: CameraTop
+  m_Name: Cam:2D
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,7 +320,7 @@ GameObject:
   - 81: {fileID: 1288128244}
   - 114: {fileID: 1288128248}
   m_Layer: 0
-  m_Name: CameraAngle
+  m_Name: Cam:3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

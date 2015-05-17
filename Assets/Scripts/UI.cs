@@ -26,7 +26,7 @@ public class UI : MonoBehaviour {
 	protected float waitDelaySeconds = .5f;
 
 	// Codigo fuente
-	protected string sourceCode = "mover;\nmover;\nderecha;\nmover;\nderecha;\nmover;\nderecha;\nmover;\nderecha;\nmover;";
+	protected string sourceCode = "mover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado
 	protected string statusText = "Ready.";
 	// Liena actual
@@ -135,12 +135,13 @@ public class UI : MonoBehaviour {
 		// Separador
 		i++;
 		// Camara
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Cam: " + currentCamera )) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth * 2, margin + buttonHeight), ((Camera)cameras[currentCamera]).name)) {
 			currentCamera++;
 			if (currentCamera >= cameras.Count)
 				currentCamera = 0;
 			setCurrentCamera(currentCamera);
 		}
+		i++;
 		// Separador
 		i++;
 		// Velocidad
