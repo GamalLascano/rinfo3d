@@ -10,8 +10,11 @@ public class Init : MonoBehaviour {
 	public static float ELEVACION_CALLEAV = 0.01f;
 	public static float ANCHO_CALLEAV = 0.25f;
 	public static float DESP_CALLEAV = ANCHO_CALLEAV * 2;
-	public static float ELEVACION_PAPEL = 0.12f;//0.015f;
-	public static float ELEVACION_FLOR =  0.12f;//0.15f;
+	public static float ELEVACION_PAPEL = 0.12f;
+	public static float ELEVACION_FLOR =  0.12f;
+	public static float DESP_PAPEL = -0.04f;
+	public static float DESP_FLOR =  0.04f;
+
 
 	// Prefab ciudad, calles y avenidas para inicializar ciudad
 	public Transform ciudadPrefab;
@@ -52,12 +55,12 @@ public class Init : MonoBehaviour {
 
 		// Inicializar papeles de manera aleatoria
 		if (instanciarPapelesRandom) { 
-			addRandomPrefab (papelPrefab, 1, ELEVACION_PAPEL);
+			addRandomPrefab (papelPrefab, 1, ELEVACION_PAPEL, DESP_PAPEL);
 		}
 
 		// Inicializar flores de manera aleatoria
 		if (instanciarFloresRandom) { 
-			addRandomPrefab (florPrefab, 1, ELEVACION_FLOR);
+			addRandomPrefab (florPrefab, 1, ELEVACION_FLOR, DESP_FLOR);
 		}
 
 		// Inicializar robot
@@ -68,12 +71,13 @@ public class Init : MonoBehaviour {
 	 * Crea aleatoriamente a lo largo de la ciudad aPrefab object, 
 	 * con una cantidad entre 0 y maxCount de instancias en cada esquina; con elevacionY sobre el nivel de la ciudad
 	 */
-	protected void addRandomPrefab(Object aPrefab, int maxCount, float elevacionY) { 
+	protected void addRandomPrefab(Object aPrefab, int maxCount, float elevacionY, float despX) { 
 		for (int z = 1; z < CANT_CALLES; z++) {
 			for (int x = 1; x < CANT_AVENIDAS; x++) {
 				int count = Random.Range (0, maxCount+1);
 				for (int c = 0; c < count; c++) {
-					Instantiate (aPrefab, new Vector3 (x, elevacionY, z), Quaternion.identity);
+					Instantiate (aPrefab, new Vector3 (x + despX , elevacionY, z), Quaternion.identity);
+
 				}
 			}
 		}
