@@ -22,11 +22,9 @@ public class UI : MonoBehaviour {
 	public static int currentState = STATE_EDITING;
 	// Velocidad de ejecucion
 	public static float currentRunningSpeed = .5f;
-	// Demora en segundos
-	protected float waitDelaySeconds = .5f;
 
 	// Codigo fuente
-	protected string sourceCode = "mover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+	protected string sourceCode = "Informar('hola', 'chau');\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado
 	protected string statusText = "Ready.";
 	// Liena actual
@@ -238,7 +236,7 @@ public class UI : MonoBehaviour {
 
 		// Mientras que este ejecutando, esperar
 		while (executingCurrentLine) {
-			yield return new WaitForSeconds(1 - waitDelaySeconds);
+			yield return new WaitForSeconds(1 - currentRunningSpeed);
 		}
 
 		step = false;
@@ -259,21 +257,26 @@ public class UI : MonoBehaviour {
 			Transform theRobot = (Transform)Init.robotInstance;
 			RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
 			Type type = behaviour.GetType();
-			MethodInfo methodInfo = type.GetMethod((string)sentences[lineNo]);
+
+			// Pruebas para argumentos.  Esto igualmente se recibe desde libreria
+			string sentence = (string)sentences[lineNo];
+			sentence = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
+
+			// Para probar: buscamos del caso particular al general en cuanto a numero de parametros
+			// MethodInfo methodInfo = type.GetMethod(sentence, new Type[] { typeof(string), typeof(string) });
+
+			MethodInfo methodInfo = type.GetMethod(sentence);
 			ParameterInfo[] parameters = methodInfo.GetParameters();
-			//object classInstance = Activator.CreateInstance(type, null);
-			if (parameters.Length == 0)
-			{
-				// Caso general de visualizacion: mover, derecha, etc.  LIMITACION: NO puede recibir argumentos adicionales
-				behaviour.StartCoroutine(methodInfo.Name, 0);
-			}
-			else
-			{
-				// Caso INFORMAR, en donde se requeiere un parametro adicional. 
-				object[] parametersArray = new object[] { "Hola!!" };  // TODO: deshardcode
-				result = methodInfo.Invoke(behaviour, parametersArray);
-			}
-		} catch (Exception) {
+	
+			// Cargar los parametros segun la instruccion que sea.  FIXME: Deshardcode
+			behaviour.resetArguments();
+			behaviour.addArgument("Hola!");
+
+			// Invocar a la corutina encargada de ejecutar la visualizacion
+			behaviour.StartCoroutine(methodInfo.Name, 0);
+
+		} catch (Exception e) {
+			Debug.Log("Exception!! " + e.ToString());
 			statusText = "Unknown instruction at line " + (currentLine+1) + ": " + sentences[currentLine];
 			run = false;
 		}

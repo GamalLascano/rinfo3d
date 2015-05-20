@@ -10,11 +10,13 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 	{
 		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando mover!");
 
+		// Posicion inicial
 		Transform theRobot = (Transform)Init.robotInstance;
+		Vector3 startPos = theRobot.position;
 
-		// TODO: Esto logicamente hay que deshardcodearlo
-		for (int i = 0; i < 20; i++) {
-			theRobot.Translate (Vector3.forward * .05f);
+		// Moverlo un poquito
+		while (Vector3.Distance(startPos, theRobot.position) < 1) { 
+			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10));
 			yield return new WaitForSeconds(0);
 		}
 
@@ -25,7 +27,8 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 
 		UI.executingCurrentLine = false;
 	}
-	
+
+
 	/**
 	 * Metodo a implementar
 	 */
@@ -33,22 +36,39 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 	{
 		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando derecha!");
 		Transform theRobot = (Transform)Init.robotInstance;
+		Quaternion initialRotation = theRobot.localRotation;
 
-		// TODO: Esto logicamente hay que deshardcodearlo
-		for (var r = 0; r < 20; r++) {
+
+		float angle = 0;
+		while (angle < 90) {
+			float step = 90 * Time.deltaTime * (UI.currentRunningSpeed * 10);
 			theRobot.localRotation = Quaternion.Euler(theRobot.localRotation.eulerAngles.x,
-			                                          theRobot.localRotation.eulerAngles.y + (90f / 20f),
+			                                          theRobot.localRotation.eulerAngles.y + step,
 			                                          theRobot.localRotation.eulerAngles.z);
+			angle += step;
 			yield return new WaitForSeconds(0);
 		}
 
 		// Llevar a la posicion justa
-		theRobot.localRotation = Quaternion.Euler(Mathf.RoundToInt(theRobot.localRotation.eulerAngles.x),
-		                                          Mathf.RoundToInt(theRobot.localRotation.eulerAngles.y),
-		                                          Mathf.RoundToInt(theRobot.localRotation.eulerAngles.z));
+		theRobot.localRotation = Quaternion.Euler(Mathf.RoundToInt(initialRotation.eulerAngles.x),
+		                                          Mathf.RoundToInt(initialRotation.eulerAngles.y) + 90,
+		                                          Mathf.RoundToInt(initialRotation.eulerAngles.z));
 
 		UI.executingCurrentLine = false; 
 	}	
 
+
+	/**
+	 * Metodo a implementar
+	 */
+	public override IEnumerator Informar() {
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando informar!");
+
+		UnityEditor.EditorUtility.DisplayDialog("RInfo3D", (string)arguments[0], "OK");	
+	
+		yield return new WaitForSeconds(0);
+
+		UI.executingCurrentLine = false; 
+	}
 
 }
