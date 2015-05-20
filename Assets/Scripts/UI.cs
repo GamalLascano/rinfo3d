@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Reflection;
-using System; 
+using System;
+using UnityEditor;
+using System.IO;
 
 public class UI : MonoBehaviour {
 
@@ -94,9 +96,20 @@ public class UI : MonoBehaviour {
 		int i = 0;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Open")) { 
 			// TODO: Implementar
+			var path = EditorUtility.OpenFilePanel("Open code file...", "", "txt");
+			if (path.Length != 0) {
+				Debug.Log ("Leyendo datos desde: " + path);
+				readCode(path);
+			}
+
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save")) { 
 			// TODO: Implementar
+			var path = EditorUtility.SaveFilePanel("Save code as...", "", "codigo.txt", "txt");
+			if (path.Length != 0) {
+				Debug.Log ("Escribiendo datos en: " + path);
+				writeCode(path);
+			}
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Run")) {
 			parseCode();
@@ -288,6 +301,59 @@ public class UI : MonoBehaviour {
 			bigBang = GameObject.Find("BigBang");
 		return bigBang;
 	}
-	
+
+
+	/** Lee el codigo (texto) desde un archivo */
+	private bool readCode(string fileName)
+	{
+		try
+		{
+			string line;
+			StreamReader theReader = new StreamReader(fileName);
+			
+			// "using" statement for potentially memory-intensive objects (instead of relying on garbage collection)
+			using (theReader) {
+				// Mientras haya lineas de texto
+				line = theReader.ReadLine();
+				sourceCode = "";
+				while (line != null)
+				{
+					// Agrego la linea al panel de texto de la UI
+					sourceCode = sourceCode + line + "\n";
+					line = theReader.ReadLine();
+				}
+								
+				theReader.Close();
+				return true;
+			}
+		} catch (Exception e) {
+			Debug.Log("Exception!! " + e.ToString());
+			return false;
+		}
+	}
+
+	/** Escribe el codigo (texto) a un archivo */
+	private bool writeCode(string fileName)
+	{
+		try
+		{
+			string line;
+			StreamWriter theWriter = new StreamWriter(fileName);
+			
+			// "using" statement for potentially memory-intensive objects (instead of relying on garbage collection)
+			using (theWriter) {
+				// escribo el texto en el archivo
+				string[] lines = sourceCode.Split('\n');
+				for(int i=0; i < lines.Length; i++)
+					theWriter.WriteLine(lines[i]);
+
+				theWriter.Close();
+				return true;
+			}
+		} catch (Exception e) {
+			Debug.Log("Exception!! " + e.ToString());
+			return false;
+		}
+	}
 
 }
