@@ -28,8 +28,14 @@ public class Init : MonoBehaviour {
 	public bool instanciarFloresRandom = false;
 	public bool instanciarPapelesRandom = false;
 
-	// Referencia al robot
+	/** Referencia al robot */
 	public static Object robotInstance = null;
+
+	/** Retorna el comportamiento del robot */
+	public static RobotBehaviour getRobotBehaviour() {
+		Transform theRobot = (Transform)Init.robotInstance;
+		return (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -83,8 +89,5 @@ public class Init : MonoBehaviour {
 		}
 	}
 
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

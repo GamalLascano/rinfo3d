@@ -123,8 +123,8 @@ MonoBehaviour:
   robotPrefab: {fileID: 426936, guid: 70993a1478d1433449055a664616714a, type: 2}
   papelPrefab: {fileID: 446554, guid: 145e61ff71f3e064d9c5a422dc608ba9, type: 2}
   florPrefab: {fileID: 453128, guid: f470375d51e5385468e618fa84565667, type: 2}
-  instanciarFloresRandom: 1
-  instanciarPapelesRandom: 1
+  instanciarFloresRandom: 0
+  instanciarPapelesRandom: 0
 --- !u!4 &480324322
 Transform:
   m_ObjectHideFlags: 0
@@ -210,7 +210,7 @@ Camera:
   near clip plane: .300000012
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -386,7 +386,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1288128242}
   m_LocalRotation: {x: .173648223, y: 0, z: 0, w: .984807789}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

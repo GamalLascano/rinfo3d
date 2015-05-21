@@ -44,7 +44,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 426936}
-  - 114: {fileID: 11453898}
+  - 114: {fileID: 11432810}
   m_Layer: 0
   m_Name: RobotBasic
   m_TagString: Untagged
@@ -416,7 +416,7 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131990}
   m_Enabled: 1
---- !u!114 &11453898
+--- !u!114 &11432810
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -427,11 +427,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807db517618b74a48839e2b3a6c72bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posCa: -1
-  posAv: -1
-  heading: -1
-  papeles: -1
-  flores: -1
+  papeles: 0
+  flores: 0
 --- !u!124 &12429820
 Behaviour:
   m_ObjectHideFlags: 1

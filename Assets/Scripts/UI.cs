@@ -24,10 +24,15 @@ public class UI : MonoBehaviour {
 	public static int currentState = STATE_EDITING;
 	// Velocidad de ejecucion
 	public static float currentRunningSpeed = .5f;
+	// Zoom
+	public static float zoom = 3f;
+
 
 	// Codigo fuente
-	protected string sourceCode = "Informar('hola', 'chau');\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
-	// Contenido de la linea de estado
+	protected string sourceCode = "mover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+	// Contenido de la linea de estado del robot
+	protected string statusRobot = "";
+	// Contenido de la linea de estado de instruccion
 	protected string statusText = "Ready.";
 	// Liena actual
 	protected int currentLine = -1;
@@ -94,22 +99,8 @@ public class UI : MonoBehaviour {
 	void renderEditing() {
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Open")) { 
-			// TODO: Implementar
-			var path = EditorUtility.OpenFilePanel("Open code file...", "", "txt");
-			if (path.Length != 0) {
-				Debug.Log ("Leyendo datos desde: " + path);
-				readCode(path);
-			}
-
-		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save")) { 
-			// TODO: Implementar
-			var path = EditorUtility.SaveFilePanel("Save code as...", "", "codigo.txt", "txt");
-			if (path.Length != 0) {
-				Debug.Log ("Escribiendo datos en: " + path);
-				writeCode(path);
-			}
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Reset")) { 
+			Application.LoadLevel(Application.loadedLevel);
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Run")) {
 			parseCode();
@@ -118,8 +109,19 @@ public class UI : MonoBehaviour {
 			step = false;
 			ended = false;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Reset")) { 
-			Application.LoadLevel(Application.loadedLevel);
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Open")) {
+			var path = EditorUtility.OpenFilePanel("Open code file...", "", "txt");
+			if (path.Length != 0) {
+				Debug.Log ("Leyendo datos desde: " + path);
+				readCode(path);
+			}
+
+		}
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save")) {
+			var path = EditorUtility.SaveFilePanel("Save code as...", "", "codigo.txt", "txt");
+			if (path.Length != 0) {
+				Debug.Log ("Escribiendo datos en: " + path);
+				writeCode(path);
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Settings")) {
 			currentState = STATE_CONFIG;
@@ -143,8 +145,6 @@ public class UI : MonoBehaviour {
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Stop")) {
 			currentState = STATE_EDITING;
 		}
-		// Separador
-		i++;
 		// Camara
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth * 2, margin + buttonHeight), ((Camera)cameras[currentCamera]).name)) {
 			currentCamera++;
@@ -155,19 +155,15 @@ public class UI : MonoBehaviour {
 		i++;
 		// Separador
 		i++;
+		// Linea de estado del robot
+		GUI.TextArea (new Rect (margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i-1) * buttonWidth), margin + buttonHeight), Init.getRobotBehaviour().getRobotStatus());
 		// Velocidad
-		if (GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth / 2, margin + buttonHeight), "-")) {
-			currentRunningSpeed -= .1f;;
-			if (currentRunningSpeed < 0)
-				currentRunningSpeed = 0;
-		}
-		GUI.TextArea (new Rect (margin + i++ * buttonWidth + buttonWidth / 2, margin, buttonWidth, margin + buttonHeight), "Vel: " + Mathf.RoundToInt(currentRunningSpeed * 10));
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth + buttonWidth / 2, margin, buttonWidth / 2, margin + buttonHeight), "+")) {
-			currentRunningSpeed += .1f;
-			if (currentRunningSpeed > 1)
-				currentRunningSpeed = 1;
-		}
-		// Linea de estado
+		GUI.Label(new Rect (margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), "Speed");
+		currentRunningSpeed = GUI.VerticalSlider( new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), currentRunningSpeed, 1f, 0f);
+		// Zoom
+		GUI.Label(new Rect (Screen.width - buttonWidth / 2 - margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), "Zoom");
+		zoom = GUI.VerticalSlider( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, .5f, 10f);
+		// Linea de ejecucion
 		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), statusText);
 
 		if (Input.GetKey(KeyCode.Escape))
@@ -194,6 +190,16 @@ public class UI : MonoBehaviour {
 		for (int i = 0; i < cameras.Count; i++)
 			((Camera)cameras[i]).enabled = false;
 		((Camera)cameras[cameraNo]).enabled = true;
+		setZoom();
+	}
+
+	/** Actualiza el zoom de la camara */
+	void setZoom() {
+		if (((Camera)cameras [currentCamera]).orthographic) {
+			((Camera)cameras [currentCamera]).orthographicSize = zoom;
+		} else {
+			((Camera)cameras [currentCamera]).fieldOfView = zoom * 10;
+		}
 	}
 
 	/** Parse de codigo */
@@ -222,6 +228,9 @@ public class UI : MonoBehaviour {
 		// Si el codigo no fue parseado no puede continuar
 		if (!codeParsed)
 			return;
+
+		// Setear zoom de la camara
+		setZoom();
 
 		// Ejecutar una instruccion unicamente si: 1) estamos en ejecucion, 2) si no se esta animando una instruccion previa, 3) si el robot sigue vivo
 		if (run && !step && alive) {
