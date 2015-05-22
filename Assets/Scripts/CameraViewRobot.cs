@@ -13,5 +13,8 @@ public class CameraViewRobot : MonoBehaviour {
 		if (Init.robotInstance == null)
 			return;
 		transform.LookAt ((Transform)Init.robotInstance);
+		transform.position = new Vector3 (((Transform)Init.robotInstance).position.x - 3,
+		                                  transform.position.y,
+		                                  ((Transform)Init.robotInstance).position.z - 3);
 	}
 }
