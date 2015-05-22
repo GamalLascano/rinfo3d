@@ -112,16 +112,17 @@ public class UI : MonoBehaviour {
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Open")) {
 			var path = EditorUtility.OpenFilePanel("Open code file...", "", "txt");
 			if (path.Length != 0) {
-				Debug.Log ("Leyendo datos desde: " + path);
+				Debug.Log ("Reading data from: " + path);
 				readCode(path);
 			}
 
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save")) {
-			var path = EditorUtility.SaveFilePanel("Save code as...", "", "codigo.txt", "txt");
+			var path = EditorUtility.SaveFilePanel ("Save code as...", "", "codigo.txt", "txt");
 			if (path.Length != 0) {
-				Debug.Log ("Escribiendo datos en: " + path);
-				writeCode(path);
+				Debug.Log ("Writing data to: " + path);
+				writeCode (path);
+			}
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Settings")) {
 			currentState = STATE_CONFIG;
@@ -132,8 +133,7 @@ public class UI : MonoBehaviour {
 		// Visualizacion de codigo fuente
 		sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode);
 	}
-
-
+	
 	/** Renders the Running Menu */
 	void renderRunning() {
 		// Botonera principal
@@ -336,7 +336,7 @@ public class UI : MonoBehaviour {
 				return true;
 			}
 		} catch (Exception e) {
-			Debug.Log("Exception!! " + e.ToString());
+			Debug.LogError("Exception!! " + e.ToString());
 			return false;
 		}
 	}
@@ -360,7 +360,7 @@ public class UI : MonoBehaviour {
 				return true;
 			}
 		} catch (Exception e) {
-			Debug.Log("Exception!! " + e.ToString());
+			Debug.LogError("Exception!! " + e.ToString());
 			return false;
 		}
 	}
