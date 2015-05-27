@@ -188,15 +188,66 @@ public class UI : MonoBehaviour {
 
 	/** Renders the Config Menu */
 	void renderConfig() {
+		int rowSpace = 2;
+		int row = 0;
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Accept")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Accept")) {
 			currentState = STATE_EDITING;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Cancel")) {
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: SETTINGS ::.");
+
+		// Nueva fila
+		row += rowSpace;
+		row += rowSpace;
+
+		// ========================================= FLOWERS! =======================================
+		i = 0;
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), "Flowers");
+		
+		// Nueva fila
+		row += rowSpace ;
+		
+		// Configuracion de flores en esquina
+		i = 1;
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Avenue:");
+		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		i++;
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Street:");
+		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		i++;
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Count:");
+		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		i++;
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), "SET!")) {
 			currentState = STATE_EDITING;
 		}
-		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: CONFIGURATION ::.");
+
+		// Nueva fila
+		row += rowSpace;
+		row += rowSpace;
+		
+		// ========================================= PAPERS! =======================================
+		i = 0;
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), "Papers");
+		
+		// Nueva fila
+		row += rowSpace;
+	
+		// Configuracion de papeles en esquina
+		i = 1;
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Avenue:");
+		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		i++;
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Street:");
+		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		i++;
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Count:");
+		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		i++;
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), "SET!")) {
+			currentState = STATE_EDITING;
+		}
 	}
 
 
