@@ -77,6 +77,21 @@ public class UI : MonoBehaviour {
 		}
 	}
 
+	// Realiza actividades en funcion del cambio de POSICION del robot (no de heading).  
+	// Principalmente utilizado para sincronizar el movimiento de las camaras con el del 
+	// robot dentro del mismo frame, a fin de evitar "saltos" mediante updates independientes.
+	public static void robotMoved() {
+		Camera cameraAngle = ((UI)getBigBang ().GetComponent<UI>()).cameraAngle;
+		Camera cameraTop = ((UI)getBigBang().GetComponent<UI>()).cameraTop;
+		Transform theRobot = (Transform)Init.robotInstance;
+
+		// Camara 3D: mirar y seguir al robot
+		cameraAngle.transform.LookAt (theRobot);
+		cameraAngle.transform.position = new Vector3 (theRobot.position.x - 3, cameraAngle.transform.position.y, theRobot.position.z - 3);
+
+		// Camara 2D: seguir al robot
+		cameraTop.transform.position = new Vector3 (theRobot.position.x, cameraTop.transform.position.y, theRobot.position.z);
+	}
 
 	void OnGUI() { 
 		switch (currentState) { 	

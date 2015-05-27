@@ -59,6 +59,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// Moverlo un poquito
 		while (Vector3.Distance(startPos, theRobot.position) < 1) { 
 			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10));
+			UI.robotMoved();
 			yield return new WaitForSeconds(0);
 		}
 		
@@ -66,7 +67,8 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		theRobot.position = new Vector3 (Mathf.RoundToInt (theRobot.position.x),
 		                                 Mathf.RoundToInt (theRobot.position.y),
 		                                 Mathf.RoundToInt (theRobot.position.z));
-		
+		UI.robotMoved();
+
 		UI.executingCurrentLine = false;
 
 	}
