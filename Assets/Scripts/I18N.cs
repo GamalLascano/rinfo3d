@@ -50,7 +50,7 @@ public class I18N : MonoBehaviour {
 		public static Hashtable lang = new Hashtable {
 		
 			// General
-			{"gamename",		"RINFO-3D"	},
+			{"appname",		"RInfo3D"},
 
 			// Menu principal
 			{"reset",           "Reset"},
@@ -64,9 +64,9 @@ public class I18N : MonoBehaviour {
 			{"pause",           "Pause"},
 			{"resume",          "Resume"},
 			{"stop",            "Stop"},
-			{"cam2d",           "Cam:2D"},
-			{"camhead",         "Cam:Head"},
-			{"cam3d",           "Cam:3D"},
+			{"cam2d",           "Cam:2D"}, 		// aun sin uso
+			{"camhead",         "Cam:Head"}, 	// aun sin uso
+			{"cam3d",           "Cam:3D"}, 		// aun sin uso
 			{"posavenue",       "PosAv: "},
 			{"posstreet",       "PosSt: "},
 			{"heading",     	"Heading: "},
@@ -104,7 +104,7 @@ public class I18N : MonoBehaviour {
 		public static Hashtable lang = new Hashtable{
 			
 			// General
-			{"gamename",		"LIDI-RINFO-3D"	},
+			{"appname",		"RInfo3D"},
 
 			// Menu principal
 			{"reset",           "Reiniciar"},
@@ -118,9 +118,9 @@ public class I18N : MonoBehaviour {
 			{"pause",           "Pausar"},
 			{"resume",          "Continuar"},
 			{"stop",            "Detener"},
-			{"cam2d",           "Cam:2D"},
-			{"camhead",         "Cam:Head"},
-			{"cam3d",           "Cam:3D"},
+			{"cam2d",           "Cam:2D"}, 		// aun sin uso
+			{"camhead",         "Cam:Head"}, 	// aun sin uso
+			{"cam3d",           "Cam:3D"}, 		// aun sin uso
 			{"posavenue",       "PosAv: "},
 			{"posstreet",       "PosCa: "},
 			{"heading",     	"Orientacion: "},
