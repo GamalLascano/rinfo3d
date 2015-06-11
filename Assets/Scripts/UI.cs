@@ -33,7 +33,7 @@ public class UI : MonoBehaviour {
 	// Contenido de la linea de estado del robot
 	protected string statusRobot = "";
 	// Contenido de la linea de estado de instruccion
-	protected string statusText = "Ready.";
+	protected string statusText = I18N.getValue("ready");
 	// Liena actual
 	protected int currentLine = -1;
 	// Conjunto de instrucciones
@@ -115,38 +115,36 @@ public class UI : MonoBehaviour {
 		// Botonera principal
 		int i = 0;
 
-		// *** --> Ejemplo de uso de clase I18N
-		//if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Reset")) { 
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("reset") )) { 
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("reset"))) { 
 			Application.LoadLevel(Application.loadedLevel);
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Run")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("run"))) {
 			parseCode();
 			currentState = STATE_RUNNING;
 			run = true;
 			step = false;
 			ended = false;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Open")) {
-			var path = EditorUtility.OpenFilePanel("Open code file...", "", "txt");
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"))) {
+			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
 			if (path.Length != 0) {
 				Debug.Log ("Reading data from: " + path);
 				readCode(path);
 			}
 
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Save")) {
-			var path = EditorUtility.SaveFilePanel ("Save code as...", "", "codigo.txt", "txt");
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"))) {
+			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
 			if (path.Length != 0) {
 				Debug.Log ("Writing data to: " + path);
 				writeCode (path);
 			}
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Settings")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"))) {
 			currentState = STATE_CONFIG;
 			return;
 		}
-		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: EDITING ::.");
+		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("edit_title"));
 
 		// Visualizacion de codigo fuente
 		sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode);
@@ -156,11 +154,11 @@ public class UI : MonoBehaviour {
 	void renderRunning() {
 		// Botonera principal
 		int i = 0;
-		if (!ended && GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? "Pause" : "Resume")) {
+		if (!ended && GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? I18N.getValue("pause") : I18N.getValue("resume"))) {
 			run = !run;
 		}
 		i++;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), "Stop")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("stop"))) {
 			currentState = STATE_EDITING;
 		}
 		// Camara
@@ -176,10 +174,10 @@ public class UI : MonoBehaviour {
 		// Linea de estado del robot
 		GUI.TextArea (new Rect (margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i-1) * buttonWidth), margin + buttonHeight), Init.getRobotBehaviour().getRobotStatus());
 		// Velocidad
-		GUI.Label(new Rect (margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), "Speed");
+		GUI.Label(new Rect (margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), I18N.getValue("speed"));
 		currentRunningSpeed = GUI.VerticalSlider( new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), currentRunningSpeed, 1f, 0f);
 		// Zoom
-		GUI.Label(new Rect (Screen.width - buttonWidth / 2 - margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), "Zoom");
+		GUI.Label(new Rect (Screen.width - buttonWidth / 2 - margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), I18N.getValue("zoom"));
 		zoom = GUI.VerticalSlider( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, .5f, 10f);
 		// Linea de ejecucion
 		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), statusText);
@@ -195,10 +193,10 @@ public class UI : MonoBehaviour {
 		int row = 0;
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Accept")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("accept"))) {
 			currentState = STATE_EDITING;
 		}
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), ".:: SETTINGS ::.");
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("set_title"));
 
 		// Nueva fila
 		row += rowSpace;
@@ -206,23 +204,23 @@ public class UI : MonoBehaviour {
 
 		// ========================================= FLOWERS! =======================================
 		i = 0;
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), "Flowers");
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("set_flowers"));
 		
 		// Nueva fila
 		row += rowSpace ;
 		
 		// Configuracion de flores en esquina
 		i = 1;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Avenue:");
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("avenue"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Street:");
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("street"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Count:");
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("count"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), "SET!")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue("set"))) {
 			currentState = STATE_EDITING;
 		}
 
@@ -232,23 +230,23 @@ public class UI : MonoBehaviour {
 		
 		// ========================================= PAPERS! =======================================
 		i = 0;
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), "Papers");
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("set_papers"));
 		
 		// Nueva fila
 		row += rowSpace;
 	
 		// Configuracion de papeles en esquina
 		i = 1;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Avenue:");
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("avenue"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Street:");
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("street"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "Count:");
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("count"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), "SET!")) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue("set"))) {
 			currentState = STATE_EDITING;
 		}
 	}
@@ -315,7 +313,7 @@ public class UI : MonoBehaviour {
 		currentLine++;
 
 		if (currentLine == sentences.Count-1) {
-			statusText = "Finished. ";
+			statusText = I18N.getValue("finished");
 			currentLine = -1;
 			run = false;
 			ended = true;
@@ -338,7 +336,7 @@ public class UI : MonoBehaviour {
 	void executeLine(int lineNo) {
 
 		// FIXME: Aqui deberia delegarse al robot a fin de que realice la animacion
-		string status = "Executing line: " + (currentLine + 1) + ": " + sentences [lineNo];
+		string status = I18N.getValue("exec_line") + (currentLine + 1) + ": " + sentences [lineNo];
 		statusText = status;
 
 		// Invocar ejecucion visual via reflection
@@ -368,7 +366,8 @@ public class UI : MonoBehaviour {
 
 		} catch (Exception e) {
 			Debug.Log("Exception!! " + e.ToString());
-			statusText = "Unknown instruction at line " + (currentLine+1) + ": " + sentences[currentLine];
+			statusText = I18N.getValue("unknown_line") + (currentLine+1) + ": " + sentences[currentLine];
+
 			run = false;
 		}
 	}

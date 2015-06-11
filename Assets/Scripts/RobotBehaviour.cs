@@ -24,11 +24,11 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	public string getRobotStatus() {
 		Transform theRobot = (Transform)Init.robotInstance;
 
-		return 	"PosAv: "   + Mathf.RoundToInt(theRobot.position.x) + ", " +
-				"PosCa: "   + Mathf.RoundToInt(theRobot.position.z) + ", " +
-				"Heading: " + getHeading(theRobot) + ", " +
-				"Flowers: " + flores + ", " + 
-				"Papers: "  + papeles;
+		return 	I18N.getValue("posavenue") + Mathf.RoundToInt(theRobot.position.x) + ", " +
+				I18N.getValue("posstreet") + Mathf.RoundToInt(theRobot.position.z) + ", " +
+				I18N.getValue("heading") + getHeading(theRobot) + ", " +
+				I18N.getValue("flowers") + flores + ", " + 
+				I18N.getValue("papers")  + papeles;
 	}
 
 	/** Retorna el heading del robot */
@@ -36,13 +36,13 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		int heading  = Mathf.RoundToInt(theRobot.transform.rotation.eulerAngles.y);
 		switch (heading) {
 			case 0:
-				return "N";
+				return I18N.getValue("north");
 			case 90:
-				return "E";
+				return I18N.getValue("east");
 			case 180:
-				return "S";
+				return I18N.getValue("south");
 			case 270:
-				return "O";
+				return I18N.getValue("west");
 		}
 		return "-";
 	}
