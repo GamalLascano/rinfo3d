@@ -26,6 +26,9 @@ public class UI : MonoBehaviour {
 	public static float currentRunningSpeed = .5f;
 	// Zoom
 	public static float zoom = 3f;
+	// Idioma seleccionado por default
+	private static string langSelected = I18N.getValue("lang_en");
+
 
 
 	// Codigo fuente
@@ -193,10 +196,10 @@ public class UI : MonoBehaviour {
 		int row = 0;
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("accept"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("accept"))) {
 			currentState = STATE_EDITING;
 		}
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("set_title"));
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue ("set_title"));
 
 		// Nueva fila
 		row += rowSpace;
@@ -204,23 +207,23 @@ public class UI : MonoBehaviour {
 
 		// ========================================= FLOWERS! =======================================
 		i = 0;
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("set_flowers"));
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue ("set_flowers"));
 		
 		// Nueva fila
-		row += rowSpace ;
+		row += rowSpace;
 		
 		// Configuracion de flores en esquina
 		i = 1;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("avenue"));
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("avenue"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("street"));
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("street"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("count"));
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("count"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue("set"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("set"))) {
 			currentState = STATE_EDITING;
 		}
 
@@ -230,28 +233,55 @@ public class UI : MonoBehaviour {
 		
 		// ========================================= PAPERS! =======================================
 		i = 0;
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("set_papers"));
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue ("set_papers"));
 		
 		// Nueva fila
 		row += rowSpace;
 	
 		// Configuracion de papeles en esquina
 		i = 1;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("avenue"));
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("avenue"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("street"));
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("street"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("count"));
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("count"));
 		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
 		i++;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue("set"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("set"))) {
 			currentState = STATE_EDITING;
 		}
+
+		// Nueva fila
+		row += rowSpace;
+		row += rowSpace;
+		
+		// ========================================= LANGUAGE! =======================================
+		i = 0;
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue ("language"));
+		
+		// Nueva fila
+		row += rowSpace;
+		
+		// Configuracion de idioma
+		i = 1;
+		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("lang_selected"));
+		i++;
+		langSelected = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), langSelected);
+		i++;
+		i++;
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("lang_en"))) {
+			langSelected = I18N.getValue ("lang_en");
+			I18N.setLang("en_US");
+		}
+		i++;
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("lang_es"))) {
+			langSelected = I18N.getValue ("lang_es");
+			I18N.setLang("es_AR");
+		}
 	}
-
-
+	
 	/** Actualiza la camara actual */
 	void setCurrentCamera(int cameraNo) {
 		for (int i = 0; i < cameras.Count; i++)
