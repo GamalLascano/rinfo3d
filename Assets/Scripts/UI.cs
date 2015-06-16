@@ -27,7 +27,7 @@ public class UI : MonoBehaviour {
 	// Zoom
 	public static float zoom = 3f;
 	// Idioma seleccionado por default
-	private static string langSelected = I18N.getValue("lang_en");
+	private static string langSelected = I18N.getValue("lang_es");
 
 
 

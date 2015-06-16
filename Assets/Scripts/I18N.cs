@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class I18N : MonoBehaviour {
-	private static string defaultLang = "en_US"; //"es_AR"
+	private static string defaultLang = "es_AR"; //"en_US"
 	private static string gameLang = "";
 	
 	private static string noTranslationText= "No Translation";
@@ -40,7 +40,7 @@ public class I18N : MonoBehaviour {
 	public static string getValue(string key){
 		Hashtable lang = (Hashtable) langs[getCurrentLang()];
 		string value = (string) lang[key];
-		if(value.Length == 0)
+		if(value == null || value.Length == 0)
 			return string.Format(noTranslationText, key);
 		else
 			return string.Format(value, lang);
@@ -92,15 +92,15 @@ public class I18N : MonoBehaviour {
 			{"lang_en",			"English"},
 			{"lang_es",			"Español"},
 			{"accept",         	"Accept"},
-			{"avenue",          "Avenue:"},
-			{"street",   		"Street:"},
-			{"count",         	"Count:"},
+			{"avenue",          "Avenue"},
+			{"street",   		"Street"},
+			{"count",         	"Count"},
 			{"set",         	"SET!"},
 
 			// Menu OPEN/SAVE
 			{"open_file",       "Open file..."},
 			{"save_file",       "Save as..."},
-			{"filename",       "code.txt"}
+			{"filename",        "code.txt"}
 		};
 	}
 
@@ -153,12 +153,12 @@ public class I18N : MonoBehaviour {
 			{"avenue",          "Avenida"},
 			{"street",   		"Calle"},
 			{"count",         	"Cantidad"},
-			{"set",         	"SET!"},
+			{"set",         	"APLICAR!"},
 
 			// Menu OPEN/SAVE
 			{"open_file",       "Abrir archivo..."},
 			{"save_file",       "Guardar como..."},
-			{"filename",       "codigo.txt"}
+			{"filename",        "codigo.txt"}
 		};
 	}
 }
