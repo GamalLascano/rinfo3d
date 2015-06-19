@@ -32,7 +32,7 @@ public class UI : MonoBehaviour {
 
 
 	// Codigo fuente
-	protected string sourceCode = "mover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+	protected string sourceCode = "Iniciar(1,1);\nmover;\nDerecha;\nPos(10,7);\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado del robot
 	protected string statusRobot = "";
 	// Contenido de la linea de estado de instruccion
@@ -379,17 +379,19 @@ public class UI : MonoBehaviour {
 
 			// Pruebas para argumentos.  Esto igualmente se recibe desde libreria
 			string sentence = (string)sentences[lineNo];
-			sentence = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
-
-			// Para probar: buscamos del caso particular al general en cuanto a numero de parametros
-			// MethodInfo methodInfo = type.GetMethod(sentence, new Type[] { typeof(string), typeof(string) });
-
-			MethodInfo methodInfo = type.GetMethod(sentence);
-			ParameterInfo[] parameters = methodInfo.GetParameters();
-	
+			string sentenceName = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
 			// Cargar los parametros segun la instruccion que sea.  FIXME: Deshardcode
-			behaviour.resetArguments();
-			behaviour.addArgument("Hola!");
+			if (sentence.Contains("(")) { 
+				behaviour.resetArguments();
+				string sentenceArgs = sentence.Substring(sentence.IndexOf("(") , sentence.Length - sentence.IndexOf("("));
+				sentenceArgs = sentenceArgs.Replace("(", "").Replace(")", "").Replace(" ", "");
+				string[] args = sentenceArgs.Split(","[0]);
+				for (int i=0; i < args.Length; i++)
+					behaviour.addArgument(args[i]);
+			}
+
+			MethodInfo methodInfo = type.GetMethod(sentenceName);
+			// ParameterInfo[] parameters = methodInfo.GetParameters();
 
 			// Invocar a la corutina encargada de ejecutar la visualizacion
 			behaviour.StartCoroutine(methodInfo.Name, 0);

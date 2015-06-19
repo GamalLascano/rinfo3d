@@ -31,4 +31,20 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 		return base.Informar ();
 	}
 
+
+	/**
+	 * Metodo a implementar
+	 */
+	public override IEnumerator Pos() {
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando pos!");
+		return base.Pos ();
+	}
+
+	/**
+	 * Metodo a implementar
+	 */
+	public override IEnumerator Iniciar() {
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando iniciar!");
+		return base.Iniciar ();
+	}
 }

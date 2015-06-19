@@ -69,6 +69,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		                                 Mathf.RoundToInt (theRobot.position.z));
 		UI.robotMoved();
 
+		// Fin de ejecucion
 		UI.executingCurrentLine = false;
 
 	}
@@ -94,7 +95,8 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		theRobot.localRotation = Quaternion.Euler(Mathf.RoundToInt(initialRotation.eulerAngles.x),
 		                                          Mathf.RoundToInt(initialRotation.eulerAngles.y) + 90,
 		                                          Mathf.RoundToInt(initialRotation.eulerAngles.z));
-		
+
+		// Fin de ejecucion
 		UI.executingCurrentLine = false; 
 
 	}
@@ -107,8 +109,71 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		UnityEditor.EditorUtility.DisplayDialog(I18N.getValue("appname"), (string)arguments[0], "OK");	
 		
 		yield return new WaitForSeconds(0);
-		
+
+		// Fin de ejecucion
 		UI.executingCurrentLine = false; 
 	}
-	
+
+	/**
+	 * Ubica al robot en la posicion dada segun los argumentos
+	 */ 
+	public virtual IEnumerator Pos() {
+
+		// Recuperar el robot
+		Transform theRobot = (Transform)Init.robotInstance;
+		Vector3 startPos = theRobot.position;
+		Vector3 endPos = new Vector3 (Mathf.RoundToInt ( int.Parse((string)arguments[0]) ),
+		                              Mathf.RoundToInt ( theRobot.position.y ),
+		                              Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
+		                              );
+
+		// Moverlo un poco
+		float journeyLength = Vector3.Distance(startPos, endPos);
+		float startTime = Time.time;
+		float speed = UI.currentRunningSpeed * 10;
+		while (Vector3.Distance(endPos, theRobot.position) > 0) { 
+			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10));
+			float distCovered = (Time.time - startTime) * speed;
+			float fracJourney = distCovered / journeyLength;
+			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
+			UI.robotMoved();
+			yield return new WaitForSeconds(0);
+		}
+
+		// Fijarlo en enteros al final
+		theRobot.position = new Vector3 (Mathf.RoundToInt ( int.Parse((string)arguments[0]) ),
+		                                 Mathf.RoundToInt ( theRobot.position.y ),
+		                                 Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
+		                                );
+		UI.robotMoved();
+		yield return new WaitForSeconds(0);
+
+		// Fin de ejecucion
+		UI.executingCurrentLine = false;
+
+	}
+
+
+	/**
+	 * Inicializa al robot en la posicion dada segun los argumentos
+	 */ 
+	public virtual IEnumerator Iniciar() {
+		// Ubicacion inicial segun parametros, apuntando al norte
+		Transform theRobot = (Transform)Init.robotInstance;
+
+		theRobot.localRotation = Quaternion.Euler(Mathf.RoundToInt (theRobot.localRotation.eulerAngles.x),
+		                                          0,
+		                                          Mathf.RoundToInt (theRobot.localRotation.eulerAngles.z));
+
+		theRobot.position = new Vector3 (Mathf.RoundToInt ( int.Parse((string)arguments[0]) ),
+		                                 Mathf.RoundToInt ( 0 ),
+		                                 Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
+		                                 );
+		UI.robotMoved();
+		yield return new WaitForSeconds(0);
+		
+		// Fin de ejecucion
+		UI.executingCurrentLine = false;
+
+	}
 }
