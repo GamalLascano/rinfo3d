@@ -31,6 +31,9 @@ public class Init : MonoBehaviour {
 	/** Referencia al robot */
 	public static Object robotInstance = null;
 
+	/** Ciudad modelo (array multidimensional de esquinas) */ 
+	public static Corner[,] city;
+
 	/** Retorna el comportamiento del robot */
 	public static RobotBehaviour getRobotBehaviour() {
 		Transform theRobot = (Transform)Init.robotInstance;
@@ -39,13 +42,19 @@ public class Init : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// Inicializar ciudad
+		// Inicializar ciudad (visual)
 		Object ciudadInstance = Instantiate (
 				ciudadPrefab, 
 				new Vector3 (CANT_AVENIDAS / 2 + DESP_CALLEAV, ELEVACION_CIUDAD, CANT_CALLES / 2 + DESP_CALLEAV ), 
 				Quaternion.identity
 			);
 		((Transform)ciudadInstance).localScale = new Vector3 (CANT_AVENIDAS, 0.01f, CANT_CALLES);
+
+		// Inicializar ciudad (model)
+		city = new Corner[CANT_AVENIDAS, CANT_CALLES];
+		for (int av = 0; av < CANT_AVENIDAS; av++)
+			for (int ca = 0; ca < CANT_CALLES; ca++)
+				city[av,ca] = new Corner();
 
 		// Inicializar calles
 		for (int z = 1; z <= CANT_CALLES; z++) {
@@ -71,6 +80,7 @@ public class Init : MonoBehaviour {
 
 		// Inicializar robot
 		robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
+
 	}
 
 	/**

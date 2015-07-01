@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public abstract class RobotBehaviour : MonoBehaviour {
 
@@ -45,6 +46,17 @@ public abstract class RobotBehaviour : MonoBehaviour {
 				return I18N.getValue("west");
 		}
 		return "-";
+	}
+
+	/**
+	 * Retorna la posicion del robot redondeando a la ubicacion entera mas proxima
+	 */
+	public Vector3 getRobotPosition() {
+		// Recuperar el robot
+		Transform theRobot = (Transform)Init.robotInstance;
+		return new Vector3 (Mathf.RoundToInt (theRobot.position.x),
+							Mathf.RoundToInt (theRobot.position.y),
+							Mathf.RoundToInt (theRobot.position.z));
 	}
 
 	/**
@@ -176,4 +188,69 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		UI.executingCurrentLine = false;
 
 	}
+
+	/**
+	 * El robot toma una flor
+	 */ 
+	public virtual IEnumerator tomarFlor() {
+
+		// Tomar flor de la esquina. TODO: Validar existencia en la esquina
+		Vector3 pos = getRobotPosition();
+		Init.city[(int)pos.x-1, (int)pos.z-1].flowers--;
+		flores++;
+
+		yield return new WaitForSeconds(0);
+		// Fin de ejecucion
+		UI.executingCurrentLine = false;
+
+	}
+
+	/**
+	 * El robot deposita una flor
+	 */ 
+	public virtual IEnumerator depositarFlor() {
+
+		// Depositar flor en la esquina. TODO: Validar existencia en la bolsa
+		Vector3 pos = getRobotPosition();
+		flores--;
+		Init.city[(int)pos.x-1, (int)pos.z-1].flowers++;
+
+		yield return new WaitForSeconds(0);
+		// Fin de ejecucion
+		UI.executingCurrentLine = false;
+
+	}
+
+	/**
+	 * El robot toma un papel
+	 */ 
+	public virtual IEnumerator tomarPapel() {
+
+		// Tomar papel de la esquina. TODO: Validar existencia en la esquina
+		Vector3 pos = getRobotPosition();
+		Init.city[(int)pos.x-1, (int)pos.z-1].papers--;
+		papeles++;
+		
+		yield return new WaitForSeconds(0);
+		// Fin de ejecucion
+		UI.executingCurrentLine = false;
+
+	}
+	
+	/**
+	 * El robot deposita un papel
+	 */ 
+	public virtual IEnumerator depositarPapel() {
+
+		// Depositar papel en la esquina. TODO: Validar existencia en la bolsa
+		Vector3 pos = getRobotPosition();
+		papeles--;
+		Init.city[(int)pos.x-1, (int)pos.z-1].papers++;
+		
+		yield return new WaitForSeconds(0);
+		// Fin de ejecucion
+		UI.executingCurrentLine = false;
+
+	}
+
 }

@@ -47,4 +47,36 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando iniciar!");
 		return base.Iniciar ();
 	}
+
+	/**
+	 * Metodo a implementar
+	 */ 
+	public override IEnumerator tomarFlor() {
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando tomarFlor!");
+		return base.tomarFlor ();		
+	}
+	
+	/**
+	 * Metodo a implementar
+	 */ 
+	public override IEnumerator depositarFlor() {
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando depositarFlor!");
+		return base.depositarFlor ();		
+	}
+	
+	/**
+	 * Metodo a implementar
+	 */ 
+	public override IEnumerator tomarPapel() {
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando tomarPapel!");
+		return base.tomarPapel ();		
+	}
+	
+	/**
+	 * Metodo a implementar
+	 */ 
+	public override IEnumerator depositarPapel() {
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando depositarPapel!");
+		return base.depositarPapel ();		
+	}
 }
