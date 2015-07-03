@@ -45,6 +45,8 @@ public class UI : MonoBehaviour {
 	protected bool codeParsed = false;
 	// Error al interpretar linea
 	protected bool angry = false;
+	// Error en tiempo de ejecucion (null si no hay error)
+	public static string runtimeErrorMsg = null;
 	// Estado actual de la GUI bajo ejecucion STATE_RUNNING (pude estar activo o pausado).  Inicia en false logicamente.
 	protected bool run = false;
 	// Periodo durante la ejecucion de una instruccion
@@ -308,6 +310,7 @@ public class UI : MonoBehaviour {
 			sentences.Add(insts[i].Trim());
 		codeParsed = true;
 		angry = false;
+		runtimeErrorMsg = null;
 		currentLine = -1;
 	}
 	
@@ -359,6 +362,15 @@ public class UI : MonoBehaviour {
 		}
 
 		step = false;
+
+		// Hubo un error?
+		if (runtimeErrorMsg != null) {
+			angry = true;
+			statusText = "Error ejecutando linea " + (currentLine+1) + ": " + sentences[currentLine] + ". " + runtimeErrorMsg;
+			run = false;
+			ended = true;
+			currentLine = -1;
+		}
 
 	}
 

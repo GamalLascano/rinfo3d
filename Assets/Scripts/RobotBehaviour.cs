@@ -212,9 +212,12 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// Depositar flor en la esquina. TODO: Validar existencia en la bolsa
 		Vector3 pos = getRobotPosition();
-		flores--;
-		Init.city[(int)pos.x-1, (int)pos.z-1].flowers++;
-
+		if (flores == 0)
+			UI.runtimeErrorMsg = "No flowers in bag!";
+		else { 
+			flores--;
+			Init.city[(int)pos.x-1, (int)pos.z-1].flowers++;
+		}
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
 		UI.executingCurrentLine = false;
@@ -244,8 +247,12 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// Depositar papel en la esquina. TODO: Validar existencia en la bolsa
 		Vector3 pos = getRobotPosition();
-		papeles--;
-		Init.city[(int)pos.x-1, (int)pos.z-1].papers++;
+		if (flores == 0)
+			UI.runtimeErrorMsg = "No papers in bag!";
+		else { 
+			papeles--;
+			Init.city[(int)pos.x-1, (int)pos.z-1].papers++;
+		}
 		
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
