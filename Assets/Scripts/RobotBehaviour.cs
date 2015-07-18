@@ -123,7 +123,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 */
 	public virtual IEnumerator Informar() { 
 		
-		UnityEditor.EditorUtility.DisplayDialog(I18N.getValue("appname"), (string)arguments[0], "OK");	
+//		UnityEditor.EditorUtility.DisplayDialog(I18N.getValue("appname"), (string)arguments[0], "OK");	
 		
 		yield return new WaitForSeconds(0);
 

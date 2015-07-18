@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using System;
-using UnityEditor;
+// using UnityEditor;
 using System.IO;
 
 public class UI : MonoBehaviour {
@@ -141,19 +141,19 @@ public class UI : MonoBehaviour {
 			ended = false;
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"))) {
-			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
-			if (path.Length != 0) {
-				Debug.Log ("Reading data from: " + path);
-				readCode(path);
-			}
+//			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
+//			if (path.Length != 0) {
+//				Debug.Log ("Reading data from: " + path);
+//				readCode(path);
+//			}
 
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"))) {
-			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
-			if (path.Length != 0) {
-				Debug.Log ("Writing data to: " + path);
-				writeCode (path);
-			}
+//			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
+//			if (path.Length != 0) {
+//				Debug.Log ("Writing data to: " + path);
+//				writeCode (path);
+//			}
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"))) {
 			currentState = STATE_CONFIG;
