@@ -68,7 +68,17 @@ public class UI : MonoBehaviour {
 	Camera cameraOnBoard  = null;
 	// Camara actual
 	public static int currentCamera = 0;
-	
+
+	// Configurador: Flores
+	protected string config_flower_av = "1";
+	protected string config_flower_st =	"1";
+	protected string config_flower_no = "0";
+
+	// Configurador: Papeles
+	protected string config_paper_av = "1";
+	protected string config_paper_st = "1";
+	protected string config_paper_no = "0";
+
 
 	// Carga las camaras
 	void loadCameras() {
@@ -177,7 +187,7 @@ public class UI : MonoBehaviour {
 		// Separador
 		i++;
 		// Linea de estado del robot
-		GUI.TextArea (new Rect (margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i-1) * buttonWidth), margin + buttonHeight), Init.getRobotBehaviour().getRobotStatus());
+		GUI.TextArea (new Rect (margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i-1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour().getRobotStatus());
 		// Velocidad
 		GUI.Label(new Rect (margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), I18N.getValue("speed"));
 		currentRunningSpeed = GUI.VerticalSlider( new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), currentRunningSpeed, 1f, 0f);
@@ -217,16 +227,16 @@ public class UI : MonoBehaviour {
 		// Configuracion de flores en esquina
 		i = 1;
 		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("avenue"));
-		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		config_flower_av = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_flower_av);
 		i++;
 		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("street"));
-		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		config_flower_st = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_flower_st);
 		i++;
 		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("count"));
-		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		config_flower_no = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_flower_no);
 		i++;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("set"))) {
-			currentState = STATE_EDITING;
+			Init.city[int.Parse(config_flower_av)-1, int.Parse(config_flower_st)-1].flowers = int.Parse(config_flower_no);
 		}
 
 		// Nueva fila
@@ -243,16 +253,16 @@ public class UI : MonoBehaviour {
 		// Configuracion de papeles en esquina
 		i = 1;
 		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("avenue"));
-		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		config_paper_av = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_paper_av);
 		i++;
 		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("street"));
-		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		config_paper_st = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_paper_st);
 		i++;
 		GUI.Label (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("count"));
-		GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), "");
+		config_paper_no = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_paper_no);
 		i++;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("set"))) {
-			currentState = STATE_EDITING;
+			Init.city[int.Parse(config_paper_av)-1, int.Parse(config_paper_st)-1].papers = int.Parse(config_paper_no);
 		}
 
 		// Nueva fila

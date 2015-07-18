@@ -25,11 +25,16 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	public string getRobotStatus() {
 		Transform theRobot = (Transform)Init.robotInstance;
 
-		return 	I18N.getValue("posavenue") + Mathf.RoundToInt(theRobot.position.x) + ", " +
-				I18N.getValue("posstreet") + Mathf.RoundToInt(theRobot.position.z) + ", " +
+		int posAv = Mathf.RoundToInt(theRobot.position.x);
+		int posCa = Mathf.RoundToInt(theRobot.position.z);
+
+		return 	I18N.getValue("posavenue") + posAv + ", " +
+				I18N.getValue("posstreet") + posCa + ", " +
 				I18N.getValue("heading") + getHeading(theRobot) + ", " +
 				I18N.getValue("flowers") + flores + ", " + 
-				I18N.getValue("papers")  + papeles;
+				I18N.getValue("papers")  + papeles + "\n" +
+				I18N.getValue("flowers").Replace(":", "("+I18N.getValue("corner")+"): ") + Init.city[posAv-1, posCa-1].flowers + ", " +
+				I18N.getValue("papers").Replace(":", "("+I18N.getValue("corner")+"): ") + Init.city[posAv-1, posCa-1].papers;
 	}
 
 	/** Retorna el heading del robot */
@@ -196,8 +201,14 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// Tomar flor de la esquina. TODO: Validar existencia en la esquina
 		Vector3 pos = getRobotPosition();
-		Init.city[(int)pos.x-1, (int)pos.z-1].flowers--;
-		flores++;
+		int floresEnEsquina = Init.city[(int)pos.x-1, (int)pos.z-1].flowers;
+		if (floresEnEsquina == 0) {
+			UI.runtimeErrorMsg = I18N.getValue("no_flowers_corner");
+		}
+		else {
+			Init.city[(int)pos.x-1, (int)pos.z-1].flowers--;
+			flores++;
+		}
 
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
@@ -213,7 +224,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// Depositar flor en la esquina. TODO: Validar existencia en la bolsa
 		Vector3 pos = getRobotPosition();
 		if (flores == 0)
-			UI.runtimeErrorMsg = "No flowers in bag!";
+			UI.runtimeErrorMsg = I18N.getValue("no_flowers_bag");
 		else { 
 			flores--;
 			Init.city[(int)pos.x-1, (int)pos.z-1].flowers++;
@@ -231,9 +242,15 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// Tomar papel de la esquina. TODO: Validar existencia en la esquina
 		Vector3 pos = getRobotPosition();
-		Init.city[(int)pos.x-1, (int)pos.z-1].papers--;
-		papeles++;
-		
+		int papelesEnEsquina = Init.city[(int)pos.x-1, (int)pos.z-1].papers;
+		if (papelesEnEsquina == 0) {
+			UI.runtimeErrorMsg = I18N.getValue("no_papers_corner");
+		}
+		else {
+			Init.city[(int)pos.x-1, (int)pos.z-1].papers--;
+			papeles++;
+		}
+
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
 		UI.executingCurrentLine = false;
@@ -247,8 +264,8 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// Depositar papel en la esquina. TODO: Validar existencia en la bolsa
 		Vector3 pos = getRobotPosition();
-		if (flores == 0)
-			UI.runtimeErrorMsg = "No papers in bag!";
+		if (papeles == 0)
+			UI.runtimeErrorMsg = I18N.getValue("no_papers_bag");
 		else { 
 			papeles--;
 			Init.city[(int)pos.x-1, (int)pos.z-1].papers++;

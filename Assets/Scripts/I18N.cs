@@ -82,6 +82,7 @@ public class I18N : MonoBehaviour {
 			{"exec_line",		"Executing line: "},
 			{"unknown_line",	"Unknown instruction at line "},
 			{"finished",		"Finished. "},
+			{"corner",			"corner"},
 
 			// Menu SETTINGS
 			{"set_title",       ".:: SETTINGS ::."},
@@ -100,7 +101,13 @@ public class I18N : MonoBehaviour {
 			// Menu OPEN/SAVE
 			{"open_file",       "Open file..."},
 			{"save_file",       "Save as..."},
-			{"filename",        "code.txt"}
+			{"filename",        "code.txt"},
+
+			// Error messages
+			{"no_flowers_bag",		"No flowers in bag!"},
+			{"no_papers_bag",		"No papers in bag!"},
+			{"no_flowers_corner",	"No flowers in corner!"},
+			{"no_papers_corner",	"No papers in corner!"}
 		};
 	}
 
@@ -140,6 +147,7 @@ public class I18N : MonoBehaviour {
 			{"exec_line",		"Ejecutando linea: "},
 			{"unknown_line",	"Instruccion desconocida en linea "},
 			{"finished",		"Finalizado. "},
+			{"corner",			"esquina"},
 			
 			// Menu SETTINGS
 			{"set_title",       ".:: CONFIGURACION ::."},
@@ -158,7 +166,13 @@ public class I18N : MonoBehaviour {
 			// Menu OPEN/SAVE
 			{"open_file",       "Abrir archivo..."},
 			{"save_file",       "Guardar como..."},
-			{"filename",        "codigo.txt"}
+			{"filename",        "codigo.txt"}, 
+
+			// Error messages
+			{"no_flowers_bag",		"No hay flores en la bolsa!"},
+			{"no_papers_bag",		"No hay papeles en la bolsa!"},
+			{"no_flowers_corner",	"No hay flores en la esquina!"},
+			{"no_papers_corner",	"No hay papeles en la esquina!"}
 		};
 	}
 }
