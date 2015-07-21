@@ -32,7 +32,7 @@ public class UI : MonoBehaviour {
 
 
 	// Codigo fuente
-	protected string sourceCode = "Iniciar(1,1);\nmover;\nDerecha;\nmover;\ntomarFlor;\ntomarPapel;\ndepositarFlor;\ndepositarFlor;\ndepositarPapel;\nPos(10,7);\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+	protected string sourceCode = "Iniciar(1,1);\nmover;\nDerecha;\nPos(10,7);\nmover;\ntomarFlor;\ntomarPapel;\ndepositarFlor;\ndepositarFlor;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado del robot
 	protected string statusRobot = "";
 	// Contenido de la linea de estado de instruccion
@@ -67,7 +67,7 @@ public class UI : MonoBehaviour {
 	// Camara on-board
 	Camera cameraOnBoard  = null;
 	// Camara actual
-	public static int currentCamera = 0;
+	public static int currentCamera = 2;
 
 	// Configurador: Flores
 	protected string config_flower_av = "1";
@@ -296,9 +296,12 @@ public class UI : MonoBehaviour {
 	
 	/** Actualiza la camara actual */
 	void setCurrentCamera(int cameraNo) {
-		for (int i = 0; i < cameras.Count; i++)
+		for (int i = 0; i < cameras.Count; i++) { 
 			((Camera)cameras[i]).enabled = false;
+			((AudioListener)((Camera)cameras[i]).GetComponent<AudioListener>()).enabled = false;
+		}
 		((Camera)cameras[cameraNo]).enabled = true;
+		((AudioListener)((Camera)cameras[cameraNo]).GetComponent<AudioListener>()).enabled = true;
 		setZoom();
 	}
 

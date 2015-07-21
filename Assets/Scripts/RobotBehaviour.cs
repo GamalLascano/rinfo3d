@@ -138,16 +138,42 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// Recuperar el robot
 		Transform theRobot = (Transform)Init.robotInstance;
-		Vector3 startPos = theRobot.position;
-		Vector3 endPos = new Vector3 (Mathf.RoundToInt ( int.Parse((string)arguments[0]) ),
-		                              Mathf.RoundToInt ( theRobot.position.y ),
-		                              Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
-		                              );
 
-		// Moverlo un poco
+		// Throttle ON!
+		Transform throttle = theRobot.FindChild("Throttle");
+		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
+		ps.enableEmission = true;
+		yield return new WaitForSeconds(0);
+
+		// Arriba!
+		Vector3 startPos = theRobot.position;
+		Vector3 endPos = new Vector3 (Mathf.RoundToInt ( theRobot.position.x ),
+		                              Mathf.RoundToInt ( theRobot.position.y + 1 ),
+		                              Mathf.RoundToInt ( theRobot.position.z ) 
+		                             );
 		float journeyLength = Vector3.Distance(startPos, endPos);
 		float startTime = Time.time;
-		float speed = UI.currentRunningSpeed * 10;
+		float speed = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPos, theRobot.position) > 0) { 
+			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10));
+			float distCovered = (Time.time - startTime) * speed;
+			float fracJourney = distCovered / journeyLength;
+			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
+			UI.robotMoved();
+			yield return new WaitForSeconds(0);
+		}
+
+		// Destino
+		startPos = theRobot.position;
+		endPos = new Vector3 (Mathf.RoundToInt ( int.Parse((string)arguments[0]) ),
+		                      Mathf.RoundToInt ( theRobot.position.y ),
+		                      Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
+		                     );
+
+		// Moverlo un poco
+		journeyLength = Vector3.Distance(startPos, endPos);
+		startTime = Time.time;
+		speed = UI.currentRunningSpeed * 10;
 		while (Vector3.Distance(endPos, theRobot.position) > 0) { 
 			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10));
 			float distCovered = (Time.time - startTime) * speed;
@@ -163,6 +189,27 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		                                 Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
 		                                );
 		UI.robotMoved();
+		yield return new WaitForSeconds(0);
+
+		// Abajo!
+		startPos = theRobot.position;
+		endPos = new Vector3 (Mathf.RoundToInt ( theRobot.position.x ),
+		                      Mathf.RoundToInt ( theRobot.position.y - 1 ),
+		                      Mathf.RoundToInt ( theRobot.position.z ) 
+		                     );
+		journeyLength = Vector3.Distance(startPos, endPos);
+		startTime = Time.time;
+		speed = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPos, theRobot.position) > 0) { 
+			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10));
+			float distCovered = (Time.time - startTime) * speed;
+			float fracJourney = distCovered / journeyLength;
+			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
+			UI.robotMoved();
+			yield return new WaitForSeconds(0);
+		}
+
+		ps.enableEmission = false;
 		yield return new WaitForSeconds(0);
 
 		// Fin de ejecucion
@@ -188,6 +235,14 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		                                 );
 		UI.robotMoved();
 		yield return new WaitForSeconds(0);
+
+		float scale = 0f;
+		while (scale < 1) { 
+			theRobot.localScale = new Vector3(scale, 2-scale, scale);
+			scale = scale + (UI.currentRunningSpeed * 2) * Time.deltaTime;
+			UI.robotMoved();
+			yield return new WaitForSeconds(0);
+		}
 		
 		// Fin de ejecucion
 		UI.executingCurrentLine = false;
