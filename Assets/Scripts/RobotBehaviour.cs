@@ -122,10 +122,12 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 * Informa texto en pantalla
 	 */
 	public virtual IEnumerator Informar() { 
-		
-//		UnityEditor.EditorUtility.DisplayDialog(I18N.getValue("appname"), (string)arguments[0], "OK");	
-		
-		yield return new WaitForSeconds(0);
+
+		string message = (string)arguments[0];
+		UI.informarMessage = message;
+
+		while (UI.informarMessage != null)
+			yield return new WaitForSeconds(0);
 
 		// Fin de ejecucion
 		UI.executingCurrentLine = false; 

@@ -29,10 +29,13 @@ public class UI : MonoBehaviour {
 	// Idioma seleccionado por default
 	private static string langSelected = I18N.getValue("lang_es");
 
+	// Informar Message
+	public static string informarMessage = null;
+
 
 
 	// Codigo fuente
-	protected string sourceCode = "Iniciar(1,1);\nmover;\nDerecha;\nPos(10,7);\nmover;\ntomarFlor;\ntomarPapel;\ndepositarFlor;\ndepositarFlor;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+	protected string sourceCode = "Iniciar(1,1);\nmover;\nDerecha;\nInformar(\"Hola\");Pos(10,7);\nmover;\ntomarFlor;\ntomarPapel;\ndepositarFlor;\ndepositarFlor;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado del robot
 	protected string statusRobot = "";
 	// Contenido de la linea de estado de instruccion
@@ -169,11 +172,11 @@ public class UI : MonoBehaviour {
 	void renderRunning() {
 		// Botonera principal
 		int i = 0;
-		if (!ended && GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? I18N.getValue("pause") : I18N.getValue("resume"))) {
+		if (!ended && GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? I18N.getValue("pause") : I18N.getValue("resume")) && informarMessage == null) {
 			run = !run;
 		}
 		i++;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("stop"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("stop")) && informarMessage == null) {
 			currentState = STATE_EDITING;
 		}
 		// Camara
@@ -199,6 +202,14 @@ public class UI : MonoBehaviour {
 
 		if (Input.GetKey(KeyCode.Escape))
 			Application.Quit();
+		
+		// Informar dialog
+		if (informarMessage != null) {
+			GUI.TextArea(new Rect (margin * 4, Screen.height / 2 - buttonHeight * 2, Screen.width - 8 * margin, buttonHeight * 4), informarMessage);
+			if (GUI.Button (new Rect (margin * 4, Screen.height / 2 + buttonHeight * 2, Screen.width - 8 * margin, buttonHeight * 2), "OK")) {
+				informarMessage = null;
+			}
+		}
 	}
 
 
