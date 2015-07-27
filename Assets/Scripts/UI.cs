@@ -35,7 +35,7 @@ public class UI : MonoBehaviour {
 
 
 	// Codigo fuente
-	protected string sourceCode = "Iniciar(1,1);\nmover;\nDerecha;\nInformar(\"Hola\");Pos(10,7);\nmover;\ntomarFlor;\ntomarPapel;\ndepositarFlor;\ndepositarFlor;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+	protected string sourceCode = "Iniciar(1,1);\nmover;\nmover;\nDerecha;\nmover;\nmover;\nInformar(\"Hola\");Pos(10,10);\ntomarFlor;\ntomarPapel;\nPos(11,11);\ndepositarFlor;\ndepositarPapel;\nmover;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado del robot
 	protected string statusRobot = "";
 	// Contenido de la linea de estado de instruccion
@@ -247,7 +247,7 @@ public class UI : MonoBehaviour {
 		config_flower_no = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_flower_no);
 		i++;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("set"))) {
-			Init.city[int.Parse(config_flower_av)-1, int.Parse(config_flower_st)-1].flowers = int.Parse(config_flower_no);
+			Init.city[int.Parse(config_flower_av)-1, int.Parse(config_flower_st)-1].setFlowers(int.Parse(config_flower_no));
 		}
 
 		// Nueva fila
@@ -273,7 +273,7 @@ public class UI : MonoBehaviour {
 		config_paper_no = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_paper_no);
 		i++;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("set"))) {
-			Init.city[int.Parse(config_paper_av)-1, int.Parse(config_paper_st)-1].papers = int.Parse(config_paper_no);
+			Init.city[int.Parse(config_paper_av)-1, int.Parse(config_paper_st)-1].setPapers(int.Parse(config_paper_no));
 		}
 
 		// Nueva fila

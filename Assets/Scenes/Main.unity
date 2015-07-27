@@ -123,8 +123,8 @@ MonoBehaviour:
   robotPrefab: {fileID: 426936, guid: 70993a1478d1433449055a664616714a, type: 2}
   papelPrefab: {fileID: 446554, guid: 145e61ff71f3e064d9c5a422dc608ba9, type: 2}
   florPrefab: {fileID: 453128, guid: f470375d51e5385468e618fa84565667, type: 2}
-  instanciarFloresRandom: 0
-  instanciarPapelesRandom: 0
+  instanciarFloresRandom: 1
+  instanciarPapelesRandom: 1
 --- !u!4 &480324322
 Transform:
   m_ObjectHideFlags: 0

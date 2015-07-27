@@ -83,6 +83,7 @@ public class I18N : MonoBehaviour {
 			{"unknown_line",	"Unknown instruction at line "},
 			{"finished",		"Finished. "},
 			{"corner",			"corner"},
+			{"bag",				"bag"},
 
 			// Menu SETTINGS
 			{"set_title",       ".:: SETTINGS ::."},
@@ -148,6 +149,7 @@ public class I18N : MonoBehaviour {
 			{"unknown_line",	"Instruccion desconocida en linea "},
 			{"finished",		"Finalizado. "},
 			{"corner",			"esquina"},
+			{"bag",				"bolsa"},
 			
 			// Menu SETTINGS
 			{"set_title",       ".:: CONFIGURACION ::."},

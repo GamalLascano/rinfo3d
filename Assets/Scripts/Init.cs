@@ -50,11 +50,13 @@ public class Init : MonoBehaviour {
 			);
 		((Transform)ciudadInstance).localScale = new Vector3 (CANT_AVENIDAS, 0.01f, CANT_CALLES);
 
-		// Inicializar ciudad (model)
+		// Inicializar ciudad 
+		Corner.florPrefab = florPrefab;
+		Corner.papelPrefab = papelPrefab;
 		city = new Corner[CANT_AVENIDAS, CANT_CALLES];
 		for (int av = 0; av < CANT_AVENIDAS; av++)
 			for (int ca = 0; ca < CANT_CALLES; ca++)
-				city[av,ca] = new Corner();
+				city[av,ca] = new Corner(new Vector3(1 + av + DESP_FLOR, ELEVACION_FLOR, 1 + ca), new Vector3(1 + av + DESP_PAPEL, ELEVACION_PAPEL, 1 + ca));
 
 		// Inicializar calles
 		for (int z = 1; z <= CANT_CALLES; z++) {
@@ -70,12 +72,12 @@ public class Init : MonoBehaviour {
 
 		// Inicializar papeles de manera aleatoria
 		if (instanciarPapelesRandom) { 
-			addRandomPrefab (papelPrefab, 1, ELEVACION_PAPEL, DESP_PAPEL);
+			addRandomPrefab (papelPrefab, true, 1, ELEVACION_PAPEL, DESP_PAPEL, city);
 		}
 
 		// Inicializar flores de manera aleatoria
 		if (instanciarFloresRandom) { 
-			addRandomPrefab (florPrefab, 1, ELEVACION_FLOR, DESP_FLOR);
+			addRandomPrefab (florPrefab, false, 1, ELEVACION_FLOR, DESP_FLOR, city);
 		}
 
 		// Inicializar robot
@@ -87,13 +89,18 @@ public class Init : MonoBehaviour {
 	 * Crea aleatoriamente a lo largo de la ciudad aPrefab object, 
 	 * con una cantidad entre 0 y maxCount de instancias en cada esquina; con elevacionY sobre el nivel de la ciudad
 	 */
-	protected void addRandomPrefab(Object aPrefab, int maxCount, float elevacionY, float despX) { 
+	protected void addRandomPrefab(Object aPrefab, bool isPapel, int maxCount, float elevacionY, float despX, Corner[,] city) { 
 		for (int z = 1; z < CANT_CALLES; z++) {
 			for (int x = 1; x < CANT_AVENIDAS; x++) {
-				int count = Random.Range (0, maxCount+1);
-				for (int c = 0; c < count; c++) {
-					Instantiate (aPrefab, new Vector3 (x + despX , elevacionY, z), Quaternion.identity);
 
+				// Determinar aleatoriamente el numero de flores/papeles
+				int count = Mathf.FloorToInt(Random.Range (0, maxCount+1));
+
+				// Asignar el numero de flores/papels a la esquina de la ciudad
+				if (isPapel) {
+					city[x-1,z-1].setPapers(count);
+				} else {
+					city[x-1,z-1].setFlowers(count);
 				}
 			}
 		}

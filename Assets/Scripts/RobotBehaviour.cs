@@ -30,11 +30,12 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		return 	I18N.getValue("posavenue") + posAv + ", " +
 				I18N.getValue("posstreet") + posCa + ", " +
+				I18N.getValue("flowers").Replace(":", "("+I18N.getValue("corner")+"): ") + Init.city[posAv-1, posCa-1].flowers + ", " + 
+				I18N.getValue("papers").Replace(":", "("+I18N.getValue("corner")+"): ") + Init.city[posAv-1, posCa-1].papers + "\n" +
 				I18N.getValue("heading") + getHeading(theRobot) + ", " +
-				I18N.getValue("flowers") + flores + ", " + 
-				I18N.getValue("papers")  + papeles + "\n" +
-				I18N.getValue("flowers").Replace(":", "("+I18N.getValue("corner")+"): ") + Init.city[posAv-1, posCa-1].flowers + ", " +
-				I18N.getValue("papers").Replace(":", "("+I18N.getValue("corner")+"): ") + Init.city[posAv-1, posCa-1].papers;
+				I18N.getValue("flowers") + flores + " (" + I18N.getValue("bag") + "); " +
+				I18N.getValue("papers")  + papeles + " (" + I18N.getValue("bag") + "); ";
+
 	}
 
 	/** Retorna el heading del robot */
@@ -263,7 +264,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			UI.runtimeErrorMsg = I18N.getValue("no_flowers_corner");
 		}
 		else {
-			Init.city[(int)pos.x-1, (int)pos.z-1].flowers--;
+			Init.city[(int)pos.x-1, (int)pos.z-1].decFlowers();
 			flores++;
 		}
 
@@ -284,7 +285,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			UI.runtimeErrorMsg = I18N.getValue("no_flowers_bag");
 		else { 
 			flores--;
-			Init.city[(int)pos.x-1, (int)pos.z-1].flowers++;
+			Init.city[(int)pos.x-1, (int)pos.z-1].incFlowers();
 		}
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
@@ -304,7 +305,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			UI.runtimeErrorMsg = I18N.getValue("no_papers_corner");
 		}
 		else {
-			Init.city[(int)pos.x-1, (int)pos.z-1].papers--;
+			Init.city[(int)pos.x-1, (int)pos.z-1].decPapers();
 			papeles++;
 		}
 
@@ -325,7 +326,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			UI.runtimeErrorMsg = I18N.getValue("no_papers_bag");
 		else { 
 			papeles--;
-			Init.city[(int)pos.x-1, (int)pos.z-1].papers++;
+			Init.city[(int)pos.x-1, (int)pos.z-1].incPapers();
 		}
 		
 		yield return new WaitForSeconds(0);
