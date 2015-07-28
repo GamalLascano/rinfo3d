@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3309836}
   - 65: {fileID: 6583138}
   - 23: {fileID: 2308204}
+  - 114: {fileID: 11488028}
   m_Layer: 0
   m_Name: FlorTexturada
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 130416}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .075000003, y: .100000001, z: .075000003}
+  m_LocalScale: {x: .0500000007, y: .25, z: .150000006}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -69,10 +70,22 @@ BoxCollider:
   m_GameObject: {fileID: 130416}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11488028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54c032bf90d82c840a2c751ec867c3db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 453128}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
