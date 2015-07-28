@@ -230,7 +230,7 @@ public class UI : MonoBehaviour {
 
 		// ========================================= FLOWERS! =======================================
 		i = 0;
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue ("set_flowers"));
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue ("set_flowers") + I18N.getValue("wildcard"));
 		
 		// Nueva fila
 		row += rowSpace;
@@ -247,7 +247,7 @@ public class UI : MonoBehaviour {
 		config_flower_no = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_flower_no);
 		i++;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("set"))) {
-			Init.city[int.Parse(config_flower_av)-1, int.Parse(config_flower_st)-1].setFlowers(int.Parse(config_flower_no));
+			Corner.setCorner(config_flower_av, config_flower_st, config_flower_no, false);
 		}
 
 		// Nueva fila
@@ -256,7 +256,7 @@ public class UI : MonoBehaviour {
 		
 		// ========================================= PAPERS! =======================================
 		i = 0;
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue ("set_papers"));
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue ("set_papers")  + I18N.getValue("wildcard"));
 		
 		// Nueva fila
 		row += rowSpace;
@@ -273,7 +273,7 @@ public class UI : MonoBehaviour {
 		config_paper_no = GUI.TextField (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), config_paper_no);
 		i++;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue ("set"))) {
-			Init.city[int.Parse(config_paper_av)-1, int.Parse(config_paper_st)-1].setPapers(int.Parse(config_paper_no));
+			Corner.setCorner(config_paper_av, config_paper_st, config_paper_no, true);
 		}
 
 		// Nueva fila

@@ -98,6 +98,7 @@ public class I18N : MonoBehaviour {
 			{"street",   		"Street"},
 			{"count",         	"Count"},
 			{"set",         	"SET!"},
+			{"wildcard",		" (* equals all) "},
 
 			// Menu OPEN/SAVE
 			{"open_file",       "Open file..."},
@@ -164,6 +165,7 @@ public class I18N : MonoBehaviour {
 			{"street",   		"Calle"},
 			{"count",         	"Cantidad"},
 			{"set",         	"APLICAR!"},
+			{"wildcard",		" (* equivale a todas) "},
 
 			// Menu OPEN/SAVE
 			{"open_file",       "Abrir archivo..."},

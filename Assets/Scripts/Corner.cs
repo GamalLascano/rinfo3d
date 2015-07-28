@@ -82,5 +82,37 @@ public class Corner : Object {
 		setFlowers(flowers-1);
 	}
 
+	/** Setea el numero de papeles/flores para una esquina en particular. 
+	 * 	Si se utiliza el cuantificador * sobre una avenida, se especificara la cantidad sobre todas las avenidas de esa calle
+	 * 	Si se utiliza el cuantificador * sobre una calle, se especificara la cantidad sobre todas las calles de esa avenida
+	 * 	Si se utiliza el cuantificador * sobre calle y avenida, se especificara la cantidad sobre todas las esquinas de la ciudad
+	 */
+	public static void setCorner(string config_av, string config_st, string config_no, bool setPapers) {
+		int fromAv = 0;
+		int toAv = 99;
+		int fromSt = 0;
+		int toSt = 99;
+
+
+		if ("*" != config_av) {
+			fromAv = int.Parse(config_av) - 1;
+			toAv = int.Parse(config_av) - 1;
+		}
+		if ("*" != config_st) {
+			fromSt = int.Parse(config_st) - 1;
+			toSt = int.Parse(config_st) - 1;
+		}
+		int no = int.Parse(config_no);
+
+		for (int currAv = fromAv; currAv <= toAv; currAv++) {
+			for (int currSt = fromSt; currSt <= toSt; currSt++) {
+				if (setPapers)
+					Init.city[currAv, currSt].setPapers(no);
+				else
+					Init.city[currAv, currSt].setFlowers(no);
+			}
+		}
+	}
+		
 
 }
