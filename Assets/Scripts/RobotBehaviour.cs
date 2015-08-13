@@ -77,7 +77,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// Moverlo un poquito
 		while (Vector3.Distance(startPos, theRobot.position) < 1) { 
 			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10));
-			UI.robotMoved();
 			yield return new WaitForSeconds(0);
 		}
 		
@@ -85,7 +84,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		theRobot.position = new Vector3 (Mathf.RoundToInt (theRobot.position.x),
 		                                 Mathf.RoundToInt (theRobot.position.y),
 		                                 Mathf.RoundToInt (theRobot.position.z));
-		UI.robotMoved();
 
 		// Fin de ejecucion
 		UI.executingCurrentLine = false;
@@ -162,7 +160,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			float distCovered = (Time.time - startTime) * speed;
 			float fracJourney = distCovered / journeyLength;
 			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
-			UI.robotMoved();
 			yield return new WaitForSeconds(0);
 		}
 
@@ -182,7 +179,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			float distCovered = (Time.time - startTime) * speed;
 			float fracJourney = distCovered / journeyLength;
 			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
-			UI.robotMoved();
 			yield return new WaitForSeconds(0);
 		}
 
@@ -191,7 +187,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		                                 Mathf.RoundToInt ( theRobot.position.y ),
 		                                 Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
 		                                );
-		UI.robotMoved();
 		yield return new WaitForSeconds(0);
 
 		// Abajo!
@@ -208,7 +203,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			float distCovered = (Time.time - startTime) * speed;
 			float fracJourney = distCovered / journeyLength;
 			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
-			UI.robotMoved();
 			yield return new WaitForSeconds(0);
 		}
 
@@ -236,14 +230,13 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		                                 Mathf.RoundToInt ( 0 ),
 		                                 Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
 		                                 );
-		UI.robotMoved();
+
 		yield return new WaitForSeconds(0);
 
 		float scale = 0f;
 		while (scale < 1) { 
 			theRobot.localScale = new Vector3(scale, 2-scale, scale);
 			scale = scale + (UI.currentRunningSpeed * 2) * Time.deltaTime;
-			UI.robotMoved();
 			yield return new WaitForSeconds(0);
 		}
 		

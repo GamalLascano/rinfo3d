@@ -35,7 +35,7 @@ public class UI : MonoBehaviour {
 
 
 	// Codigo fuente
-	protected string sourceCode = "Iniciar(1,1);\nmover;\nmover;\nDerecha;\nmover;\nmover;\nInformar(\"Hola\");Pos(10,10);\ntomarFlor;\ntomarPapel;\nPos(11,11);\ndepositarFlor;\ndepositarPapel;\nmover;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+	protected string sourceCode = "Iniciar(1,1);\nmover;\nmover;\nDerecha;\nmover;\nmover;\nInformar(\"Hola\");Pos(20,20);\ntomarFlor;\ntomarPapel;\nPos(11,11);\ndepositarFlor;\ndepositarPapel;\nmover;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado del robot
 	protected string statusRobot = "";
 	// Contenido de la linea de estado de instruccion
@@ -82,6 +82,9 @@ public class UI : MonoBehaviour {
 	protected string config_paper_st = "1";
 	protected string config_paper_no = "0";
 
+	// Estilo de mensaje (ejecucion correcta o con error)
+	static GUIStyle styleKO = null; 
+	static GUIStyle styleOK = null;
 
 	// Carga las camaras
 	void loadCameras() {
@@ -92,23 +95,8 @@ public class UI : MonoBehaviour {
 			cameras.Add(cameraOnBoard);
 			cameras.Add(cameraAngle);
 			setCurrentCamera(currentCamera);
+
 		}
-	}
-
-	// Realiza actividades en funcion del cambio de POSICION del robot (no de heading).  
-	// Principalmente utilizado para sincronizar el movimiento de las camaras con el del 
-	// robot dentro del mismo frame, a fin de evitar "saltos" mediante updates independientes.
-	public static void robotMoved() {
-		Camera cameraAngle = ((UI)getBigBang ().GetComponent<UI>()).cameraAngle;
-		Camera cameraTop = ((UI)getBigBang().GetComponent<UI>()).cameraTop;
-		Transform theRobot = (Transform)Init.robotInstance;
-
-		// Camara 3D: mirar y seguir al robot
-		cameraAngle.transform.LookAt (theRobot);
-		cameraAngle.transform.position = new Vector3 (theRobot.position.x - 3, cameraAngle.transform.position.y, theRobot.position.z - 3);
-
-		// Camara 2D: seguir al robot
-		cameraTop.transform.position = new Vector3 (theRobot.position.x, cameraTop.transform.position.y, theRobot.position.z);
 	}
 
 	void OnGUI() { 
@@ -198,7 +186,13 @@ public class UI : MonoBehaviour {
 		GUI.Label(new Rect (Screen.width - buttonWidth / 2 - margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), I18N.getValue("zoom"));
 		zoom = GUI.VerticalSlider( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, .5f, 10f);
 		// Linea de ejecucion
-		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), statusText);
+		if (styleOK == null) {
+			styleKO = new GUIStyle(GUI.skin.textArea);
+			styleOK = new GUIStyle(GUI.skin.textArea);
+			styleKO.normal.textColor = Color.red;
+			styleOK.normal.textColor = Color.white;
+		}
+		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), statusText, getStatusStyle());
 
 		if (Input.GetKey(KeyCode.Escape))
 			Application.Quit();
@@ -304,7 +298,14 @@ public class UI : MonoBehaviour {
 			I18N.setLang("es_AR");
 		}
 	}
-	
+
+
+	/** Retorna el estilo para el mensaje de status en funcion de la presencia o ausencia de un error */
+	public static GUIStyle getStatusStyle() { 
+		return (runtimeErrorMsg == null ? styleOK : styleKO);
+	}
+
+
 	/** Actualiza la camara actual */
 	void setCurrentCamera(int cameraNo) {
 		for (int i = 0; i < cameras.Count; i++) { 
@@ -321,7 +322,7 @@ public class UI : MonoBehaviour {
 		if (((Camera)cameras [currentCamera]).orthographic) {
 			((Camera)cameras [currentCamera]).orthographicSize = zoom;
 		} else {
-			((Camera)cameras [currentCamera]).fieldOfView = zoom * 10;
+			((Camera)cameras [currentCamera]).fieldOfView = zoom * 5;
 		}
 	}
 

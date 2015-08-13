@@ -97,6 +97,7 @@ GameObject:
   - 4: {fileID: 480324322}
   - 114: {fileID: 480324321}
   - 114: {fileID: 480324323}
+  - 20: {fileID: 480324324}
   m_Layer: 0
   m_Name: BigBang
   m_TagString: Untagged
@@ -150,6 +151,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTop: {fileID: 630355855}
   cameraAngle: {fileID: 1288128243}
+--- !u!20 &480324324
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 480324320}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: .300000012
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_HDR: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: .0219999999
 --- !u!1 &630355851
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +195,7 @@ GameObject:
   - 92: {fileID: 630355854}
   - 124: {fileID: 630355853}
   - 81: {fileID: 630355852}
+  - 114: {fileID: 630355857}
   m_Layer: 0
   m_Name: Cam:2D
   m_TagString: MainCamera
@@ -211,7 +245,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -234,6 +268,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &630355857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 630355851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d5b15736c05674b979864193b02d5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &685549681
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,6 +351,7 @@ GameObject:
   - 124: {fileID: 1288128246}
   - 92: {fileID: 1288128245}
   - 81: {fileID: 1288128244}
+  - 114: {fileID: 1288128248}
   m_Layer: 0
   m_Name: Cam:3D
   m_TagString: Untagged
@@ -373,8 +419,19 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1288128242}
   m_LocalRotation: {x: .173648223, y: 0, z: 0, w: .984807789}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!114 &1288128248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1288128242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6459bf54db65c574f86b0ce25e8728ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
