@@ -187,10 +187,20 @@ public class UI : MonoBehaviour {
 		zoom = GUI.VerticalSlider( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, .5f, 10f);
 		// Linea de ejecucion
 		if (styleOK == null) {
-			styleKO = new GUIStyle(GUI.skin.textArea);
+			// Textura para error
+			Texture2D aTexture = new Texture2D(1, 1);
+			aTexture.SetPixel(0, 0, Color.white);
+			aTexture.wrapMode = TextureWrapMode.Repeat;
+			aTexture.Apply();
+
+			// Mensajes OK y ERROR
 			styleOK = new GUIStyle(GUI.skin.textArea);
-			styleKO.normal.textColor = Color.red;
+			styleKO = new GUIStyle(GUI.skin.textArea);
+
+			// Colores de Estilos OK y ERROR
 			styleOK.normal.textColor = Color.white;
+			styleKO.normal.textColor = Color.red;
+			styleKO.normal.background = aTexture;
 		}
 		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), statusText, getStatusStyle());
 

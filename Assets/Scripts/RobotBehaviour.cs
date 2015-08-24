@@ -73,17 +73,46 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// Posicion inicial
 		Transform theRobot = (Transform)Init.robotInstance;
 		Vector3 startPos = theRobot.position;
+
+
+		int heading  = Mathf.RoundToInt(theRobot.transform.rotation.eulerAngles.y);
+		int deltaX = 0;
+		int deltaZ = 0;
+		if (heading == 0)
+			deltaZ = 1;
+		if (heading == 180)
+			deltaZ = -1;
+		if (heading == 90)
+			deltaX = 1;
+		if (heading == 270)
+			deltaX = -1;
+
+
+		// Destino
+		startPos = theRobot.position;
+		Vector3 endPos = new Vector3 (	Mathf.RoundToInt ( theRobot.position.x + deltaX),
+		                      			Mathf.RoundToInt ( theRobot.position.y ),
+		                              	Mathf.RoundToInt ( theRobot.position.z + deltaZ) 
+		                      		);
 		
-		// Moverlo un poquito
-		while (Vector3.Distance(startPos, theRobot.position) < 1) { 
-			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10));
+		// Moverlo un poco
+		float journeyLength = Vector3.Distance(startPos, endPos);
+		float startTime = Time.time;
+		float speed = UI.currentRunningSpeed * 10f;
+		while (Vector3.Distance(endPos, theRobot.position) > 0) { 
+			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10f));
+			float distCovered = (Time.time - startTime) * speed;
+			float fracJourney = distCovered / journeyLength;
+			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
 			yield return new WaitForSeconds(0);
 		}
 		
-		// Llevar a la posicion justa
-		theRobot.position = new Vector3 (Mathf.RoundToInt (theRobot.position.x),
-		                                 Mathf.RoundToInt (theRobot.position.y),
-		                                 Mathf.RoundToInt (theRobot.position.z));
+		// Fijarlo en enteros al final
+		theRobot.position = new Vector3 (Mathf.RoundToInt ( theRobot.position.x ),
+		                                 Mathf.RoundToInt ( theRobot.position.y ),
+		                                 Mathf.RoundToInt ( theRobot.position.z ) 
+		                                 );
+		yield return new WaitForSeconds(0);
 
 		// Fin de ejecucion
 		UI.executingCurrentLine = false;
