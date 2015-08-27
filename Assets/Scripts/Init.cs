@@ -72,12 +72,12 @@ public class Init : MonoBehaviour {
 
 		// Inicializar papeles de manera aleatoria
 		if (instanciarPapelesRandom) { 
-			addRandomPrefab (papelPrefab, true, 1, ELEVACION_PAPEL, DESP_PAPEL, city);
+			addRandomPrefab (papelPrefab, true, 1, ELEVACION_PAPEL, DESP_PAPEL, city, 3);
 		}
 
 		// Inicializar flores de manera aleatoria
 		if (instanciarFloresRandom) { 
-			addRandomPrefab (florPrefab, false, 1, ELEVACION_FLOR, DESP_FLOR, city);
+			addRandomPrefab (florPrefab, false, 1, ELEVACION_FLOR, DESP_FLOR, city, 3);
 		}
 
 		// Inicializar robot
@@ -89,9 +89,9 @@ public class Init : MonoBehaviour {
 	 * Crea aleatoriamente a lo largo de la ciudad aPrefab object, 
 	 * con una cantidad entre 0 y maxCount de instancias en cada esquina; con elevacionY sobre el nivel de la ciudad
 	 */
-	protected void addRandomPrefab(Object aPrefab, bool isPapel, int maxCount, float elevacionY, float despX, Corner[,] city) { 
-		for (int z = 1; z < CANT_CALLES; z++) {
-			for (int x = 1; x < CANT_AVENIDAS; x++) {
+	protected void addRandomPrefab(Object aPrefab, bool isPapel, int maxCount, float elevacionY, float despX, Corner[,] city, int cornerStep) { 
+		for (int z = 1; z < CANT_CALLES; z+=cornerStep) {
+			for (int x = 1; x < CANT_AVENIDAS; x+=cornerStep) {
 
 				// Determinar aleatoriamente el numero de flores/papeles
 				int count = Mathf.FloorToInt(Random.Range (0, maxCount+1));

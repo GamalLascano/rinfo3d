@@ -30,11 +30,11 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		return 	I18N.getValue("posavenue") + posAv + ", " +
 				I18N.getValue("posstreet") + posCa + ", " +
-				I18N.getValue("flowers").Replace(":", "("+I18N.getValue("corner")+"): ") + Init.city[posAv-1, posCa-1].flowers + ", " + 
-				I18N.getValue("papers").Replace(":", "("+I18N.getValue("corner")+"): ") + Init.city[posAv-1, posCa-1].papers + "\n" +
-				I18N.getValue("heading") + getHeading(theRobot) + ", " +
-				I18N.getValue("flowers") + flores + " (" + I18N.getValue("bag") + "); " +
-				I18N.getValue("papers")  + papeles + " (" + I18N.getValue("bag") + "); ";
+				I18N.getValue("heading") + getHeading(theRobot) + "\n " +
+				"FE: " + Init.city[posAv-1, posCa-1].flowers + ", " + 
+				"PE: " + Init.city[posAv-1, posCa-1].papers + " - " +
+				"FB: " + flores + ", " +
+				"PB: " + papeles + " ";
 
 	}
 

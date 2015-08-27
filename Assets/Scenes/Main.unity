@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ae210cac89a584f87bdf0c8650e56e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customSkin: {fileID: 11400000, guid: e61fb54cef1869c41a2693a05e628962, type: 2}
   cameraTop: {fileID: 630355855}
   cameraAngle: {fileID: 1288128243}
 --- !u!20 &480324324
