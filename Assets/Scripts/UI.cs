@@ -15,10 +15,17 @@ public class UI : MonoBehaviour {
 	public const int STATE_RUNNING = 1;
 	public const int STATE_CONFIG  = 2;
 	
+	// Tamaño de pantalla del dispositivo actual
+	private static int deviceWidth =  Screen.width;
+	private static int deviceHeight = Screen.height;
+	
 	// Tamaño default de los botones 
-	public static int buttonWidth = 100;
-	public static int buttonHeight = 20;
-	public static int margin = 10;
+	public static int buttonWidth = deviceWidth/8; //100
+	public static int buttonHeight = deviceHeight/20; //20
+	public static int margin = deviceHeight/40; //10
+
+	// Estilo de los botones
+	GUIStyle styleButton;
 
 	// Estado actual de la GUI. Inicia en EDITING logicamente
 	public static int currentState = STATE_EDITING;
@@ -103,6 +110,9 @@ public class UI : MonoBehaviour {
 
 	void OnGUI() { 
 		GUI.skin = customSkin;
+		// Estilo de los botones
+		styleButton = new GUIStyle("button");
+		styleButton.fontSize = deviceHeight/20;
 
 		switch (currentState) { 	
 			case STATE_EDITING: {
@@ -122,20 +132,21 @@ public class UI : MonoBehaviour {
 
 	/** Renders the Editing Menu */
 	void renderEditing() {
+
 		// Botonera principal
 		int i = 0;
 
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("reset"))) { 
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("reset"), styleButton)) { 
 			Application.LoadLevel(Application.loadedLevel);
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("run"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("run"), styleButton)) {
 			parseCode();
 			currentState = STATE_RUNNING;
 			run = true;
 			step = false;
 			ended = false;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
 //			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
 //			if (path.Length != 0) {
 //				Debug.Log ("Reading data from: " + path);
@@ -143,18 +154,18 @@ public class UI : MonoBehaviour {
 //			}
 
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
 //			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
 //			if (path.Length != 0) {
 //				Debug.Log ("Writing data to: " + path);
 //				writeCode (path);
 //			}
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton)) {
 			currentState = STATE_CONFIG;
 			return;
 		}
-		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("edit_title"));
+		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("edit_title"), styleButton);
 
 		// Visualizacion de codigo fuente
 		sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode);
