@@ -58,6 +58,7 @@ public class I18N : MonoBehaviour {
 			{"open",			"Open"},
 			{"save",			"Save"},
 			{"settings",        "Settings"},
+			{"quit",	      	"Quit"},
 			{"edit_title",      ".:: EDITING ::."},
 
 			// Menu RUN
@@ -125,6 +126,7 @@ public class I18N : MonoBehaviour {
 			{"open",			"Abrir"},
 			{"save",			"Guardar"},
 			{"settings",        "Config."},
+			{"quit",	      	"Salir"},
 			{"edit_title",      ".:: EDITANDO ::."},
 			
 			// Menu RUN

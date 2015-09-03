@@ -24,9 +24,9 @@ public class UI : MonoBehaviour {
 	public static int buttonHeight = deviceHeight/20; //20
 	public static int margin = deviceHeight/40; //10
 
-	// Estilo de los botones
-	GUIStyle styleButton;
-
+	// Estilo de los componentes
+	GUIStyle styleButton, styleTextArea;
+	
 	// Estado actual de la GUI. Inicia en EDITING logicamente
 	public static int currentState = STATE_EDITING;
 	// Velocidad de ejecucion
@@ -110,11 +110,16 @@ public class UI : MonoBehaviour {
 
 	void OnGUI() { 
 		GUI.skin = customSkin;
+		GUI.skin.verticalScrollbar.fixedWidth = deviceWidth/50;
+
 		// Estilo de los botones
 		styleButton = new GUIStyle("button");
-		styleButton.fontSize = deviceHeight/20;
+		styleButton.fontSize = deviceHeight/25;
 
-		switch (currentState) { 	
+		styleTextArea = new GUIStyle("textArea");
+		styleTextArea.fontSize = deviceHeight/30;
+
+		switch (currentState) {
 			case STATE_EDITING: {
 				renderEditing();
 				break;
@@ -146,51 +151,57 @@ public class UI : MonoBehaviour {
 			step = false;
 			ended = false;
 		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
+
+//		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
 //			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
 //			if (path.Length != 0) {
 //				Debug.Log ("Reading data from: " + path);
 //				readCode(path);
 //			}
 
-		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
+//		}
+//		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
 //			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
 //			if (path.Length != 0) {
 //				Debug.Log ("Writing data to: " + path);
 //				writeCode (path);
 //			}
-		}
+//		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton)) {
 			currentState = STATE_CONFIG;
 			return;
 		}
+
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue ("quit"), styleButton)) {
+			Application.Quit();
+		}
+
 		GUI.Box (new Rect (margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("edit_title"), styleButton);
 
 		// Visualizacion de codigo fuente
-		sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode);
+		sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode, styleTextArea);
 	}
 	
 	/** Renders the Running Menu */
 	void renderRunning() {
 		// Botonera principal
 		int i = 0;
-		if (!ended && GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? I18N.getValue("pause") : I18N.getValue("resume")) && informarMessage == null) {
+		if (!ended && GUI.Button (new Rect (margin + i * buttonWidth, margin, buttonWidth, margin + buttonHeight), run ? I18N.getValue("pause") : I18N.getValue("resume"), styleButton) && informarMessage == null) {
 			run = !run;
 		}
 		i++;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("stop")) && informarMessage == null) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("stop"), styleButton) && informarMessage == null) {
 			currentState = STATE_EDITING;
 		}
 		// Camara
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth , margin + buttonHeight), ((Camera)cameras[currentCamera]).name)) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth , margin + buttonHeight), ((Camera)cameras[currentCamera]).name, styleButton)) {
 			currentCamera++;
 			if (currentCamera >= cameras.Count)
 				currentCamera = 0;
 			setCurrentCamera(currentCamera);
 		}
 		// Linea de estado del robot
-		GUI.TextArea (new Rect (margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i-1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour().getRobotStatus());
+		GUI.TextArea (new Rect (margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i-1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour().getRobotStatus(), styleTextArea);
 		// Velocidad
 		GUI.Label(new Rect (margin, Screen.height / 2 + buttonHeight * 4, buttonWidth * 2, buttonHeight + margin), I18N.getValue("speed"));
 		currentRunningSpeed = GUI.VerticalSlider( new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), currentRunningSpeed, 1f, 0f);
@@ -211,7 +222,9 @@ public class UI : MonoBehaviour {
 
 			// Colores de Estilos OK y ERROR
 			styleOK.normal.textColor = Color.white;
+			styleOK.fontSize = styleTextArea.fontSize;
 			styleKO.normal.textColor = Color.red;
+			styleKO.fontSize = styleTextArea.fontSize;
 			styleKO.normal.background = aTexture;
 		}
 		GUI.TextArea (new Rect (margin, Screen.height - 2 * margin - buttonHeight, Screen.width - 2 * margin, margin + buttonHeight), statusText, getStatusStyle());
@@ -221,8 +234,8 @@ public class UI : MonoBehaviour {
 		
 		// Informar dialog
 		if (informarMessage != null) {
-			GUI.TextArea(new Rect (margin * 4, Screen.height / 2 - buttonHeight * 2, Screen.width - 8 * margin, buttonHeight * 4), informarMessage);
-			if (GUI.Button (new Rect (margin * 4, Screen.height / 2 + buttonHeight * 2, Screen.width - 8 * margin, buttonHeight * 2), "OK")) {
+			GUI.TextArea(new Rect (margin * 4, Screen.height / 2 - buttonHeight * 2, Screen.width - 8 * margin, buttonHeight * 4), informarMessage, styleTextArea);
+			if (GUI.Button (new Rect (margin * 4, Screen.height / 2 + buttonHeight * 2, Screen.width - 8 * margin, buttonHeight * 2), "OK", styleTextArea)) {
 				informarMessage = null;
 			}
 		}
