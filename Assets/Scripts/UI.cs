@@ -26,6 +26,7 @@ public class UI : MonoBehaviour {
 
 	// Estilo de los componentes
 	GUIStyle styleButton, styleTextArea;
+	Color textButtonColor, textTextAreaColor;
 	
 	// Estado actual de la GUI. Inicia en EDITING logicamente
 	public static int currentState = STATE_EDITING;
@@ -113,10 +114,15 @@ public class UI : MonoBehaviour {
 		GUI.skin.verticalScrollbar.fixedWidth = deviceWidth/50;
 
 		// Estilo de los botones
+		textButtonColor = new Color(0.75F, 0.75F, 1.0F, 1);
+		textTextAreaColor = new Color(0.75F, 1.0F, 0.75F, 1);
+
 		styleButton = new GUIStyle("button");
+		styleButton.normal.textColor = textButtonColor;
 		styleButton.fontSize = deviceHeight/25;
 
 		styleTextArea = new GUIStyle("textArea");
+		styleTextArea.normal.textColor = textTextAreaColor;
 		styleTextArea.fontSize = deviceHeight/30;
 
 		switch (currentState) {
@@ -248,10 +254,10 @@ public class UI : MonoBehaviour {
 		int row = 0;
 		// Botonera principal
 		int i = 0;
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("accept"))) {
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("accept"), styleButton)) {
 			currentState = STATE_EDITING;
 		}
-		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue ("set_title"));
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue ("set_title"), styleButton);
 
 		// Nueva fila
 		row += rowSpace;
