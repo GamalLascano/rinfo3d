@@ -31,10 +31,10 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		return 	I18N.getValue("posavenue") + posAv + ", " +
 				I18N.getValue("posstreet") + posCa + ", " +
 				I18N.getValue("heading") + getHeading(theRobot) + "\n " +
-				"FE: " + Init.city[posAv-1, posCa-1].flowers + ", " + 
-				"PE: " + Init.city[posAv-1, posCa-1].papers + " - " +
-				"FB: " + flores + ", " +
-				"PB: " + papeles + " ";
+				I18N.getValue("flowers_corner") + Init.city[posAv-1, posCa-1].flowers + ", " + 
+				I18N.getValue("papers_corner") + Init.city[posAv-1, posCa-1].papers + " - " +
+				I18N.getValue("flowers_bag") + flores + ", " +
+				I18N.getValue("papers_bag") + papeles + " ";
 
 	}
 
@@ -279,7 +279,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 */ 
 	public virtual IEnumerator tomarFlor() {
 
-		// Tomar flor de la esquina. TODO: Validar existencia en la esquina
+		// Tomar flor de la esquina. 
 		Vector3 pos = getRobotPosition();
 		int floresEnEsquina = Init.city[(int)pos.x-1, (int)pos.z-1].flowers;
 		if (floresEnEsquina == 0) {
@@ -289,6 +289,54 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			Init.city[(int)pos.x-1, (int)pos.z-1].decFlowers();
 			flores++;
 		}
+
+		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
+		// Recuperar el robot
+		Transform theRobot = (Transform)Init.robotInstance;
+		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
+		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
+		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Vector3 defPosIzq = brazoIzq.position;
+		Vector3 defPosDer = brazoDer.position;
+		
+		// Brazos abajo!
+		Vector3 startPosIzq = brazoIzq.position;
+		Vector3 startPosDer = brazoDer.position;
+		Vector3 endPosIzq = new Vector3(brazoIzq.position.x, brazoIzq.position.y - .15f, brazoIzq.position.z);
+		Vector3 endPosDer = new Vector3(brazoDer.position.x, brazoDer.position.y - .15f, brazoDer.position.z);
+		float journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		float startTimeIzq = Time.time;
+		float speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+
+		// Brazos arriba!
+		endPosIzq = startPosIzq;
+		endPosDer = startPosDer;
+		startPosIzq = brazoIzq.position;
+		startPosDer = brazoDer.position;
+		journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		startTimeIzq = Time.time;
+		speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+
+		// Dejar posicion de brazos tal cual estaba
+		brazoIzq.position = defPosIzq;
+		brazoDer.position = defPosDer;
+
+		// ======== FIN Movimiento brazos robot. ========
+
 
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
@@ -301,7 +349,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 */ 
 	public virtual IEnumerator depositarFlor() {
 
-		// Depositar flor en la esquina. TODO: Validar existencia en la bolsa
+		// Depositar flor en la esquina. 
 		Vector3 pos = getRobotPosition();
 		if (flores == 0)
 			UI.runtimeErrorMsg = I18N.getValue("no_flowers_bag");
@@ -309,6 +357,56 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			flores--;
 			Init.city[(int)pos.x-1, (int)pos.z-1].incFlowers();
 		}
+
+
+		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
+		// Recuperar el robot
+		Transform theRobot = (Transform)Init.robotInstance;
+		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
+		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
+		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Vector3 defPosIzq = brazoIzq.position;
+		Vector3 defPosDer = brazoDer.position;
+		
+		// Brazos abajo!
+		Vector3 startPosIzq = brazoIzq.position;
+		Vector3 startPosDer = brazoDer.position;
+		Vector3 endPosIzq = new Vector3(brazoIzq.position.x, brazoIzq.position.y - .15f, brazoIzq.position.z);
+		Vector3 endPosDer = new Vector3(brazoDer.position.x, brazoDer.position.y - .15f, brazoDer.position.z);
+		float journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		float startTimeIzq = Time.time;
+		float speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+		
+		// Brazos arriba!
+		endPosIzq = startPosIzq;
+		endPosDer = startPosDer;
+		startPosIzq = brazoIzq.position;
+		startPosDer = brazoDer.position;
+		journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		startTimeIzq = Time.time;
+		speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+		
+		// Dejar posicion de brazos tal cual estaba
+		brazoIzq.position = defPosIzq;
+		brazoDer.position = defPosDer;
+		
+		// ======== FIN Movimiento brazos robot. ========
+
+
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
 		UI.executingCurrentLine = false;
@@ -320,7 +418,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 */ 
 	public virtual IEnumerator tomarPapel() {
 
-		// Tomar papel de la esquina. TODO: Validar existencia en la esquina
+		// Tomar papel de la esquina. 
 		Vector3 pos = getRobotPosition();
 		int papelesEnEsquina = Init.city[(int)pos.x-1, (int)pos.z-1].papers;
 		if (papelesEnEsquina == 0) {
@@ -330,6 +428,54 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			Init.city[(int)pos.x-1, (int)pos.z-1].decPapers();
 			papeles++;
 		}
+
+		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
+		// Recuperar el robot
+		Transform theRobot = (Transform)Init.robotInstance;
+		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
+		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
+		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Vector3 defPosIzq = brazoIzq.position;
+		Vector3 defPosDer = brazoDer.position;
+		
+		// Brazos abajo!
+		Vector3 startPosIzq = brazoIzq.position;
+		Vector3 startPosDer = brazoDer.position;
+		Vector3 endPosIzq = new Vector3(brazoIzq.position.x, brazoIzq.position.y - .15f, brazoIzq.position.z);
+		Vector3 endPosDer = new Vector3(brazoDer.position.x, brazoDer.position.y - .15f, brazoDer.position.z);
+		float journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		float startTimeIzq = Time.time;
+		float speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+		
+		// Brazos arriba!
+		endPosIzq = startPosIzq;
+		endPosDer = startPosDer;
+		startPosIzq = brazoIzq.position;
+		startPosDer = brazoDer.position;
+		journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		startTimeIzq = Time.time;
+		speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+		
+		// Dejar posicion de brazos tal cual estaba
+		brazoIzq.position = defPosIzq;
+		brazoDer.position = defPosDer;
+		
+		// ======== FIN Movimiento brazos robot. ========
+
 
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
@@ -342,7 +488,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 */ 
 	public virtual IEnumerator depositarPapel() {
 
-		// Depositar papel en la esquina. TODO: Validar existencia en la bolsa
+		// Depositar papel en la esquina. 
 		Vector3 pos = getRobotPosition();
 		if (papeles == 0)
 			UI.runtimeErrorMsg = I18N.getValue("no_papers_bag");
@@ -350,11 +496,60 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			papeles--;
 			Init.city[(int)pos.x-1, (int)pos.z-1].incPapers();
 		}
+
+		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
+		// Recuperar el robot
+		Transform theRobot = (Transform)Init.robotInstance;
+		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
+		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
+		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Vector3 defPosIzq = brazoIzq.position;
+		Vector3 defPosDer = brazoDer.position;
 		
+		// Brazos abajo!
+		Vector3 startPosIzq = brazoIzq.position;
+		Vector3 startPosDer = brazoDer.position;
+		Vector3 endPosIzq = new Vector3(brazoIzq.position.x, brazoIzq.position.y - .15f, brazoIzq.position.z);
+		Vector3 endPosDer = new Vector3(brazoDer.position.x, brazoDer.position.y - .15f, brazoDer.position.z);
+		float journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		float startTimeIzq = Time.time;
+		float speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+		
+		// Brazos arriba!
+		endPosIzq = startPosIzq;
+		endPosDer = startPosDer;
+		startPosIzq = brazoIzq.position;
+		startPosDer = brazoDer.position;
+		journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		startTimeIzq = Time.time;
+		speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+		
+		// Dejar posicion de brazos tal cual estaba
+		brazoIzq.position = defPosIzq;
+		brazoDer.position = defPosDer;
+		
+		// ======== FIN Movimiento brazos robot. ========
+
+
 		yield return new WaitForSeconds(0);
 		// Fin de ejecucion
 		UI.executingCurrentLine = false;
 
 	}
+
 
 }

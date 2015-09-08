@@ -45,7 +45,7 @@ public class UI : MonoBehaviour {
 
 
 	// Codigo fuente
-	protected string sourceCode = "Iniciar(1,1);\nmover;\nmover;\nmover;\nmover;\nDerecha;\nmover;\nmover;\nmover;\nmover;\nPos(20,30);\nDerecha;\nDerecha;\nInformar(\"Listo!\");"; //"Iniciar(1,1);\nmover;\nmover;\nDerecha;\nmover;\nmover;\nInformar(\"Hola\");Pos(20,20);\ntomarFlor;\ntomarPapel;\nPos(11,11);\ndepositarFlor;\ndepositarPapel;\nmover;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+	protected string sourceCode = "Iniciar(1,1);\ntomarFlor;\ntomarPapel;\nmover;\ndepositarFlor;\ndepositarPapel;\nmover;\nmover;\nmover;\nmover;\nDerecha;\nmover;\nmover;\nmover;\nmover;\nPos(20,30);\nDerecha;\nDerecha;\nInformar(\"Listo!\");"; //"Iniciar(1,1);\nmover;\nmover;\nDerecha;\nmover;\nmover;\nInformar(\"Hola\");Pos(20,20);\ntomarFlor;\ntomarPapel;\nPos(11,11);\ndepositarFlor;\ndepositarPapel;\nmover;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado del robot
 	protected string statusRobot = "";
 	// Contenido de la linea de estado de instruccion

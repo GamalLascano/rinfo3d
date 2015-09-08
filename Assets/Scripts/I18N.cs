@@ -85,6 +85,10 @@ public class I18N : MonoBehaviour {
 			{"finished",		"Finished. "},
 			{"corner",			"corner"},
 			{"bag",				"bag"},
+			{"flowers_bag",		"FB :"},
+			{"papers_bag",		"PB :"},
+			{"flowers_corner",	"FC :"},
+			{"papers_corner",	"PC :"},
 
 			// Menu SETTINGS
 			{"set_title",       ".:: SETTINGS ::."},
@@ -153,6 +157,11 @@ public class I18N : MonoBehaviour {
 			{"finished",		"Finalizado. "},
 			{"corner",			"esquina"},
 			{"bag",				"bolsa"},
+			{"flowers_bag",		"FB :"},
+			{"papers_bag",		"PB :"},
+			{"flowers_corner",	"FE :"},
+			{"papers_corner",	"PE :"},
+
 			
 			// Menu SETTINGS
 			{"set_title",       ".:: CONFIGURACION ::."},
