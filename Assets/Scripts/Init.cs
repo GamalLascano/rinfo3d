@@ -10,8 +10,8 @@ public class Init : MonoBehaviour {
 	public static float ELEVACION_CALLEAV = 0.01f;
 	public static float ANCHO_CALLEAV = 0.25f;
 	public static float DESP_CALLEAV = ANCHO_CALLEAV * 2;
-	public static float ELEVACION_PAPEL = 0.18f;
-	public static float ELEVACION_FLOR =  0.18f;
+	public static float ELEVACION_PAPEL = 0.01f;
+	public static float ELEVACION_FLOR =  0.01f;
 	public static float DESP_PAPEL = -0.075f;
 	public static float DESP_FLOR =  0.075f;
 
