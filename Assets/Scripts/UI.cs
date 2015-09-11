@@ -115,7 +115,8 @@ public class UI : MonoBehaviour {
 
 	void OnGUI() { 
 		GUI.skin = customSkin;
-		GUI.skin.verticalScrollbar.fixedWidth = deviceWidth/50;
+		GUI.skin.verticalScrollbar.fixedWidth = deviceWidth/45;
+		GUI.skin.verticalScrollbarThumb.fixedWidth = deviceWidth/45;
 
 		// Estilo de los botones
 		textButtonColor = new Color(0.75F, 0.75F, 1.0F, 1);
@@ -214,10 +215,10 @@ public class UI : MonoBehaviour {
 		GUI.TextArea (new Rect (margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i-1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour().getRobotStatus(), styleTextArea);
 		// Velocidad
 		GUI.Label(new Rect (margin, Screen.height / 2 + buttonHeight * 4, buttonWidth * 2, buttonHeight + margin), I18N.getValue("speed"));
-		currentRunningSpeed = GUI.VerticalSlider( new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), currentRunningSpeed, 1f, 0f);
+		currentRunningSpeed = GUI.VerticalScrollbar( new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), currentRunningSpeed, .15f, 1f, 0f);
 		// Zoom
 		GUI.Label(new Rect (Screen.width - buttonWidth / 2 - margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), I18N.getValue("zoom"));
-		zoom = GUI.VerticalSlider( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, .5f, 10f);
+		zoom = GUI.VerticalScrollbar( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, 1.5f, .5f, 10f);
 		// Linea de ejecucion
 		if (styleOK == null) {
 			// Textura para error
