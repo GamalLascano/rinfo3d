@@ -85,10 +85,10 @@ public class I18N : MonoBehaviour {
 			{"finished",		"Finished. "},
 			{"corner",			"corner"},
 			{"bag",				"bag"},
-			{"flowers_bag",		"FB :"},
-			{"papers_bag",		"PB :"},
-			{"flowers_corner",	"FC :"},
-			{"papers_corner",	"PC :"},
+			{"flowers_bag",		"FB: "},
+			{"papers_bag",		"PB: "},
+			{"flowers_corner",	"FC: "},
+			{"papers_corner",	"PC: "},
 
 			// Menu SETTINGS
 			{"set_title",       ".:: SETTINGS ::."},
@@ -104,6 +104,7 @@ public class I18N : MonoBehaviour {
 			{"count",         	"Count"},
 			{"set",         	"SET!"},
 			{"wildcard",		" (* equals all) "},
+			{"inthebag",		"- IN THE BAG -"},
 
 			// Menu OPEN/SAVE
 			{"open_file",       "Open file..."},
@@ -157,10 +158,10 @@ public class I18N : MonoBehaviour {
 			{"finished",		"Finalizado. "},
 			{"corner",			"esquina"},
 			{"bag",				"bolsa"},
-			{"flowers_bag",		"FB :"},
-			{"papers_bag",		"PB :"},
-			{"flowers_corner",	"FE :"},
-			{"papers_corner",	"PE :"},
+			{"flowers_bag",		"FB: "},
+			{"papers_bag",		"PB: "},
+			{"flowers_corner",	"FE: "},
+			{"papers_corner",	"PE: "},
 
 			
 			// Menu SETTINGS
@@ -177,6 +178,8 @@ public class I18N : MonoBehaviour {
 			{"count",         	"Cant"},
 			{"set",         	"APLICAR!"},
 			{"wildcard",		" (* equivale a todas) "},
+			{"inthebag",		"- EN LA BOLSA -"},
+
 
 			// Menu OPEN/SAVE
 			{"open_file",       "Abrir archivo..."},

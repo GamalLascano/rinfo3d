@@ -92,6 +92,10 @@ public class UI : MonoBehaviour {
 	protected string config_paper_st = "1";
 	protected string config_paper_no = "0";
 
+	// Configurador: Bolsa
+	protected string config_bag_flowers = "0";
+	protected string config_bag_papers =  "0";
+
 	// Estilo de mensaje (ejecucion correcta o con error)
 	static GUIStyle styleKO = null; 
 	static GUIStyle styleOK = null;
@@ -250,8 +254,8 @@ public class UI : MonoBehaviour {
 
 	/** Renders the Config Menu */
 	void renderConfig() {
-		int rowSpace = 2;
-		int row = 0;
+		float rowSpace = 1.5f;
+		float row = 0f;
 		// Botonera principal
 		int i = 0;
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("accept"), styleButton)) {
@@ -286,6 +290,7 @@ public class UI : MonoBehaviour {
 
 		// Nueva fila
 		row += rowSpace;
+		row += rowSpace;
 
 		// ========================================= PAPERS! =======================================
 		i = 0;
@@ -310,6 +315,34 @@ public class UI : MonoBehaviour {
 		}
 
 		// Nueva fila
+		row += rowSpace;
+		row += rowSpace;
+
+		// ========================================= BAG! =======================================
+		i = 0;
+		GUI.Box (new Rect (margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue ("inthebag"));
+		
+		// Nueva fila
+		row += rowSpace;
+		
+		// Configuracion de papeles en esquina
+		i = 1;
+		GUI.Label (new Rect (margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("flowers_bag"));
+		config_bag_flowers = GUI.TextField (new Rect (margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_bag_flowers);
+		i++;
+		GUI.Label (new Rect (margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("papers_bag"));
+		config_bag_papers = GUI.TextField (new Rect (margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_bag_papers);
+		i++;
+		i++;
+		i++;
+		i++;
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue ("set"))) {
+			Init.getRobotBehaviour().flores = int.Parse(config_bag_flowers);
+			Init.getRobotBehaviour().papeles = int.Parse(config_bag_papers); 
+		}
+		
+		// Nueva fila
+		row += rowSpace;
 		row += rowSpace;
 
 		// ========================================= LANGUAGE! =======================================
