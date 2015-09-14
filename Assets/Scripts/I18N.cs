@@ -89,6 +89,7 @@ public class I18N : MonoBehaviour {
 			{"papers_bag",		"PB: "},
 			{"flowers_corner",	"FC: "},
 			{"papers_corner",	"PC: "},
+			{"pan",				"Pan"},
 
 			// Menu SETTINGS
 			{"set_title",       ".:: SETTINGS ::."},
@@ -162,6 +163,7 @@ public class I18N : MonoBehaviour {
 			{"papers_bag",		"PB: "},
 			{"flowers_corner",	"FE: "},
 			{"papers_corner",	"PE: "},
+			{"pan",				"Pan"},
 
 			
 			// Menu SETTINGS

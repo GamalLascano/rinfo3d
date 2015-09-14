@@ -15,7 +15,7 @@ public class LookAtRobot : MonoBehaviour {
 		Transform theRobot = (Transform)Init.robotInstance;
 
 		Transform target = theRobot.FindChild("CuerpoRobot").FindChild("CabezaRobot");
-		transform.position = new Vector3(theRobot.position.x - 3 , Mathf.RoundToInt(transform.position.y), theRobot.position.z - 3);
+		transform.position = new Vector3(theRobot.position.x - 3 + UI.pan, Mathf.RoundToInt(transform.position.y), theRobot.position.z - 3  - UI.pan);
 		transform.LookAt(target);
 	}
 }
