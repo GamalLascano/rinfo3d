@@ -46,6 +46,7 @@ GameObject:
   - 33: {fileID: 3392372}
   - 135: {fileID: 13597196}
   - 23: {fileID: 2310148}
+  - 114: {fileID: 11446608}
   m_Layer: 0
   m_Name: CabezaRobot
   m_TagString: Untagged
@@ -71,7 +72,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &131990
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -156,7 +157,7 @@ Transform:
   - {fileID: 464310}
   - {fileID: 490642}
   m_Father: {fileID: 426936}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &424884
 Transform:
   m_ObjectHideFlags: 1
@@ -176,10 +177,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.67899764, y: 1.26824951, z: 6.09290314}
+  m_LocalPosition: {x: -32.6289062, y: 4.481534, z: -42.1129532}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 448506}
   - {fileID: 421844}
   - {fileID: 483544}
   m_Father: {fileID: 0}
@@ -191,11 +191,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131990}
   m_LocalRotation: {x: .0932201594, y: 0, z: 0, w: .995645523}
-  m_LocalPosition: {x: 0, y: .518000007, z: -.400999993}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: .899999976, z: -1.83000004}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
-  m_Father: {fileID: 426936}
-  m_RootOrder: 0
+  m_Father: {fileID: 494356}
+  m_RootOrder: 1
 --- !u!4 &464310
 Transform:
   m_ObjectHideFlags: 1
@@ -219,7 +219,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 426936}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &490642
 Transform:
   m_ObjectHideFlags: 1
@@ -243,6 +243,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1.66666663, z: 1}
   m_Children:
   - {fileID: 424884}
+  - {fileID: 448506}
   m_Father: {fileID: 421844}
   m_RootOrder: 0
 --- !u!20 &2085566
@@ -263,7 +264,7 @@ Camera:
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
-  field of view: 60
+  field of view: 27
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -459,6 +460,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   papeles: 0
   flores: 0
+--- !u!114 &11446608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b8e674b9509c249a4c93d012303001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &12429820
 Behaviour:
   m_ObjectHideFlags: 1
