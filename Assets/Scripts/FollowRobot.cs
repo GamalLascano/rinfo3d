@@ -14,7 +14,7 @@ public class FollowRobot : MonoBehaviour {
 			return;
 		Transform theRobot = (Transform)Init.robotInstance;
 		
-		transform.position = new Vector3(theRobot.position.x, Mathf.RoundToInt(transform.position.y), theRobot.position.z);
+		transform.position = new Vector3(theRobot.position.x, Mathf.RoundToInt(transform.position.y), theRobot.position.z - UI.pan);
 		transform.LookAt(theRobot);
 	}
 }
