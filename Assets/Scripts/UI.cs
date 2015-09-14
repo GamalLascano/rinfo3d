@@ -223,7 +223,7 @@ public class UI : MonoBehaviour {
 		zoom = GUI.VerticalScrollbar( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, 1.5f, .5f, 10f);
 		// Paneo
 		if (cameras[currentCamera] == cameraAngle) {
-			GUI.Label(new Rect (Screen.width / 2 - buttonWidth - 50, Screen.height - margin * 4 - buttonHeight * 2, buttonWidth, buttonHeight + margin), I18N.getValue("pan"));
+			GUI.Label(new Rect (Screen.width / 2 - buttonWidth - margin * 6, Screen.height - margin * 4 - buttonHeight * 2, buttonWidth, buttonHeight + margin), I18N.getValue("pan"));
 			pan = GUI.HorizontalScrollbar( new Rect(Screen.width / 2 - buttonWidth, Screen.height - margin * 3 - buttonHeight * 2, buttonWidth * 2, margin), pan, 0f, -10f, 10f);
 		}
 
