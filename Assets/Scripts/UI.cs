@@ -102,6 +102,10 @@ public class UI : MonoBehaviour {
 	static GUIStyle styleKO = null; 
 	static GUIStyle styleOK = null;
 
+	public static int CAMERA_TOP = 0;
+	public static int CAMERA_ONBOARD = 1;
+	public static int CAMERA_3D = 2;
+
 	// Carga las camaras
 	void loadCameras() {
 		if (cameras == null) {
@@ -223,7 +227,7 @@ public class UI : MonoBehaviour {
 		zoom = GUI.VerticalScrollbar( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, 1f, .5f, 10f);
 		// Paneo
 		GUI.Label(new Rect (Screen.width / 2 - buttonWidth - margin * 6, Screen.height - margin * 4 - buttonHeight * 2, buttonWidth, buttonHeight + margin), I18N.getValue("pan"));
-		pan = GUI.HorizontalScrollbar( new Rect(Screen.width / 2 - buttonWidth, Screen.height - margin * 3 - buttonHeight * 2, buttonWidth * 2, margin), pan, 0f, -10f, 10f);
+		pan = GUI.HorizontalScrollbar( new Rect(Screen.width / 2 - buttonWidth, Screen.height - margin * 3 - buttonHeight * 2, buttonWidth * 2, margin), pan, 0f, -15f, 15f);
 
 
 		// Linea de ejecucion
@@ -384,6 +388,7 @@ public class UI : MonoBehaviour {
 
 	/** Actualiza la camara actual */
 	void setCurrentCamera(int cameraNo) {
+		pan = 0;
 		for (int i = 0; i < cameras.Count; i++) { 
 			((Camera)cameras[i]).enabled = false;
 			((AudioListener)((Camera)cameras[i]).GetComponent<AudioListener>()).enabled = false;

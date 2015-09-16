@@ -10,6 +10,9 @@ public class RotateHead : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.localRotation = Quaternion.Euler(0f, UI.pan * 4, 0f);
+		if (UI.currentCamera == UI.CAMERA_ONBOARD)
+			transform.localRotation = Quaternion.Euler(0f, UI.pan * 4, 0f);
+		else
+			transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 	}
 }

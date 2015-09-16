@@ -315,6 +315,12 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			yield return new WaitForSeconds(0);
 		}
 
+		// Dust!
+		Transform throttle = theRobot.FindChild("Dust");
+		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
+		ps.Emit(10);
+		yield return new WaitForSeconds(0);
+
 		// Brazos arriba!
 		endPosIzq = startPosIzq;
 		endPosDer = startPosDer;
@@ -383,7 +389,13 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
 			yield return new WaitForSeconds(0);
 		}
-		
+
+		// Dust!
+		Transform throttle = theRobot.FindChild("Dust");
+		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
+		ps.Emit(10);
+		yield return new WaitForSeconds(0);
+				
 		// Brazos arriba!
 		endPosIzq = startPosIzq;
 		endPosDer = startPosDer;
@@ -453,7 +465,13 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
 			yield return new WaitForSeconds(0);
 		}
-		
+
+		// Dust!
+		Transform throttle = theRobot.FindChild("Dust");
+		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
+		ps.Emit(10);
+		yield return new WaitForSeconds(0);
+
 		// Brazos arriba!
 		endPosIzq = startPosIzq;
 		endPosDer = startPosDer;
@@ -521,7 +539,13 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
 			yield return new WaitForSeconds(0);
 		}
-		
+
+		// Dust!
+		Transform throttle = theRobot.FindChild("Dust");
+		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
+		ps.Emit(10);
+		yield return new WaitForSeconds(0);
+
 		// Brazos arriba!
 		endPosIzq = startPosIzq;
 		endPosDer = startPosDer;
