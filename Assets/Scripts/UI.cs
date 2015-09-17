@@ -123,8 +123,8 @@ public class UI : MonoBehaviour {
 		GUI.skin = customSkin;
 		GUI.skin.verticalScrollbar.fixedWidth = deviceWidth/45;
 		GUI.skin.verticalScrollbarThumb.fixedWidth = deviceWidth/45;
-		GUI.skin.horizontalScrollbar.fixedHeight = deviceWidth/45;
-		GUI.skin.horizontalScrollbarThumb.fixedHeight = deviceWidth/45;
+		GUI.skin.horizontalScrollbar.fixedHeight = GUI.skin.verticalScrollbar.fixedWidth;
+		GUI.skin.horizontalScrollbarThumb.fixedHeight = GUI.skin.verticalScrollbarThumb.fixedWidth;
 
 		// Estilo de los botones
 		textButtonColor = new Color(0.75F, 0.75F, 1.0F, 1);
