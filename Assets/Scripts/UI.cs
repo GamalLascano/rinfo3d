@@ -123,6 +123,8 @@ public class UI : MonoBehaviour {
 		GUI.skin = customSkin;
 		GUI.skin.verticalScrollbar.fixedWidth = deviceWidth/45;
 		GUI.skin.verticalScrollbarThumb.fixedWidth = deviceWidth/45;
+		GUI.skin.horizontalScrollbar.fixedHeight = deviceWidth/45;
+		GUI.skin.horizontalScrollbarThumb.fixedHeight = deviceWidth/45;
 
 		// Estilo de los botones
 		textButtonColor = new Color(0.75F, 0.75F, 1.0F, 1);
@@ -221,13 +223,13 @@ public class UI : MonoBehaviour {
 		GUI.TextArea (new Rect (margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i-1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour().getRobotStatus(), styleTextArea);
 		// Velocidad
 		GUI.Label(new Rect (margin, Screen.height / 2 + buttonHeight * 4, buttonWidth * 2, buttonHeight + margin), I18N.getValue("speed"));
-		currentRunningSpeed = GUI.VerticalScrollbar( new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), currentRunningSpeed, .15f, 1f, 0f);
+		currentRunningSpeed = GUI.VerticalScrollbar( new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), currentRunningSpeed, .1f, 1f, 0f);
 		// Zoom
 		GUI.Label(new Rect (Screen.width - buttonWidth / 2 - margin, Screen.height / 2 + buttonHeight * 4, buttonWidth, buttonHeight + margin), I18N.getValue("zoom"));
 		zoom = GUI.VerticalScrollbar( new Rect(Screen.width - margin * 2, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight*8), zoom, 1f, .5f, 10f);
 		// Paneo
 		GUI.Label(new Rect (Screen.width / 2 - buttonWidth - margin * 6, Screen.height - margin * 4 - buttonHeight * 2, buttonWidth, buttonHeight + margin), I18N.getValue("pan"));
-		pan = GUI.HorizontalScrollbar( new Rect(Screen.width / 2 - buttonWidth, Screen.height - margin * 3 - buttonHeight * 2, buttonWidth * 2, margin), pan, 0f, -15f, 15f);
+		pan = GUI.HorizontalScrollbar( new Rect(Screen.width / 2 - buttonWidth, Screen.height - margin * 3 - buttonHeight * 2, buttonWidth * 2, margin), pan, 3f, -15f, 15f);
 
 
 		// Linea de ejecucion
