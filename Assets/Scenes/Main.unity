@@ -122,8 +122,8 @@ MonoBehaviour:
   callePrefab: {fileID: 479752, guid: ef0dc47c6c7b98348befdb2dd2fed50d, type: 2}
   avenidaPrefab: {fileID: 426144, guid: 0d12161577b4e5049a0a23c30230ce23, type: 2}
   robotPrefab: {fileID: 426936, guid: 70993a1478d1433449055a664616714a, type: 2}
-  papelPrefab: {fileID: 446554, guid: 145e61ff71f3e064d9c5a422dc608ba9, type: 2}
-  florPrefab: {fileID: 453128, guid: f470375d51e5385468e618fa84565667, type: 2}
+  papelPrefab: {fileID: 483646, guid: 8be3f53636e3feb408559bb6024f84e9, type: 2}
+  florPrefab: {fileID: 483646, guid: 0032f4ba7329f7348b6e9fec715dd98c, type: 2}
   instanciarFloresRandom: 1
   instanciarPapelesRandom: 1
 --- !u!4 &480324322

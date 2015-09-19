@@ -36,7 +36,7 @@ public class Corner : Object {
 	public void setPapers(int count) {
 		papers = count;
 		if (count > 0 && paperInstance == null) {
-			paperInstance = Instantiate (papelPrefab, paperPos, Quaternion.identity);
+			paperInstance = Instantiate (papelPrefab, paperPos, Quaternion.Euler(90, 0, 0));
 			return;
 		}
 		if (count == 0 && paperInstance != null) {
@@ -50,7 +50,7 @@ public class Corner : Object {
 	public void setFlowers(int count) {
 		flowers = count;
 		if (count > 0 && flowerInstance == null) {
-			flowerInstance = Instantiate (florPrefab, flowerPos, Quaternion.identity);
+			flowerInstance = Instantiate (florPrefab, flowerPos, Quaternion.Euler(90, 0, 0));
 			return;
 		}
 		if (count == 0 && flowerInstance != null) {
