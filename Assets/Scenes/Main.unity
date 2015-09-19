@@ -119,8 +119,8 @@ MonoBehaviour:
   CANT_CALLES: 100
   CANT_AVENIDAS: 100
   ciudadPrefab: {fileID: 441382, guid: 500e4f01c2d01b641898f5ec074cba47, type: 2}
-  callePrefab: {fileID: 479752, guid: ef0dc47c6c7b98348befdb2dd2fed50d, type: 2}
-  avenidaPrefab: {fileID: 426144, guid: 0d12161577b4e5049a0a23c30230ce23, type: 2}
+  callePrefab: {fileID: 400554, guid: c5549fcf3ede2964fa3e6edab673cb14, type: 2}
+  avenidaPrefab: {fileID: 400554, guid: edc9607e9e4c58548817414797f209de, type: 2}
   robotPrefab: {fileID: 426936, guid: 70993a1478d1433449055a664616714a, type: 2}
   papelPrefab: {fileID: 483646, guid: 8be3f53636e3feb408559bb6024f84e9, type: 2}
   florPrefab: {fileID: 483646, guid: 0032f4ba7329f7348b6e9fec715dd98c, type: 2}
