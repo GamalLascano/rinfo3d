@@ -79,4 +79,12 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando depositarPapel!");
 		return base.depositarPapel ();		
 	}
+
+	/**
+	 * Metodo a implementar
+	 */ 
+	public override IEnumerator finalizar() {
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando finalizar!");
+		return base.finalizar ();		
+	}
 }

@@ -575,5 +575,107 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 	}
 
+	/**
+	 * El robot finaliza la ejecucion realizando un super-festejo
+	 */ 
+	public virtual IEnumerator finalizar() {
 
+		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
+		// Recuperar el robot
+		Transform theRobot = (Transform)Init.robotInstance;
+		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
+		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
+		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Vector3 defPosIzq = brazoIzq.position;
+		Vector3 defPosDer = brazoDer.position;
+
+		// Brazos arriba!
+		Vector3 startPosIzq = brazoIzq.position;
+		Vector3 startPosDer = brazoDer.position;
+		Vector3 endPosIzq = new Vector3(brazoIzq.position.x, brazoIzq.position.y + .15f, brazoIzq.position.z);
+		Vector3 endPosDer = new Vector3(brazoDer.position.x, brazoDer.position.y + .15f, brazoDer.position.z);
+		float journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		float startTimeIzq = Time.time;
+		float speedIzq = UI.currentRunningSpeed * 5;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+
+		yield return new WaitForSeconds(0);
+		
+
+		// Robot arriba!
+		Vector3 startPos = theRobot.position;	
+		int deltaY = 1;		
+		startPos = theRobot.position;
+		Vector3 endPos = new Vector3 (Mathf.RoundToInt ( theRobot.position.x),
+		                              Mathf.RoundToInt ( theRobot.position.y + deltaY ),
+		                              Mathf.RoundToInt ( theRobot.position.z));
+		// Moverlo un poco
+		float journeyLength = Vector3.Distance(startPos, endPos);
+		float startTime = Time.time;
+		float speed = UI.currentRunningSpeed * 10f;
+		while (Vector3.Distance(endPos, theRobot.position) > 0) { 
+			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10f));
+			float distCovered = (Time.time - startTime) * speed;
+			float fracJourney = distCovered / journeyLength;
+			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
+			yield return new WaitForSeconds(0);
+		}		
+		// Fijarlo en enteros al final
+		theRobot.position = new Vector3 (Mathf.RoundToInt ( theRobot.position.x ),
+		                                 Mathf.RoundToInt ( theRobot.position.y ),
+		                                 Mathf.RoundToInt ( theRobot.position.z ) 
+		                                 );		
+		
+		yield return new WaitForSeconds(0);
+
+		// Robot abajo!
+		endPos = startPos;
+		startPos = theRobot.position;	
+
+		// Moverlo un poco
+		journeyLength = Vector3.Distance(startPos, endPos);
+		startTime = Time.time;
+		speed = UI.currentRunningSpeed * 10f;
+		while (Vector3.Distance(endPos, theRobot.position) > 0) { 
+			theRobot.Translate (Vector3.forward * Time.deltaTime * (UI.currentRunningSpeed * 10f));
+			float distCovered = (Time.time - startTime) * speed;
+			float fracJourney = distCovered / journeyLength;
+			theRobot.position = Vector3.Lerp(startPos, endPos, fracJourney);
+			yield return new WaitForSeconds(0);
+		}		
+		// Fijarlo en enteros al final
+		theRobot.position = new Vector3 (Mathf.RoundToInt ( theRobot.position.x ),
+		                                 Mathf.RoundToInt ( theRobot.position.y ),
+		                                 Mathf.RoundToInt ( theRobot.position.z ) 
+		                                 );		
+		
+		yield return new WaitForSeconds(0);
+
+		// Brazos abajo!
+		endPosIzq = startPosIzq;
+		endPosDer = startPosDer;
+		startPosIzq = brazoIzq.position;
+		startPosDer = brazoDer.position;
+		journeyLengthIzq = Vector3.Distance(startPosIzq, endPosIzq);
+		startTimeIzq = Time.time;
+		while (Vector3.Distance(endPosIzq, brazoIzq.position) > 0.001f) { 
+			float distCoveredIzq = (Time.time - startTimeIzq) * speedIzq;
+			float fracJourneyIzq = distCoveredIzq / journeyLengthIzq;
+			brazoIzq.position = Vector3.Lerp(startPosIzq, endPosIzq, fracJourneyIzq);
+			brazoDer.position = Vector3.Lerp(startPosDer, endPosDer, fracJourneyIzq);
+			yield return new WaitForSeconds(0);
+		}
+
+		yield return new WaitForSeconds(0);
+
+		// Fin de ejecucion
+		UI.executingCurrentLine = false;
+	}
+	
 }

@@ -458,6 +458,10 @@ public class UI : MonoBehaviour {
 			currentLine = -1;
 			run = false;
 			ended = true;
+			// Invocar a la corutina encargada de ejecutar la visualizacion
+			Transform theRobot = (Transform)Init.robotInstance;
+			RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+			behaviour.StartCoroutine("finalizar", 0);
 		}
 		else if (sentences[currentLine] != null && sentences[currentLine].ToString().Length > 0) {
 			executingCurrentLine = true;
