@@ -170,9 +170,10 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		Transform theRobot = (Transform)Init.robotInstance;
 
 		// Throttle ON!
-		Transform throttle = theRobot.FindChild("Throttle");
+		Transform throttle = theRobot.Find("Throttle");
 		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
-		ps.enableEmission = true;
+        var em = ps.emission;
+        em.enabled = true;
 		yield return new WaitForSeconds(0);
 
 		// Arriba!
@@ -235,7 +236,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 			yield return new WaitForSeconds(0);
 		}
 
-		ps.enableEmission = false;
+		em.enabled = false;
 		yield return new WaitForSeconds(0);
 
 		// Fin de ejecucion
@@ -293,9 +294,9 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
 		Transform theRobot = (Transform)Init.robotInstance;
-		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
-		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
-		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Transform cuerpo = theRobot.Find("CuerpoRobot");
+		Transform brazoIzq = cuerpo.Find("BrazoIzq");
+		Transform brazoDer = cuerpo.Find("BrazoDer");
 		Vector3 defPosIzq = brazoIzq.position;
 		Vector3 defPosDer = brazoDer.position;
 		
@@ -316,7 +317,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		}
 
 		// Dust!
-		Transform throttle = theRobot.FindChild("Dust");
+		Transform throttle = theRobot.Find("Dust");
 		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
 		ps.Emit(10);
 		yield return new WaitForSeconds(0);
@@ -368,9 +369,9 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
 		Transform theRobot = (Transform)Init.robotInstance;
-		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
-		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
-		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Transform cuerpo = theRobot.Find("CuerpoRobot");
+		Transform brazoIzq = cuerpo.Find("BrazoIzq");
+		Transform brazoDer = cuerpo.Find("BrazoDer");
 		Vector3 defPosIzq = brazoIzq.position;
 		Vector3 defPosDer = brazoDer.position;
 		
@@ -391,7 +392,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		}
 
 		// Dust!
-		Transform throttle = theRobot.FindChild("Dust");
+		Transform throttle = theRobot.Find("Dust");
 		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
 		ps.Emit(10);
 		yield return new WaitForSeconds(0);
@@ -444,9 +445,9 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
 		Transform theRobot = (Transform)Init.robotInstance;
-		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
-		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
-		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Transform cuerpo = theRobot.Find("CuerpoRobot");
+		Transform brazoIzq = cuerpo.Find("BrazoIzq");
+		Transform brazoDer = cuerpo.Find("BrazoDer");
 		Vector3 defPosIzq = brazoIzq.position;
 		Vector3 defPosDer = brazoDer.position;
 		
@@ -467,7 +468,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		}
 
 		// Dust!
-		Transform throttle = theRobot.FindChild("Dust");
+		Transform throttle = theRobot.Find("Dust");
 		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
 		ps.Emit(10);
 		yield return new WaitForSeconds(0);
@@ -518,9 +519,9 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
 		Transform theRobot = (Transform)Init.robotInstance;
-		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
-		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
-		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Transform cuerpo = theRobot.Find("CuerpoRobot");
+		Transform brazoIzq = cuerpo.Find("BrazoIzq");
+		Transform brazoDer = cuerpo.Find("BrazoDer");
 		Vector3 defPosIzq = brazoIzq.position;
 		Vector3 defPosDer = brazoDer.position;
 		
@@ -541,7 +542,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		}
 
 		// Dust!
-		Transform throttle = theRobot.FindChild("Dust");
+		Transform throttle = theRobot.Find("Dust");
 		ParticleSystem ps = (ParticleSystem)throttle.GetComponent<ParticleSystem>();
 		ps.Emit(10);
 		yield return new WaitForSeconds(0);
@@ -583,9 +584,9 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
 		Transform theRobot = (Transform)Init.robotInstance;
-		Transform cuerpo = theRobot.FindChild("CuerpoRobot");
-		Transform brazoIzq = cuerpo.FindChild("BrazoIzq");
-		Transform brazoDer = cuerpo.FindChild("BrazoDer");
+		Transform cuerpo = theRobot.Find("CuerpoRobot");
+		Transform brazoIzq = cuerpo.Find("BrazoIzq");
+		Transform brazoDer = cuerpo.Find("BrazoDer");
 		Vector3 defPosIzq = brazoIzq.position;
 		Vector3 defPosDer = brazoDer.position;
 

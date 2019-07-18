@@ -55,7 +55,8 @@ public class I18N : MonoBehaviour {
 			// Menu principal
 			{"reset",           "Reset"},
 			{"run",             "Run"},
-			{"open",			"Open"},
+            {"VR",             "Run in VR"},
+            {"open",			"Open"},
 			{"save",			"Save"},
 			{"settings",        "Settings"},
 			{"quit",	      	"Quit"},
@@ -129,7 +130,8 @@ public class I18N : MonoBehaviour {
 			// Menu principal
 			{"reset",           "Reiniciar"},
 			{"run",             "Ejecutar"},
-			{"open",			"Abrir"},
+            {"VR",             "Ejecutar en VR"},
+            {"open",			"Abrir"},
 			{"save",			"Guardar"},
 			{"settings",        "Config."},
 			{"quit",	      	"Salir"},

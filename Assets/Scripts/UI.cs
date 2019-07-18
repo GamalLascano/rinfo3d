@@ -4,7 +4,8 @@ using System.Reflection;
 using System;
 // using UnityEditor;
 using System.IO;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 public class UI : MonoBehaviour {
 
 	// Referencia a object de creacion
@@ -14,9 +15,11 @@ public class UI : MonoBehaviour {
 	public const int STATE_EDITING = 0;
 	public const int STATE_RUNNING = 1;
 	public const int STATE_CONFIG  = 2;
-	
-	// Tamaño de pantalla del dispositivo actual
-	private static int deviceWidth =  Screen.width;
+    public const int STATE_VR = 3;
+    //  Booleano para iniciar VR
+    public static bool vrmod = false;
+    // Tamaño de pantalla del dispositivo actual
+    private static int deviceWidth =  Screen.width;
 	private static int deviceHeight = Screen.height;
 	
 	// Tamaño default de los botones 
@@ -72,7 +75,6 @@ public class UI : MonoBehaviour {
 	protected bool alive = true;
 	// Ya se ejecutaron todas las instrucciones del programa?
 	protected bool ended = false;
-
 	// Listado de Camaras
 	protected ArrayList cameras  = null;
 	// Camara superior
@@ -81,6 +83,8 @@ public class UI : MonoBehaviour {
 	public Camera cameraAngle   = null;
 	// Camara on-board
 	Camera cameraOnBoard  = null;
+    // Camara VR
+    public Camera cameraVR = null;
 	// Camara actual
 	public static int currentCamera = 2;
 
@@ -105,6 +109,7 @@ public class UI : MonoBehaviour {
 	public static int CAMERA_TOP = 0;
 	public static int CAMERA_ONBOARD = 1;
 	public static int CAMERA_3D = 2;
+    public static int CAMERA_VR = 3;
 
 	// Carga las camaras
 	void loadCameras() {
@@ -114,11 +119,18 @@ public class UI : MonoBehaviour {
 			cameras.Add(cameraTop);
 			cameras.Add(cameraOnBoard);
 			cameras.Add(cameraAngle);
+            cameras.Add(cameraVR);
 			setCurrentCamera(currentCamera);
 
 		}
 	}
-
+    public static void desactivarVR()
+    {
+        vrmod = false;
+        currentState = STATE_EDITING;
+        XRSettings.enabled = false;
+        
+    }
 	void OnGUI() { 
 		GUI.skin = customSkin;
 		GUI.skin.verticalScrollbar.fixedWidth = deviceWidth/45;
@@ -151,17 +163,26 @@ public class UI : MonoBehaviour {
 				renderConfig();
 				break;
 			}
+            case STATE_VR: {
+                renderVR();
+                break;
+            }
 		}
 	}
 
 	/** Renders the Editing Menu */
 	void renderEditing() {
+        if (vrmod == false) {
+            XRSettings.enabled = false;
+            vrmod = true;
+            setCurrentCamera(2);
+            GvrPointerInputModule.Pointer.overridePointerCamera = ((Camera)cameras[2]);
+        }
+        // Botonera principal
+        int i = 0;
 
-		// Botonera principal
-		int i = 0;
-
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("reset"), styleButton)) { 
-			Application.LoadLevel(Application.loadedLevel);
+		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("reset"), styleButton)) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
 		}
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("run"), styleButton)) {
 			parseCode();
@@ -170,23 +191,27 @@ public class UI : MonoBehaviour {
 			step = false;
 			ended = false;
 		}
+        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("VR"), styleButton)) {
+            vrmod = false;
+            currentState = STATE_VR;
+        }
 
-//		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
-//			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
-//			if (path.Length != 0) {
-//				Debug.Log ("Reading data from: " + path);
-//				readCode(path);
-//			}
+        //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
+        //			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
+        //			if (path.Length != 0) {
+        //				Debug.Log ("Reading data from: " + path);
+        //				readCode(path);
+        //			}
 
-//		}
-//		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
-//			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
-//			if (path.Length != 0) {
-//				Debug.Log ("Writing data to: " + path);
-//				writeCode (path);
-//			}
-//		}
-		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton)) {
+        //		}
+        //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
+        //			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
+        //			if (path.Length != 0) {
+        //				Debug.Log ("Writing data to: " + path);
+        //				writeCode (path);
+        //			}
+        //		}
+        if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton)) {
 			currentState = STATE_CONFIG;
 			return;
 		}
@@ -200,7 +225,19 @@ public class UI : MonoBehaviour {
 		// Visualizacion de codigo fuente
 		sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode, styleTextArea);
 	}
-	
+    void renderVR()
+    {
+        if (vrmod == false)
+        {
+            setCurrentCamera(3);
+            GvrPointerInputModule.Pointer.overridePointerCamera = ((Camera)cameras[3]);
+            
+            XRSettings.enabled = true;
+            
+            vrmod = true;
+        }
+
+    }
 	/** Renders the Running Menu */
 	void renderRunning() {
 		// Botonera principal
