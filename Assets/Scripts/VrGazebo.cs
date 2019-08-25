@@ -11,7 +11,6 @@ public class VrGazebo : MonoBehaviour
     bool gvrStatus;
     float gvrTimer;
     public int distanceOfRay = 100;
-    private RaycastHit hitaso;
     public UnityEvent GVRClick;
     public Camera wa;
     // Start is called before the first frame update
@@ -23,41 +22,34 @@ public class VrGazebo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-          if (XRSettings.enabled == true)
-          {
+         // if (XRSettings.enabled == true)
+          //{
             if (gvrStatus)
             {
                 gvrTimer += Time.deltaTime;
                 imgGaze.fillAmount = gvrTimer / tiempoTotal;
             }
-            Ray ray = wa.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-            Debug.Log(GvrPointerInputModule.CurrentRaycastResult.gameObject.tag);
+            
             if (GvrPointerInputModule.CurrentRaycastResult.gameObject != null)
             {
+                //Debug.Log(GvrPointerInputModule.CurrentRaycastResult.gameObject.tag);
                 if (imgGaze.fillAmount == 1 && GvrPointerInputModule.CurrentRaycastResult.gameObject.CompareTag("Seleccion"))
                 {
 
-                    //GVRClick.Invoke();
                     GvrPointerInputModule.CurrentRaycastResult.gameObject.gameObject.GetComponent<CambiarVr>().CambiarModo();
 
-                    //GameObject.FindGameObjectWithTag("Seleccion").GetComponent<CambiarVr>().CambiarModo();
-
                 }
-            }
-            if (Physics.Raycast(ray, out hitaso, distanceOfRay))
-            {
-                Debug.Log("Aaaaaaaaaaaaa");
-                if (imgGaze.fillAmount == 1 && hitaso.transform.CompareTag("Seleccion"))
+                if (imgGaze.fillAmount == 1 && GvrPointerInputModule.CurrentRaycastResult.gameObject.CompareTag("Play"))
                 {
-                    
-                    //GVRClick.Invoke();
-                    hitaso.transform.gameObject.GetComponent<CambiarVr>().CambiarModo();
+                     UI.getBigBang().GetComponent<UI>().runInVR();
+                //GVRClick.Invoke();
+                //GvrPointerInputModule.CurrentRaycastResult.gameObject.gameObject.GetComponent<CambiarVr>().CambiarModo();
 
-                    //GameObject.FindGameObjectWithTag("Seleccion").GetComponent<CambiarVr>().CambiarModo();
 
-                }
             }
-          }
+            }
+
+        //  }
     }
     public void GVROn()
     {

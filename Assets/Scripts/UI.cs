@@ -16,6 +16,7 @@ public class UI : MonoBehaviour {
 	public const int STATE_RUNNING = 1;
 	public const int STATE_CONFIG  = 2;
     public const int STATE_VR = 3;
+    public const int STATE_RUNNING_VR = 4;
     //  Booleano para iniciar VR
     public static bool vrmod = false;
     // Tamaño de pantalla del dispositivo actual
@@ -48,7 +49,7 @@ public class UI : MonoBehaviour {
 	// Skin default a utilizar 
 	public GUISkin customSkin;
 
-
+   // private int newrun=1;
 	// Codigo fuente
 	protected string sourceCode = "Iniciar(1,1);\ntomarFlor;\ntomarPapel;\nmover;\ndepositarFlor;\ndepositarPapel;\nmover;\nmover;\nmover;\nmover;\nDerecha;\nmover;\nmover;\nmover;\nmover;\nPos(20,30);\nDerecha;\nDerecha;\nInformar(\"Listo!\");"; //"Iniciar(1,1);\nmover;\nmover;\nDerecha;\nmover;\nmover;\nInformar(\"Hola\");Pos(20,20);\ntomarFlor;\ntomarPapel;\nPos(11,11);\ndepositarFlor;\ndepositarPapel;\nmover;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
 	// Contenido de la linea de estado del robot
@@ -167,6 +168,10 @@ public class UI : MonoBehaviour {
                 renderVR();
                 break;
             }
+            case STATE_RUNNING_VR: {
+                    renderVRRUN();
+                    break;
+                }
 		}
 	}
 
@@ -225,6 +230,34 @@ public class UI : MonoBehaviour {
 		// Visualizacion de codigo fuente
 		sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode, styleTextArea);
 	}
+    public void runInVR()
+    {
+        parseCode();
+        currentState = STATE_RUNNING_VR;
+        run = true;
+        step = false;
+        ended = false;
+        cameraVR.transform.parent.gameObject.transform.position = cameraOnBoard.transform.position + new Vector3(0f,0.5f,-0.5f);
+        //Transform robot = (Transform)Init.robotInstance;
+        //cameraVR.transform.parent.gameObject.transform.position = new Vector3(robot.position.x, robot.position.y + 2f, robot.position.z - 2f);
+        // Camera.current.transform.LookAt((Transform)Init.robotInstance);
+
+    }
+    void renderVRRUN()
+    {
+        cameraVR.transform.parent.gameObject.transform.position = cameraOnBoard.transform.position + new Vector3(0f,0.5f,-0.5f);
+        //cameraVR.transform.parent.gameObject.transform.rotation = cameraOnBoard.transform.rotation;
+        //    //if (newrun == 1)
+        //    //{
+        //    //    parseCode();
+        //    //    run = true;
+        //    //    step = false;
+        //    //    ended = false;
+        //    //    Camera.current.transform.LookAt((Transform)Init.robotInstance);
+        //    //    newrun = 0;
+        //    //}
+
+    }
     void renderVR()
     {
         if (vrmod == false)
@@ -467,8 +500,13 @@ public class UI : MonoBehaviour {
 		loadCameras();
 
 		// Si no esta ejecutando, no hay nada mas que hacer
-		if (currentState != STATE_RUNNING)
-			return;
+        if (currentState != STATE_RUNNING)
+        {
+            if (currentState != STATE_RUNNING_VR)
+            {
+                return;
+            }
+        }
 
 		// Si el codigo no fue parseado no puede continuar
 		if (!codeParsed)

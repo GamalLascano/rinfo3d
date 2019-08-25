@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Seleccion
   - BB
+  - Play
   layers:
   - Default
   - TransparentFX
