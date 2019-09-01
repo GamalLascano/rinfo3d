@@ -266,6 +266,7 @@ public class UI : MonoBehaviour {
         {
             if (flagMenu == false)
             {
+                VrGazebo.RestartClock();
                 Debug.Log("Entre aca una vez");
                 flagMenu = true;
                 if (menuEndInstance == null)
