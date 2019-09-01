@@ -468,6 +468,8 @@ MonoBehaviour:
   cameraTop: {fileID: 630355855}
   cameraAngle: {fileID: 1288128243}
   cameraVR: {fileID: 1587818479}
+  menuEndPrefab: {fileID: 9204140683738874915, guid: 87dcc98738c2de441a77e7f75742d50f,
+    type: 3}
 --- !u!20 &480324324
 Camera:
   m_ObjectHideFlags: 0
@@ -775,7 +777,7 @@ GameObject:
   - component: {fileID: 1157041677}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Menu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

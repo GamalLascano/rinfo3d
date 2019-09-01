@@ -112,8 +112,12 @@ public class UI : MonoBehaviour {
 	public static int CAMERA_3D = 2;
     public static int CAMERA_VR = 3;
 
-	// Carga las camaras
-	void loadCameras() {
+    //Menus en VR
+    public static UnityEngine.Object menuEndInstance = null;
+    public Transform menuEndPrefab;
+    private bool flagMenu = false;
+    // Carga las camaras
+    void loadCameras() {
 		if (cameras == null) {
 			cameras = new ArrayList();
 			cameraOnBoard = (Camera)((Transform)Init.robotInstance).GetComponentInChildren<Camera>();
@@ -125,14 +129,17 @@ public class UI : MonoBehaviour {
 
 		}
 	}
+
     public static void desactivarVR()
     {
+        GameObject.FindGameObjectWithTag("MenuEnd").SetActive(false);
         vrmod = false;
         currentState = STATE_EDITING;
         XRSettings.enabled = false;
         
     }
-	void OnGUI() { 
+
+    void OnGUI() { 
 		GUI.skin = customSkin;
 		GUI.skin.verticalScrollbar.fixedWidth = deviceWidth/45;
 		GUI.skin.verticalScrollbarThumb.fixedWidth = deviceWidth/45;
@@ -198,6 +205,7 @@ public class UI : MonoBehaviour {
 		}
         if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("VR"), styleButton)) {
             vrmod = false;
+            GameObject.FindGameObjectWithTag("Menu").SetActive(true);
             currentState = STATE_VR;
         }
 
@@ -232,6 +240,7 @@ public class UI : MonoBehaviour {
 	}
     public void runInVR()
     {
+        GameObject.FindGameObjectWithTag("Menu").SetActive(false);
         parseCode();
         currentState = STATE_RUNNING_VR;
         run = true;
@@ -243,9 +252,34 @@ public class UI : MonoBehaviour {
         // Camera.current.transform.LookAt((Transform)Init.robotInstance);
 
     }
+    public void desactivarVR2()
+    {
+        //setCurrentCamera(2);
+        //GvrPointerInputModule.Pointer.overridePointerCamera = ((Camera)cameras[1]);
+        vrmod = false;
+        currentState = STATE_EDITING;
+    }
     void renderVRRUN()
     {
         cameraVR.transform.parent.gameObject.transform.position = cameraOnBoard.transform.position + new Vector3(0f,0.5f,-0.5f);
+        if (ended == true)
+        {
+            if (flagMenu == false)
+            {
+                Debug.Log("Entre aca una vez");
+                flagMenu = true;
+                if (menuEndInstance == null)
+                {
+                    menuEndInstance = Instantiate(menuEndPrefab, cameraOnBoard.transform.position + new Vector3(0f, 0.5f, 4f), Quaternion.identity);
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("MenuEnd").SetActive(true);
+                    Transform cambiarPos = (Transform)menuEndInstance;
+                    cambiarPos.position = cameraOnBoard.transform.position + new Vector3(0f, 0.5f, -0.5f);
+                }
+            }
+        }
         //cameraVR.transform.parent.gameObject.transform.rotation = cameraOnBoard.transform.rotation;
         //    //if (newrun == 1)
         //    //{
