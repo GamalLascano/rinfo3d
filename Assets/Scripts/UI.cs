@@ -320,6 +320,7 @@ public class UI : MonoBehaviour {
 		// Camara
 		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth , margin + buttonHeight), ((Camera)cameras[currentCamera]).name, styleButton)) {
 			currentCamera++;
+            if (currentCamera == CAMERA_VR) currentCamera++;
 			if (currentCamera >= cameras.Count)
 				currentCamera = 0;
 			setCurrentCamera(currentCamera);
