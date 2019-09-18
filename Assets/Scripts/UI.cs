@@ -116,7 +116,7 @@ public class UI : MonoBehaviour
     //Menus en VR
     public static UnityEngine.Object menuEndInstance = null;
     public Transform menuEndPrefab;
-    private bool flagMenu = false;
+    private static bool flagMenu = false;
     // Carga las camaras
     void loadCameras()
     {
@@ -135,8 +135,10 @@ public class UI : MonoBehaviour
 
     public static void desactivarVR()
     {
-        GameObject.FindGameObjectWithTag("MenuEnd").SetActive(false);
+        GameObject.FindGameObjectWithTag("MenuEnd").transform.GetChild(0).gameObject.SetActive(false);
+        GameObject.FindGameObjectWithTag("MenuEnd").transform.GetChild(1).gameObject.SetActive(false);
         vrmod = false;
+        flagMenu = false;
         currentState = STATE_EDITING;
         XRSettings.enabled = false;
 
@@ -220,7 +222,9 @@ public class UI : MonoBehaviour
         if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("VR"), styleButton))
         {
             vrmod = false;
-            GameObject.FindGameObjectWithTag("Menu").SetActive(true);
+            GameObject.FindGameObjectWithTag("Menu").transform.GetChild(0).gameObject.SetActive(true);
+            GameObject.FindGameObjectWithTag("Menu").transform.GetChild(1).gameObject.SetActive(true);
+            GameObject.FindGameObjectWithTag("Menu").transform.GetChild(2).gameObject.SetActive(true);
             currentState = STATE_VR;
         }
 
@@ -257,7 +261,9 @@ public class UI : MonoBehaviour
     }
     public void runInVR()
     {
-        GameObject.FindGameObjectWithTag("Menu").SetActive(false);
+        GameObject.FindGameObjectWithTag("Menu").transform.GetChild(0).gameObject.SetActive(false);
+        GameObject.FindGameObjectWithTag("Menu").transform.GetChild(1).gameObject.SetActive(false);
+        GameObject.FindGameObjectWithTag("Menu").transform.GetChild(2).gameObject.SetActive(false);
         parseCode();
         currentState = STATE_RUNNING_VR;
         run = true;
@@ -286,9 +292,10 @@ public class UI : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.FindGameObjectWithTag("MenuEnd").SetActive(true);
+                    GameObject.FindGameObjectWithTag("MenuEnd").transform.GetChild(0).gameObject.SetActive(true);
+                    GameObject.FindGameObjectWithTag("MenuEnd").transform.GetChild(1).gameObject.SetActive(true);
                     Transform cambiarPos = (Transform)menuEndInstance;
-                    cambiarPos.position = cameraOnBoard.transform.position + new Vector3(0f, 0.5f, -0.5f);
+                    cambiarPos.position = cameraOnBoard.transform.position + new Vector3(0f, 0.5f, 4f);
                 }
             }
         }
@@ -299,6 +306,7 @@ public class UI : MonoBehaviour
         {
             setCurrentCamera(3);
             GvrPointerInputModule.Pointer.overridePointerCamera = ((Camera)cameras[3]);
+            cameraVR.transform.parent.gameObject.transform.position = new Vector3(2.694f, 7.35f, 1.348f);
             XRSettings.enabled = true;
             vrmod = true;
         }
