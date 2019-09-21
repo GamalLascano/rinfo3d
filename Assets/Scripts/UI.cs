@@ -117,6 +117,9 @@ public class UI : MonoBehaviour
     public static UnityEngine.Object menuEndInstance = null;
     public Transform menuEndPrefab;
     private static bool flagMenu = false;
+    public static UnityEngine.Object menuInformarInstance = null;
+    public Transform menuInformarPrefab;
+    private static bool flagInformar = false;
     // Carga las camaras
     void loadCameras()
     {
@@ -276,9 +279,44 @@ public class UI : MonoBehaviour
         vrmod = false;
         currentState = STATE_EDITING;
     }
+    public static void acceptInforme()
+    {
+        if (menuInformarInstance != null)
+        {
+            GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(0).gameObject.SetActive(false);
+            GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(1).gameObject.SetActive(false);
+            GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(2).gameObject.SetActive(false);
+        }
+        informarMessage = null;
+    }
     void renderVRRUN()
     {
         cameraVR.transform.parent.gameObject.transform.position = cameraOnBoard.transform.position + new Vector3(0f, 0.5f, -0.5f);
+        if (informarMessage != null)
+        {
+            VrGazebo.RestartClock();
+            if (flagInformar == false)
+            {
+                if (menuInformarInstance == null)
+                {
+                    menuInformarInstance = Instantiate(menuInformarPrefab, cameraOnBoard.transform.position + new Vector3(0f, 0.5f, 4f), Quaternion.identity);
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(0).gameObject.SetActive(true);
+                    GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(1).gameObject.SetActive(true);
+                    GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(2).gameObject.SetActive(true);
+                    Transform cambiarPos = (Transform)menuInformarInstance;
+                    cambiarPos.position = cameraOnBoard.transform.position + new Vector3(0f, 0.5f, 4f);
+                }
+                if (GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(1).GetComponent<UnityEngine.UI.Text>() != null)
+                {
+                    GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(1).GetComponent<UnityEngine.UI.Text>().text = informarMessage;
+
+                }
+                flagInformar = true;
+            }
+        }
         if (ended == true)
         {
             if (flagMenu == false)

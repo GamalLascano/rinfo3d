@@ -36,8 +36,7 @@ public class VrGazebo : MonoBehaviour
 
             if (GvrPointerInputModule.CurrentRaycastResult.gameObject != null)
             {
-                //Debug.Log(GvrPointerInputModule.CurrentRaycastResult.gameObject.tag);
-                if (GvrPointerInputModule.CurrentRaycastResult.gameObject.CompareTag("Seleccion")==false && GvrPointerInputModule.CurrentRaycastResult.gameObject.CompareTag("Play") == false)
+                if (GvrPointerInputModule.CurrentRaycastResult.gameObject.CompareTag("Seleccion")==false && GvrPointerInputModule.CurrentRaycastResult.gameObject.CompareTag("Play") == false && GvrPointerInputModule.CurrentRaycastResult.gameObject.CompareTag("Accept") == false)
                 {
                     gvrTimer = 0;
                     imgGaze.fillAmount = 0;
@@ -59,8 +58,23 @@ public class VrGazebo : MonoBehaviour
                             imgGaze.fillAmount = 0;
                             UI.getBigBang().GetComponent<UI>().runInVR();
                         }
+                        else
+                        {
+                            if (GvrPointerInputModule.CurrentRaycastResult.gameObject.CompareTag("Accept"))
+                            {
+                                start = false;
+                                gvrTimer = 0;
+                                imgGaze.fillAmount = 0;
+                                UI.acceptInforme();
+                            }
+                        }
                     }
                 }
+            }
+            else
+            {
+                gvrTimer = 0;
+                imgGaze.fillAmount = 0;
             }
         }
     }
