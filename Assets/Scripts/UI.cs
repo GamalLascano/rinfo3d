@@ -222,7 +222,7 @@ public class UI : MonoBehaviour
             step = false;
             ended = false;
         }
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("VR"), styleButton))
+        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin,2* buttonWidth, margin + buttonHeight), I18N.getValue("VR"), styleButton))
         {
             vrmod = false;
             GameObject.FindGameObjectWithTag("Menu").transform.GetChild(0).gameObject.SetActive(true);
@@ -246,6 +246,7 @@ public class UI : MonoBehaviour
         //				writeCode (path);
         //			}
         //		}
+        i++;
         if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton))
         {
             currentState = STATE_CONFIG;

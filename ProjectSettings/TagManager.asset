@@ -9,6 +9,8 @@ TagManager:
   - Play
   - MenuEnd
   - Menu
+  - MenuInf
+  - Accept
   layers:
   - Default
   - TransparentFX
