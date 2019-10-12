@@ -114,12 +114,15 @@ public class UI : MonoBehaviour
     public static int CAMERA_VR = 3;
 
     //Menus en VR
+    //Instancias y prefabs de menues en VR
     public static UnityEngine.Object menuEndInstance = null;
     public Transform menuEndPrefab;
-    private static bool flagMenu = false;
     public static UnityEngine.Object menuInformarInstance = null;
     public Transform menuInformarPrefab;
+    //Utilizada para el movimiento del menu de salida o de informar
+    private static bool flagMenu = false;
     private static bool flagInformar = false;
+
     // Carga las camaras
     void loadCameras()
     {
@@ -135,7 +138,7 @@ public class UI : MonoBehaviour
 
         }
     }
-
+    //Esta funcion desactivara el ultimo menu en VR, desactivara los flags necesarios para cambiar a modo no VR, y desactivara el modo VR
     public static void desactivarVR()
     {
         GameObject.FindGameObjectWithTag("MenuEnd").transform.GetChild(0).gameObject.SetActive(false);
@@ -263,8 +266,10 @@ public class UI : MonoBehaviour
         // Visualizacion de codigo fuente
         sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode, styleTextArea);
     }
+    /** Used as a run function in VR. This function needs to be ran once to enter VR Run mode */
     public void runInVR()
     {
+        //Va a desactivar el menu VR, ocultando los objetos hijos
         GameObject.FindGameObjectWithTag("Menu").transform.GetChild(0).gameObject.SetActive(false);
         GameObject.FindGameObjectWithTag("Menu").transform.GetChild(1).gameObject.SetActive(false);
         GameObject.FindGameObjectWithTag("Menu").transform.GetChild(2).gameObject.SetActive(false);
@@ -273,15 +278,19 @@ public class UI : MonoBehaviour
         run = true;
         step = false;
         ended = false;
+        //Posiciona la camara arriba del robot para tener una vista aerea
         cameraVR.transform.parent.gameObject.transform.position = cameraOnBoard.transform.position + new Vector3(0f, 0.5f, -0.5f);
     }
+    /** Shorter deactivate VR */
     public void desactivarVR2()
     {
         vrmod = false;
         currentState = STATE_EDITING;
     }
+    /** Used in VR mode, needed to deactivate gameObjects related to the Informar command. */
     public static void acceptInforme()
     {
+        //Si el mensaje no es null (que significa que el cartel informar esta en pantalla), se desactivaran los hijos. Luego se limpiara informarMessage
         if (menuInformarInstance != null)
         {
             GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(0).gameObject.SetActive(false);
@@ -290,6 +299,7 @@ public class UI : MonoBehaviour
         }
         informarMessage = null;
     }
+    /** Renders the VR Run Cycle */
     void renderVRRUN()
     {
         cameraVR.transform.parent.gameObject.transform.position = cameraOnBoard.transform.position + new Vector3(0f, 0.5f, -0.5f);
@@ -339,6 +349,7 @@ public class UI : MonoBehaviour
             }
         }
     }
+    /** Renders the VR Menu */
     void renderVR()
     {
         if (vrmod == false)

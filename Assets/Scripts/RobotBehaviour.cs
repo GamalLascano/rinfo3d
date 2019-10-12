@@ -153,13 +153,8 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		string message = (string)arguments[0];
 		UI.informarMessage = message;
-        //if (UI.currentState != 4)
-        //{
             while (UI.informarMessage != null)
                 yield return new WaitForSeconds(0);
-        //}
-		
-
 		// Fin de ejecucion
 		UI.executingCurrentLine = false; 
 	}

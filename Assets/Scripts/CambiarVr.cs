@@ -5,30 +5,10 @@ using UnityEngine.XR;
 
 public class CambiarVr : MonoBehaviour
 {
-   // int Modo = 1;
+    //Usado para conectar a un objeto para desactivar modo vr
     public void CambiarModo()
     {
         UI.desactivarVR();
-        //if ((PlayerPrefs.GetInt("Vr Mode")) == 1)
-        //{
-        //    Modo = 0;
-        //}
-        //if ((PlayerPrefs.GetInt("Vr Mode")) == 0)
-        //{
-        //    Modo = 1;
-        //}
-        //PlayerPrefs.SetInt("Vr Mode", Modo);
     }
-    //void Update()
-    //{
 
-    //    if(PlayerPrefs.GetInt("Vr Mode") == 0)
-    //    {
-    //        XRSettings.enabled = true;
-    //    }
-    //    if (PlayerPrefs.GetInt("Vr Mode") == 1)
-    //    {
-    //        XRSettings.enabled = false;
-    //    }
-    //}
 }
