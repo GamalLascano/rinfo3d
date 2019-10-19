@@ -296,6 +296,7 @@ public class UI : MonoBehaviour
             GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(0).gameObject.SetActive(false);
             GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(1).gameObject.SetActive(false);
             GameObject.FindGameObjectWithTag("MenuInf").transform.GetChild(2).gameObject.SetActive(false);
+            flagInformar = false;
         }
         informarMessage = null;
     }
