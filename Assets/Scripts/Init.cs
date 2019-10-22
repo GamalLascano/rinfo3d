@@ -82,8 +82,10 @@ public class Init : MonoBehaviour {
 
 		// Inicializar robot
 		robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
-
-	}
+        //Inicializar papeles y flores de forma que corra siempre el codigo ejemplo
+        Corner.setCorner("1", "1", "1", false);
+        Corner.setCorner("1", "1", "1", true);
+    }
 
 	/**
 	 * Crea aleatoriamente a lo largo de la ciudad aPrefab object, 
