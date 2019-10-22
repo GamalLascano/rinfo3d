@@ -677,4 +677,33 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		UI.executingCurrentLine = false;
 	}
 	
+	//Estructuras de control
+
+    public virtual IEnumerator repetir()
+    {
+        int i = 0;
+        int num = (int)arguments[0];
+        for (i = 0; i < num; i++)
+            try
+            {
+                GetArguments();
+            }
+            catch (Exception e)
+            {
+                string message = "Error";
+                UI.informarMessage = message;
+            }
+                while (UI.informarMessage != null)
+                   yield return new WaitForSeconds(0);
+
+                // Fin de ejecucion
+                UI.executingCurrentLine = false;
+
+    }
+
+    public ArrayList GetArguments()
+    {
+        return arguments;
+    }
+	
 }
