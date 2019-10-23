@@ -686,24 +686,48 @@ public abstract class RobotBehaviour : MonoBehaviour {
         for (i = 0; i < num; i++)
             try
             {
-                GetArguments();
+                switch ((string)arguments[1])
+                {
+                    case "mover":
+                        mover();
+                        break;
+                    case "depositarFlor":
+                        depositarFlor();
+                        break;
+                    case "depositarPapel":
+                        depositarPapel();
+                        break;
+                    case "tomarFlor":
+                        tomarFlor();
+                        break;
+                    case "tomarPapel":
+                        tomarPapel();
+                        break;
+                    case "Derecha":
+                        Derecha();
+                        break;
+                    case "Informar":
+                        Informar();
+                        break;
+                    default:
+                        print("Error");
+                        break;
+
+
+                }
             }
+
             catch (Exception e)
             {
                 string message = "Error";
                 UI.informarMessage = message;
             }
-                while (UI.informarMessage != null)
-                   yield return new WaitForSeconds(0);
+        while (UI.informarMessage != null)
+            yield return new WaitForSeconds(0);
 
-                // Fin de ejecucion
-                UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        UI.executingCurrentLine = false;
 
-    }
-
-    public ArrayList GetArguments()
-    {
-        return arguments;
     }
 	
 }
