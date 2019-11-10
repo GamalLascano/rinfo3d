@@ -679,55 +679,36 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	
 	//Estructuras de control
 
-    public virtual IEnumerator repetir()
-    {
-        int i = 0;
-        int num = (int)arguments[0];
-        for (i = 0; i < num; i++)
-            try
-            {
-                switch ((string)arguments[1])
-                {
-                    case "mover":
-                        mover();
-                        break;
-                    case "depositarFlor":
-                        depositarFlor();
-                        break;
-                    case "depositarPapel":
-                        depositarPapel();
-                        break;
-                    case "tomarFlor":
-                        tomarFlor();
-                        break;
-                    case "tomarPapel":
-                        tomarPapel();
-                        break;
-                    case "Derecha":
-                        Derecha();
-                        break;
-                    case "Informar":
-                        Informar();
-                        break;
-                    default:
-                        print("Error");
-                        break;
-
-
+    	public virtual IEnumerator repetir(){
+            int i = 0;
+            int n = int.Parse((string)arguments[0]);
+            string a = arguments[1].ToString();
+            if (n > i) {
+                for (i = 0; i < n; i++){
+                    switch (a){
+                        case "mover":
+                            mover();
+                            break;
+                        case "derecha":
+                            Derecha();
+                            break;
+                        case "tomarFlor":
+                            tomarFlor();
+                            break;
+                        case "tomarPapel":
+                            tomarPapel();
+                            break;
+                        default:
+                            UI.runtimeErrorMsg = I18N.getValue("the_action_was_not_specified");
+                            break;
+                    }
                 }
-            }
-
-            catch (Exception e)
-            {
-                string message = "Error";
-                UI.informarMessage = message;
-            }
-        while (UI.informarMessage != null)
+            }else
+                UI.runtimeErrorMsg = I18N.getValue("the_number_of_repetitions_was_not_specified");
             yield return new WaitForSeconds(0);
-
-        // Fin de ejecucion
-        UI.executingCurrentLine = false;
-
+            //Fin de ejecucion
+            UI.executingCurrentLine = false;
+        
     }
 	
 }
