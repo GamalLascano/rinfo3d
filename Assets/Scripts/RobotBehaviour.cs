@@ -679,33 +679,29 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	
 	//Estructuras de control
 
-    	public virtual IEnumerator repetir(){
-            int i = 0;
-            int n = int.Parse((string)arguments[0]);
-            string a = arguments[1].ToString();
-            if (n > i) {
-                for (i = 0; i < n; i++){
-                    switch (a){
-                        case "mover":
-                            mover();
-                            break;
-                        case "derecha":
-                            Derecha();
-                            break;
-                        case "tomarFlor":
-                            tomarFlor();
-                            break;
-                        case "tomarPapel":
-                            tomarPapel();
-                            break;
-                        default:
-                            UI.runtimeErrorMsg = I18N.getValue("the_action_was_not_specified");
-                            break;
-                    }
-                }
-            }else
-                UI.runtimeErrorMsg = I18N.getValue("the_number_of_repetitions_was_not_specified");
-            yield return new WaitForSeconds(0);
+    	public virtual IEnumerator repetir()
+    {
+        Transform theRobot = (Transform)Init.robotInstance;
+        RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+        int i = 0;
+        Type type = behaviour.GetType();
+        int n = int.Parse((string)arguments[0]);
+        string sentenceName = (string)arguments[1];
+        if (n > i)
+        {
+            for (i = 0; i < n; i++)
+            {
+               
+                MethodInfo methodInfo = type.GetMethod(sentenceName);
+                behaviour.StartCoroutine(methodInfo.Name, 0);
+            }
+            
+        }
+        else
+        {
+            UI.runtimeErrorMsg = I18N.getValue("the_number_of_repetitions_was_not_specified");
+        }
+        yield return new WaitForSeconds(0);
             //Fin de ejecucion
             UI.executingCurrentLine = false;
         
