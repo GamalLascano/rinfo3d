@@ -67,6 +67,10 @@ public class UI : MonoBehaviour
     protected int[] sentenceSpacing;
     // Codigo parseado
     protected bool codeParsed = false;
+    //Codigo checkeado
+    protected bool checkedCode = false;
+    //Codigo bien armado
+    protected bool authorizedCode = false;
     // Error al interpretar linea
     protected bool angry = false;
     // Error en tiempo de ejecucion (null si no hay error)
@@ -654,6 +658,15 @@ public class UI : MonoBehaviour
         // Ejecutar una instruccion unicamente si: 1) estamos en ejecucion, 2) si no se esta animando una instruccion previa, 3) si el robot sigue vivo
         if (run && !step && alive)
         {
+            if (!checkedCode)
+            {
+                authorizedCode = CodeParsing.checkCodeStructure((String[])sentences.ToArray(typeof(String)), sentenceSpacing);
+                checkedCode = true;
+            }
+            if (authorizedCode == true)
+            {
+                //Seguir con esto mañana
+            }
             StartCoroutine(executeStep());
         }
 

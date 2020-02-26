@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CodeParsing : MonoBehaviour
 {
-    bool checkCodeStructure(string[] codigo,int[] spaces)
+    public static bool checkCodeStructure(string[] codigo,int[] spaces)
     {
         if (!codigo[0].Contains("programa"))
         {
