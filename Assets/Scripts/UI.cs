@@ -50,9 +50,11 @@ public class UI : MonoBehaviour
     // Skin default a utilizar 
     public GUISkin customSkin;
 
-    // private int newrun=1;
+    
+    //Nombre del programa
+    public static string programName = "Nuevo Programa";
     // Codigo fuente
-    protected string sourceCode = "Iniciar(1,1);\ntomarFlor;\ntomarPapel;\nmover;\ndepositarFlor;\ndepositarPapel;\nmover;\nmover;\nmover;\nmover;\nrepetir(1,Derecha);\nmover;\nmover;\nmover;\nmover;\nPos(20,30);\nDerecha;\nDerecha;\nInformar(\"Listo!\");"; //"Iniciar(1,1);\nmover;\nmover;\nDerecha;\nmover;\nmover;\nInformar(\"Hola\");Pos(20,20);\ntomarFlor;\ntomarPapel;\nPos(11,11);\ndepositarFlor;\ndepositarPapel;\nmover;\ndepositarPapel;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;\nDerecha;\nmover;";
+    protected string sourceCode = "programa Holis\nIniciar(1,1);\ntomarFlor;\ntomarPapel;\nmover;\ndepositarFlor;\ndepositarPapel;\nmover;\nmover;\nmover;\nmover;\nrepetir(1,Derecha);\nmover;\nmover;\nmover;\nmover;\nPos(20,30);\nDerecha;\nDerecha;\nInformar(\"Listo!\");";
     
     protected string statusRobot = "";
     // Contenido de la linea de estado de instruccion
@@ -61,6 +63,8 @@ public class UI : MonoBehaviour
     protected int currentLine = -1;
     // Conjunto de instrucciones
     protected ArrayList sentences = new ArrayList();
+    // Indentado de instrucciones
+    protected int[] sentenceSpacing;
     // Codigo parseado
     protected bool codeParsed = false;
     // Error al interpretar linea
@@ -225,6 +229,7 @@ public class UI : MonoBehaviour
             step = false;
             ended = false;
         }
+        GUI.enabled = false;
         if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin,2* buttonWidth, margin + buttonHeight), I18N.getValue("VR"), styleButton))
         {
             vrmod = false;
@@ -233,7 +238,7 @@ public class UI : MonoBehaviour
             GameObject.FindGameObjectWithTag("Menu").transform.GetChild(2).gameObject.SetActive(true);
             currentState = STATE_VR;
         }
-
+        GUI.enabled = true;
         //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
         //			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
         //			if (path.Length != 0) {
@@ -594,9 +599,28 @@ public class UI : MonoBehaviour
     {
         // FIXME: Esto en realidad se debe delegar a la libreria
         sentences = new ArrayList();
-        string[] insts = sourceCode.Replace("\n", "").Replace(" ", "").Split(";"[0]);
+        //string[] insts = sourceCode.Replace("\n", "").Split(";"[0]); Vieja version
+        string[] insts = sourceCode.Replace(";", "").Split("\n"[0]);
+        int[] instsDepth = new int[insts.Length];
         for (int i = 0; i < insts.Length; i++)
-            sentences.Add(insts[i].Trim());
+        {
+            int countSpaces = 0;
+            for (int j = 0; j < insts[i].Length; j++)
+            {
+                if(insts[i][j]==' ')
+                {
+                    countSpaces++;
+                }
+                else
+                {
+                    j = insts[i].Length;
+                }
+            }
+            instsDepth[i] = countSpaces;
+            sentences.Add(insts[i].Replace(" ", "").Trim());
+        }
+        sentenceSpacing = instsDepth;
+        
         codeParsed = true;
         angry = false;
         runtimeErrorMsg = null;
@@ -652,6 +676,7 @@ public class UI : MonoBehaviour
             Transform theRobot = (Transform)Init.robotInstance;
             RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
             behaviour.StartCoroutine("finalizar", 0);
+            Debug.Log(programName);
         }
         else if (sentences[currentLine] != null && sentences[currentLine].ToString().Length > 0)
         {
@@ -695,10 +720,21 @@ public class UI : MonoBehaviour
             Transform theRobot = (Transform)Init.robotInstance;
             RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
             Type type = behaviour.GetType();
-
             // Pruebas para argumentos.  Esto igualmente se recibe desde libreria
             string sentence = (string)sentences[lineNo];
-            string sentenceName = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
+            string sentenceName;
+            if (lineNo == 0)
+            {
+                sentenceName = sentence.Substring(0, "programa".Length);
+                behaviour.resetArguments();
+                string arg;
+                arg = sentence.Substring("programa".Length, sentence.Length - "programa".Length);
+                behaviour.addArgument(arg);
+            }
+            else
+            {
+                sentenceName = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
+            }
             // Cargar los parametros segun la instruccion que sea.  FIXME: Deshardcode
             if (sentence.Contains("("))
             {

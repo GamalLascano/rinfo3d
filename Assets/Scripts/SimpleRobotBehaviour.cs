@@ -91,8 +91,13 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 	/**
 	 * Metodo a implementar
 	 */ 
+    public override IEnumerator programa()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando programa!");
+        return base.programa();
+    }
 	public override IEnumerator finalizar() {
-		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando finalizar!");
+		//Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando finalizar!");
 		return base.finalizar ();		
 	}
 }

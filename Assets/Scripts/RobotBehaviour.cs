@@ -574,11 +574,17 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		UI.executingCurrentLine = false;
 
 	}
-
-	/**
+    public virtual IEnumerator programa()
+    {
+        UI.programName = (string)arguments[0];
+        yield return new WaitForSeconds(0);
+        UI.executingCurrentLine = false;
+    }
+    /**
 	 * El robot finaliza la ejecucion realizando un super-festejo
-	 */ 
-	public virtual IEnumerator finalizar() {
+	 */
+
+    public virtual IEnumerator finalizar() {
 
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
