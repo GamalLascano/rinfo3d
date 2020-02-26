@@ -580,10 +580,16 @@ public abstract class RobotBehaviour : MonoBehaviour {
         yield return new WaitForSeconds(0);
         UI.executingCurrentLine = false;
     }
-    /**
-	 * El robot finaliza la ejecucion realizando un super-festejo
-	 */
+    //No hace nada, se va a usar para comprobar sintaxis
+    public virtual IEnumerator comenzar()
+    {
 
+        yield return new WaitForSeconds(0);
+        UI.executingCurrentLine = false;
+    }
+    /**
+ * El robot finaliza la ejecucion realizando un super-festejo
+ */
     public virtual IEnumerator finalizar() {
 
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========

@@ -54,7 +54,7 @@ public class UI : MonoBehaviour
     //Nombre del programa
     public static string programName = "Nuevo Programa";
     // Codigo fuente
-    protected string sourceCode = "programa Holis\nIniciar(1,1);\ntomarFlor;\ntomarPapel;\nmover;\ndepositarFlor;\ndepositarPapel;\nmover;\nmover;\nmover;\nmover;\nrepetir(1,Derecha);\nmover;\nmover;\nmover;\nmover;\nPos(20,30);\nDerecha;\nDerecha;\nInformar(\"Listo!\");";
+    protected string sourceCode = "programa Holis\nIniciar(1,1);\ntomarFlor;\ntomarPapel;\nmover;\ndepositarFlor;\ndepositarPapel;\nmover;\nmover;\nmover;\nmover;\nrepetir(1,Derecha);\nmover;\nmover;\nmover;\nmover;\nPos(20,30);\nDerecha;\nDerecha;\nInformar(\"Listo!\");\n";
     
     protected string statusRobot = "";
     // Contenido de la linea de estado de instruccion
@@ -672,10 +672,13 @@ public class UI : MonoBehaviour
             currentLine = -1;
             run = false;
             ended = true;
-            // Invocar a la corutina encargada de ejecutar la visualizacion
-            Transform theRobot = (Transform)Init.robotInstance;
-            RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
-            behaviour.StartCoroutine("finalizar", 0);
+            if (!sentences.Contains("finalizar")){
+                // Invocar a la corutina encargada de ejecutar la visualizacion
+                Transform theRobot = (Transform)Init.robotInstance;
+                RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                behaviour.StartCoroutine("finalizar", 0);
+            }
+           // if ((String)sentences[sentences.Count - 1] != "finalizar")
             Debug.Log(programName);
         }
         else if (sentences[currentLine] != null && sentences[currentLine].ToString().Length > 0)
