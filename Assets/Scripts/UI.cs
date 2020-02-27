@@ -383,6 +383,7 @@ public class UI : MonoBehaviour
         i++;
         if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("stop"), styleButton) && informarMessage == null)
         {
+            checkedCode = false;
             currentState = STATE_EDITING;
         }
         // Camara
@@ -665,9 +666,18 @@ public class UI : MonoBehaviour
             }
             if (authorizedCode == true)
             {
-                //Seguir con esto mañana
+                Debug.Log("Paso");
+                StartCoroutine(executeStep());
             }
-            StartCoroutine(executeStep());
+            else
+            {
+                angry = true;
+                statusText = "Error de Escritura en linea " + runtimeErrorMsg;
+                run = false;
+                ended = true;
+                currentLine = -1;
+                Debug.Log("No paso");
+            }
         }
 
     }
