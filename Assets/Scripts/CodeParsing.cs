@@ -41,7 +41,7 @@ public class CodeParsing : MonoBehaviour
         if (codigo[i] == "finalizar") return true;
         else
         {
-            for (i = j; i == 0; i--)
+            for (i = (codigo.Length-1); i == 0; i--)
             {
                 if (codigo[i] != "") 
                 {

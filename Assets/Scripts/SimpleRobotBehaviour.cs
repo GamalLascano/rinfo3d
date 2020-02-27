@@ -102,7 +102,7 @@ public class SimpleRobotBehaviour : RobotBehaviour {
         return base.programa();
     }
 	public override IEnumerator finalizar() {
-		//Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando finalizar!");
+		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando finalizar!");
 		return base.finalizar ();		
 	}
 }
