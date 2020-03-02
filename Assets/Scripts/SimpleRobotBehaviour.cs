@@ -79,11 +79,10 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando depositarPapel!");
 		return base.depositarPapel ();		
 	}
-	
-	/**
+    /**
  	* Metodo de estructura de datos a implementar
  	*/
-    	public override IEnumerator repetir() {
+    public override IEnumerator repetir() {
         	Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos repetir!");
         	return base.repetir();
     	}

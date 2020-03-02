@@ -8,7 +8,8 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	// Posicion y cantidad de papeles y flores
 	public int papeles = 0;
 	public int flores  = 0;
-
+    public int posca = 1;
+    public int posav = 1;
 	/** Argumentos a recibir en una operacion dada */
 	protected ArrayList arguments = new ArrayList();
 
@@ -242,12 +243,10 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		UI.executingCurrentLine = false;
 
 	}
-
-
-	/**
+    /**
 	 * Inicializa al robot en la posicion dada segun los argumentos
-	 */ 
-	public virtual IEnumerator Iniciar() {
+	 */
+    public virtual IEnumerator Iniciar() {
 		// Ubicacion inicial segun parametros, apuntando al norte
 		Transform theRobot = (Transform)Init.robotInstance;
 

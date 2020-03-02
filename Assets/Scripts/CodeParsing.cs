@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CodeParsing : MonoBehaviour
 {
+    private const string carOP = "<>=";
     public static bool checkCodeStructure(string[] codigo,int[] spaces)
     {
         if (!codigo[0].Contains("programa"))
@@ -57,5 +58,44 @@ public class CodeParsing : MonoBehaviour
             UI.runtimeErrorMsg = (i + 1).ToString();
             return false;
         }
+    }
+    public static ArrayList parameterProcessor(string info)
+    {
+        ArrayList parametros= new ArrayList();
+        ArrayList operadores = new ArrayList();
+        int markParam = 0;
+        bool startedOp = false;
+        int i = 0;
+        for (i = 0; i < info.Length;i++)
+        {
+            if (startedOp == false)
+            {
+                if (carOP.IndexOf(info[i]) != -1)
+                {
+                    startedOp = true;
+                }
+            }
+            else
+            {
+                startedOp = false;
+                if (((info[i] == '=') && ((info[i - 1] == '<') || (info[i - 1] == '>')))||((info[i]=='>')&&(info[i-1]=='<')))
+                {
+                    operadores.Add(info[i - 1] + info[i]);
+                    parametros.Add(info.Substring(markParam, i - 1));
+                    markParam = i + 1;
+                }
+                else
+                {
+                    operadores.Add(info[i - 1]);
+                    parametros.Add(info.Substring(markParam, i));
+                    markParam = i;
+                }
+            }
+        }
+        parametros.Add(info.Substring(markParam, i));
+        ArrayList res = new ArrayList();
+        res[0] = parametros;
+        res[1] = operadores;
+        return res;
     }
 }
