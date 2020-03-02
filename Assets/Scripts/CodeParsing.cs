@@ -70,6 +70,19 @@ public class CodeParsing : MonoBehaviour
         {
             if (startedOp == false)
             {
+                if (info[i] == '(')
+                {
+                    bool found = false;
+                    for (int j = i; j < info.Length; j++)
+                    {
+                        if (info[j] == ')') found = true;
+                    }
+                    if (found==true)
+                    {
+                        ArrayList lop = parameterProcessor(info.Substring(i, j - i));
+                        //Seguir despues, conseguir forma de sumar resultados de un arraylist en el otro
+                    }
+                }
                 if (carOP.IndexOf(info[i]) != -1)
                 {
                     startedOp = true;
