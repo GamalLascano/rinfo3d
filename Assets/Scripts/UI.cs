@@ -194,12 +194,15 @@ public class UI : MonoBehaviour
         {
             cameras = new ArrayList();
             cameraOnBoard = (Camera)((Transform)Init.robotInstance).GetComponentInChildren<Camera>();
+            cameraTop.GetComponent<FollowRobot>().enabled = false;
+            cameraTop.GetComponent<FollowRobot>().enabled = true;
             cameras.Add(cameraTop);
             cameras.Add(cameraOnBoard);
+            cameraAngle.GetComponent<LookAtRobot>().enabled = false;
+            cameraAngle.GetComponent<LookAtRobot>().enabled = true;
             cameras.Add(cameraAngle);
             cameras.Add(cameraVR);
             setCurrentCamera(currentCamera);
-
         }
     }
     //Esta funcion desactivara el ultimo menu en VR, desactivara los flags necesarios para cambiar a modo no VR, y desactivara el modo VR
