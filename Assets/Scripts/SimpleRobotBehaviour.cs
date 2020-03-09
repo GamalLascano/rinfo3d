@@ -85,8 +85,12 @@ public class SimpleRobotBehaviour : RobotBehaviour {
     public override IEnumerator repetir() {
         	Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos repetir!");
         	return base.repetir();
-    	}
-
+    }
+    public override IEnumerator mientras()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos mientras!");
+        return base.mientras();
+    }
 	/**
 	 * Metodo a implementar
 	 */ 

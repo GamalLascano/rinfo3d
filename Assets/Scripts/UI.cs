@@ -54,17 +54,17 @@ public class UI : MonoBehaviour
     //Nombre del programa
     public static string programName = "Nuevo Programa";
     // Codigo fuente
-    protected string sourceCode = "programa Holis\nIniciar(1,1);\ntomarFlor;\ntomarPapel;\nmover;\ndepositarFlor;\ndepositarPapel;\nmover;\nmover;\nmover;\nmover;\nrepetir(1,Derecha);\nmover;\nmover;\nmover;\nmover;\nPos(20,30);\nDerecha;\nDerecha;\nInformar(\"Listo!\");\n";
+    protected string sourceCode = "programa Holis\ncomenzar\nIniciar(1,1);\nfinalizar;\n";
     
     protected string statusRobot = "";
     // Contenido de la linea de estado de instruccion
     protected string statusText = I18N.getValue("ready");
     // Liena actual
-    protected int currentLine = -1;
+    protected static int currentLine = -1;
     // Conjunto de instrucciones
-    protected ArrayList sentences = new ArrayList();
+    public ArrayList sentences = new ArrayList();
     // Indentado de instrucciones
-    protected int[] sentenceSpacing;
+    protected static int[] sentenceSpacing;
     // Codigo parseado
     protected bool codeParsed = false;
     //Codigo checkeado
@@ -130,7 +130,30 @@ public class UI : MonoBehaviour
     //Utilizada para el movimiento del menu de salida o de informar
     private static bool flagMenu = false;
     private static bool flagInformar = false;
-
+    //Flags para controlar los loops
+    private static bool inLoop = false;
+    private static int instructionStopValue = 0;
+    private static int instructionStartValue = 0;
+    private static int loopFunction = 0;
+    public static void setLoop(int mode, int value, bool state, int value2)
+    {
+        if ((inLoop == true) && (state == false))
+        {
+            currentLine = value;
+        }
+            inLoop = state;
+            loopFunction = mode;
+            instructionStopValue = value;
+            instructionStartValue = value2;
+    }
+    public static int getInstructionCount()
+    {
+        return currentLine;
+    }
+    public static int[] getSpacing()
+    {
+        return sentenceSpacing;
+    }
     // Carga las camaras
     void loadCameras()
     {
@@ -708,6 +731,13 @@ public class UI : MonoBehaviour
         {
             executingCurrentLine = true;
             executeLine(currentLine);
+            if (inLoop == true)
+            {
+                if (currentLine == instructionStopValue)
+                {
+                    currentLine = instructionStartValue - 1;
+                }
+            }
         }
 
         // Mientras que este ejecutando, esperar
@@ -727,11 +757,10 @@ public class UI : MonoBehaviour
             ended = true;
             currentLine = -1;
         }
-
     }
 
     /** Efectiviza la animacion de la instruccion */
-    void executeLine(int lineNo)
+    public void executeLine(int lineNo)
     {
 
         // FIXME: Aqui deberia delegarse al robot a fin de que realice la animacion

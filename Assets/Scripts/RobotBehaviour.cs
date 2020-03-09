@@ -718,5 +718,59 @@ public abstract class RobotBehaviour : MonoBehaviour {
             UI.executingCurrentLine = false;
         
     }
-	
+	public virtual IEnumerator mientras()
+    {
+
+        int[] sentenceSpace = UI.getSpacing();
+        int count = UI.getInstructionCount();
+        int currentSpacing = sentenceSpace[count];
+        int i = count + 1;
+        int stopCount = 0;
+
+        while ((sentenceSpace[i] > currentSpacing) && (i < sentenceSpace.Length))
+        {
+           Debug.Log("sentence space" + i + " " + sentenceSpace[i]);
+            Debug.Log(currentSpacing);
+            i++;
+        }
+        if (i == sentenceSpace.Length)
+        {
+            stopCount = sentenceSpace.Length;
+        }
+        else stopCount = i;
+        string condition = (string)arguments[0];
+        if (CodeParsing.checkCondition(condition) == 1)
+        {
+            UI.setLoop(1, stopCount-1,true,count);
+        }
+        else
+        {
+            UI.setLoop(0, stopCount-1, false,count);
+        }
+        //if (CodeParsing.checkCondition(condition) == 1)
+        //{
+        //    for (int j = (count + 1); j < (stopCount); j++)
+        //    {
+        //        String sentencea = (String)UI.getBigBang().GetComponent<UI>().sentences[j];
+        //        sentencea = sentencea.Substring(0, sentencea.Contains("(") ? sentencea.IndexOf("(") : sentencea.Length);
+        //        Debug.Log(sentencea);
+        //        Transform theRobot = (Transform)Init.robotInstance;
+        //        RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+        //        Type type = behaviour.GetType();
+        //        MethodInfo methodInfo = type.GetMethod(sentencea);
+        //        behaviour.StartCoroutine(methodInfo.Name, 0);
+
+        //        Debug.Log(UI.getInstructionCount() + "A");
+
+        //    }
+        //    if (CodeParsing.checkCondition(condition) == 1)
+        //    {
+        //        //UI.setInstructionCount(count + 1);
+        //        Debug.Log(UI.getInstructionCount() + "B");
+        //    }
+        //}
+        yield return new WaitForSeconds(0);
+        //Fin de ejecucion
+        UI.executingCurrentLine = false;
+    }
 }

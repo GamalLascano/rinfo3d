@@ -99,7 +99,7 @@ public class CodeParsing : MonoBehaviour
             return false;
         }
     }
-    public int checkCondition(string frase)
+    public static int checkCondition(string frase)
     {
         int i = 0;
         int wordstart = 0;
