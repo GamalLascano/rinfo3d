@@ -6,6 +6,8 @@ using System;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
+using System.Collections.Generic;
+
 public class UI : MonoBehaviour
 {
 
@@ -50,12 +52,12 @@ public class UI : MonoBehaviour
     // Skin default a utilizar 
     public GUISkin customSkin;
 
-    
+
     //Nombre del programa
     public static string programName = "Nuevo Programa";
     // Codigo fuente
     protected string sourceCode = "programa Holis\ncomenzar\nIniciar(1,1);\nfinalizar;\n";
-    
+
     protected string statusRobot = "";
     // Contenido de la linea de estado de instruccion
     protected string statusText = I18N.getValue("ready");
@@ -131,20 +133,51 @@ public class UI : MonoBehaviour
     private static bool flagMenu = false;
     private static bool flagInformar = false;
     //Flags para controlar los loops
-    private static bool inLoop = false;
-    private static int instructionStopValue = 0;
-    private static int instructionStartValue = 0;
-    private static int loopFunction = 0;
+    private class ControlBools
+    {
+        public bool inLoop { get; set; }
+        public int instructionStopValue { get; set; }
+        public int instructionStartValue { get; set; }
+        public int loopFunction { get; set; }
+        public ControlBools(bool a, int b, int c, int d)
+        {
+            inLoop = a;
+            instructionStopValue = b;
+            instructionStartValue = c;
+            loopFunction = d;
+        }
+    }
+    private static List<ControlBools> ListOfControlBools = new List<ControlBools>();
     public static void setLoop(int mode, int value, bool state, int value2)
     {
-        if ((inLoop == true) && (state == false))
+        if (state == true)
         {
+            if (ListOfControlBools.Count > 0)
+            {
+                if (ListOfControlBools[ListOfControlBools.Count-1].inLoop==true)
+                {
+                    if (ListOfControlBools[ListOfControlBools.Count-1].instructionStartValue != value2)
+                    {
+                        ListOfControlBools.Add(new ControlBools(state, value, value2, mode));
+                    } 
+                }
+            }
+            else
+            {
+                ListOfControlBools.Add(new ControlBools(state, value, value2, mode));
+            }
+        }
+        else
+        {
+            if (ListOfControlBools.Count > 0)
+            {
+                if ((ListOfControlBools[ListOfControlBools.Count-1].inLoop == true) && (ListOfControlBools[ListOfControlBools.Count-1].instructionStartValue == value2))
+                {
+                    ListOfControlBools.RemoveAt(ListOfControlBools.Count-1);
+                }
+            }
             currentLine = value;
         }
-            inLoop = state;
-            loopFunction = mode;
-            instructionStopValue = value;
-            instructionStartValue = value2;
     }
     public static int getInstructionCount()
     {
@@ -731,11 +764,11 @@ public class UI : MonoBehaviour
         {
             executingCurrentLine = true;
             executeLine(currentLine);
-            if (inLoop == true)
+            if (ListOfControlBools.Count > 0)
             {
-                if (currentLine == instructionStopValue)
+                if (currentLine == ListOfControlBools[ListOfControlBools.Count-1].instructionStopValue)
                 {
-                    currentLine = instructionStartValue - 1;
+                    currentLine = ListOfControlBools[ListOfControlBools.Count-1].instructionStartValue - 1;
                 }
             }
         }

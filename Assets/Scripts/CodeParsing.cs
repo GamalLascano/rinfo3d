@@ -10,7 +10,7 @@ public class CodeParsing : MonoBehaviour
         public string Value { get; set; }
         public string Type { get; set; }
     }
-    private const string carOP = "!<>=&|";
+    private const string carOP = "~<>=&|";
     private static int getPosCa()
     {
         return Mathf.RoundToInt(Init.getRobotBehaviour().getRobotPosition().z);
@@ -19,31 +19,31 @@ public class CodeParsing : MonoBehaviour
     {
         return Mathf.RoundToInt(Init.getRobotBehaviour().getRobotPosition().x);
     }
-    private static bool HayFlorEnLaEsquina()
+    private static int HayFlorEnLaEsquina()
     {
         Vector3 pos = Init.getRobotBehaviour().getRobotPosition();
         int i = Init.city[(int)pos.x - 1, (int)pos.z - 1].flowers;
-        if (i > 0) return true;
-        else return false;
+        if (i > 0) return 1;
+        else return 0;
     }
-    private static bool HayFlorEnLaBolsa()
+    private static int HayFlorEnLaBolsa()
     {
         int i = Init.getRobotBehaviour().flores;
-        if (i > 0) return true;
-        else return false;
+        if (i > 0) return 1;
+        else return 0;
     }
-    private static bool HayPapelEnLaEsquina()
+    private static int HayPapelEnLaEsquina()
     {
         Vector3 pos = Init.getRobotBehaviour().getRobotPosition();
         int i = Init.city[(int)pos.x - 1, (int)pos.z - 1].papers;
-        if (i > 0) return true;
-        else return false;
+        if (i > 0) return 1;
+        else return 0;
     }
-    private static bool HayPapelEnLaBolsa()
+    private static int HayPapelEnLaBolsa()
     {
         int i = Init.getRobotBehaviour().papeles;
-        if (i > 0) return true;
-        else return false;
+        if (i > 0) return 1;
+        else return 0;
     }
     public static bool checkCodeStructure(string[] codigo,int[] spaces)
     {
@@ -145,10 +145,13 @@ public class CodeParsing : MonoBehaviour
                     if (carOP.IndexOf(frase[i]) != -1)
                     {
                         startedOp = true;
-                        if (frase[i - 1] != ')')
+                        if (i > 0)
                         {
-                            string par2 = frase.Substring(wordstart, i - wordstart);
-                            parameterList.Add(new ObjectListValue { Value = par2, Type = "Value" });
+                            if (frase[i - 1] != ')')
+                            {
+                                string par2 = frase.Substring(wordstart, i - wordstart);
+                                parameterList.Add(new ObjectListValue { Value = par2, Type = "Value" });
+                            }
                         }
                     }
                 }
@@ -259,6 +262,7 @@ public class CodeParsing : MonoBehaviour
                         break;
                     case "~":
                         par11 = new Expression(parameterList[j + 1].Value);
+
                         par1 = par11.Evaluate();
                         if ((int)par1 == 0)
                         {
