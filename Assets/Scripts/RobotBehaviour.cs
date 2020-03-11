@@ -718,34 +718,26 @@ public abstract class RobotBehaviour : MonoBehaviour {
             UI.executingCurrentLine = false;
         
     }
+    public virtual IEnumerator repetir2()
+    {
+        yield return new WaitForSeconds(0);
+        //Fin de ejecucion
+        UI.executingCurrentLine = false;
+    }
 	public virtual IEnumerator mientras()
     {
-
         int[] sentenceSpace = UI.getSpacing();
         int count = UI.getInstructionCount();
         int currentSpacing = sentenceSpace[count];
-        int i = count + 1;
-        int stopCount = 0;
-
-        while ((sentenceSpace[i] > currentSpacing) && (i < sentenceSpace.Length))
-        {
-           Debug.Log("sentence space" + i + " " + sentenceSpace[i]);
-            Debug.Log(currentSpacing);
-            i++;
-        }
-        if (i == sentenceSpace.Length)
-        {
-            stopCount = sentenceSpace.Length;
-        }
-        else stopCount = i;
+        int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
         string condition = (string)arguments[0];
         if (CodeParsing.checkCondition(condition) == 1)
         {
-            UI.setLoop(1, stopCount-1,true,count);
+            UI.setLoop(1, stopCount-1,1,count);
         }
         else
         {
-            UI.setLoop(0, stopCount-1, false,count);
+            UI.setLoop(1, stopCount-1, 0,count);
         }
         yield return new WaitForSeconds(0);
         //Fin de ejecucion
@@ -756,20 +748,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
         int[] sentenceSpace = UI.getSpacing();
         int count = UI.getInstructionCount();
         int currentSpacing = sentenceSpace[count];
-        int i = count + 1;
-        int stopCount = 0;
-
-        while ((sentenceSpace[i] > currentSpacing) && (i < sentenceSpace.Length))
-        {
-            Debug.Log("sentence space" + i + " " + sentenceSpace[i]);
-            Debug.Log(currentSpacing);
-            i++;
-        }
-        if (i == sentenceSpace.Length)
-        {
-            stopCount = sentenceSpace.Length;
-        }
-        else stopCount = i;
+        int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
         string condition = (string)arguments[0];
         UI.setPastCond(condition);
         if (CodeParsing.checkCondition(condition) != 1)
@@ -780,18 +759,13 @@ public abstract class RobotBehaviour : MonoBehaviour {
         //Fin de ejecucion
         UI.executingCurrentLine = false;
     }
-    public virtual IEnumerator sino()
+    private int stopCountReturn(int[] sentenceSpace, int count, int currentSpacing)
     {
-        int[] sentenceSpace = UI.getSpacing();
-        int count = UI.getInstructionCount();
-        int currentSpacing = sentenceSpace[count];
         int i = count + 1;
         int stopCount = 0;
 
         while ((sentenceSpace[i] > currentSpacing) && (i < sentenceSpace.Length))
         {
-            Debug.Log("sentence space" + i + " " + sentenceSpace[i]);
-            Debug.Log(currentSpacing);
             i++;
         }
         if (i == sentenceSpace.Length)
@@ -799,6 +773,14 @@ public abstract class RobotBehaviour : MonoBehaviour {
             stopCount = sentenceSpace.Length;
         }
         else stopCount = i;
+        return stopCount;
+    }
+    public virtual IEnumerator sino()
+    {
+        int[] sentenceSpace = UI.getSpacing();
+        int count = UI.getInstructionCount();
+        int currentSpacing = sentenceSpace[count];
+        int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
         string condition = UI.getPastCond();
 
         if (CodeParsing.checkCondition(condition) == 1)
