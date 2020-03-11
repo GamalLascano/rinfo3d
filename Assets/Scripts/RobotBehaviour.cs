@@ -691,35 +691,41 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	
 	//Estructuras de control
 
-    	public virtual IEnumerator repetir()
-    {
-        Transform theRobot = (Transform)Init.robotInstance;
-        RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
-        int i = 0;
-        Type type = behaviour.GetType();
-        int n = int.Parse((string)arguments[0]);
-        string sentenceName = (string)arguments[1];
-        if (n > i)
-        {
-            for (i = 0; i < n; i++)
-            {
+    //	public virtual IEnumerator repetir()
+    //{
+    //    Transform theRobot = (Transform)Init.robotInstance;
+    //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+    //    int i = 0;
+    //    Type type = behaviour.GetType();
+    //    int n = int.Parse((string)arguments[0]);
+    //    string sentenceName = (string)arguments[1];
+    //    if (n > i)
+    //    {
+    //        for (i = 0; i < n; i++)
+    //        {
                
-                MethodInfo methodInfo = type.GetMethod(sentenceName);
-                behaviour.StartCoroutine(methodInfo.Name, 0);
-            }
+    //            MethodInfo methodInfo = type.GetMethod(sentenceName);
+    //            behaviour.StartCoroutine(methodInfo.Name, 0);
+    //        }
             
-        }
-        else
-        {
-            UI.runtimeErrorMsg = I18N.getValue("the_number_of_repetitions_was_not_specified");
-        }
-        yield return new WaitForSeconds(0);
-            //Fin de ejecucion
-            UI.executingCurrentLine = false;
+    //    }
+    //    else
+    //    {
+    //        UI.runtimeErrorMsg = I18N.getValue("the_number_of_repetitions_was_not_specified");
+    //    }
+    //    yield return new WaitForSeconds(0);
+    //        //Fin de ejecucion
+    //        UI.executingCurrentLine = false;
         
-    }
-    public virtual IEnumerator repetir2()
+    //}
+    public virtual IEnumerator repetir()
     {
+        int[] sentenceSpace = UI.getSpacing();
+        int count = UI.getInstructionCount();
+        int currentSpacing = sentenceSpace[count];
+        int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
+        string loopCount = (string)arguments[0];
+        UI.setRepeat(int.Parse(loopCount), stopCount - 1, count+1);
         yield return new WaitForSeconds(0);
         //Fin de ejecucion
         UI.executingCurrentLine = false;
@@ -733,11 +739,11 @@ public abstract class RobotBehaviour : MonoBehaviour {
         string condition = (string)arguments[0];
         if (CodeParsing.checkCondition(condition) == 1)
         {
-            UI.setLoop(1, stopCount-1,1,count);
+            UI.setLoop(stopCount-1,true,count);
         }
         else
         {
-            UI.setLoop(1, stopCount-1, 0,count);
+            UI.setLoop(stopCount-1, false,count);
         }
         yield return new WaitForSeconds(0);
         //Fin de ejecucion
