@@ -311,62 +311,119 @@ public class UI : MonoBehaviour
             setCurrentCamera(2);
             GvrPointerInputModule.Pointer.overridePointerCamera = ((Camera)cameras[2]);
         }
-        // Botonera principal
-        int i = 0;
-
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("reset"), styleButton))
+        if ((Application.platform == RuntimePlatform.WindowsEditor)||(Application.platform==RuntimePlatform.WindowsPlayer)|| (Application.platform == RuntimePlatform.OSXPlayer)|| (Application.platform == RuntimePlatform.LinuxPlayer))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
-        }
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("run"), styleButton))
-        {
-            parseCode();
-            currentState = STATE_RUNNING;
-            run = true;
-            step = false;
-            ended = false;
-        }
-        GUI.enabled = false;
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin,2* buttonWidth, margin + buttonHeight), I18N.getValue("VR"), styleButton))
-        {
-            vrmod = false;
-            GameObject.FindGameObjectWithTag("Menu").transform.GetChild(0).gameObject.SetActive(true);
-            GameObject.FindGameObjectWithTag("Menu").transform.GetChild(1).gameObject.SetActive(true);
-            GameObject.FindGameObjectWithTag("Menu").transform.GetChild(2).gameObject.SetActive(true);
-            currentState = STATE_VR;
-        }
-        GUI.enabled = true;
-        //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
-        //			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
-        //			if (path.Length != 0) {
-        //				Debug.Log ("Reading data from: " + path);
-        //				readCode(path);
-        //			}
+            // Botonera principal
+            int i = 0;
 
-        //		}
-        //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
-        //			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
-        //			if (path.Length != 0) {
-        //				Debug.Log ("Writing data to: " + path);
-        //				writeCode (path);
-        //			}
-        //		}
-        i++;
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton))
-        {
-            currentState = STATE_CONFIG;
-            return;
+            if (GUI.Button(new Rect(margin + i++ * buttonWidth, 3 * Screen.height / 4, buttonWidth, margin + buttonHeight), I18N.getValue("reset"), styleButton))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            }
+            if (GUI.Button(new Rect(margin + i++ * buttonWidth, 3 * Screen.height / 4, buttonWidth, margin + buttonHeight), I18N.getValue("run"), styleButton))
+            {
+                parseCode();
+                currentState = STATE_RUNNING;
+                run = true;
+                step = false;
+                ended = false;
+            }
+            //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
+            //			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
+            //			if (path.Length != 0) {
+            //				Debug.Log ("Reading data from: " + path);
+            //				readCode(path);
+            //			}
+
+            //		}
+            //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
+            //			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
+            //			if (path.Length != 0) {
+            //				Debug.Log ("Writing data to: " + path);
+            //				writeCode (path);
+            //			}
+            //		}
+            i++;
+            if (GUI.Button(new Rect(margin , 3 * Screen.height / 4 + buttonHeight+margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton))
+            {
+                currentState = STATE_CONFIG;
+                return;
+            }
+
+            if (GUI.Button(new Rect(margin + buttonWidth, 3 * Screen.height / 4 + buttonHeight + margin, buttonWidth, margin + buttonHeight), I18N.getValue("quit"), styleButton))
+            {
+                Application.Quit();
+            }
+
+            GUI.Box(new Rect(margin, 3 * Screen.height / 4 - buttonHeight - margin, 2* buttonWidth, margin + buttonHeight), I18N.getValue("edit_title"), styleButton);
+
+            // Visualizacion de codigo fuente
+            sourceCode = GUI.TextArea(new Rect(2 * buttonWidth + margin, Screen.height /2, Screen.width - 3 * margin - 2 * buttonWidth, Screen.height / 2 - margin), sourceCode, styleTextArea);
+            //sourceCode = GUI.TextArea(new Rect(2*buttonWidth + margin, buttonHeight + 3 * margin, Screen.width - 3 * margin - 2*buttonWidth, Screen.height - 4 * margin - buttonHeight), sourceCode, styleTextArea);
         }
-
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("quit"), styleButton))
+        else
         {
-            Application.Quit();
+            if ((Application.platform == RuntimePlatform.Android)|| (Application.platform == RuntimePlatform.IPhonePlayer))
+            {
+                // Botonera principal
+                int i = 0;
+
+                if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("reset"), styleButton))
+                {
+                    Debug.Log(SystemInfo.operatingSystem);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+                }
+                if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("run"), styleButton))
+                {
+                    parseCode();
+                    currentState = STATE_RUNNING;
+                    run = true;
+                    step = false;
+                    ended = false;
+                }
+                GUI.enabled = false;
+                if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, 2 * buttonWidth, margin + buttonHeight), I18N.getValue("VR"), styleButton))
+                {
+                    vrmod = false;
+                    GameObject.FindGameObjectWithTag("Menu").transform.GetChild(0).gameObject.SetActive(true);
+                    GameObject.FindGameObjectWithTag("Menu").transform.GetChild(1).gameObject.SetActive(true);
+                    GameObject.FindGameObjectWithTag("Menu").transform.GetChild(2).gameObject.SetActive(true);
+                    currentState = STATE_VR;
+                }
+                GUI.enabled = true;
+                //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
+                //			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
+                //			if (path.Length != 0) {
+                //				Debug.Log ("Reading data from: " + path);
+                //				readCode(path);
+                //			}
+
+                //		}
+                //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
+                //			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
+                //			if (path.Length != 0) {
+                //				Debug.Log ("Writing data to: " + path);
+                //				writeCode (path);
+                //			}
+                //		}
+                i++;
+                if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton))
+                {
+                    currentState = STATE_CONFIG;
+                    return;
+                }
+
+                if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("quit"), styleButton))
+                {
+                    Application.Quit();
+                }
+
+                GUI.Box(new Rect(margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("edit_title"), styleButton);
+
+                // Visualizacion de codigo fuente
+                sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - margin, Screen.height - 4 * margin - buttonHeight), sourceCode, styleTextArea);
+            }
         }
-
-        GUI.Box(new Rect(margin + i * buttonWidth, margin, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("edit_title"), styleButton);
-
-        // Visualizacion de codigo fuente
-        sourceCode = GUI.TextArea(new Rect(margin, buttonHeight + 3 * margin, Screen.width - 2 * margin, Screen.height - 4 * margin - buttonHeight), sourceCode, styleTextArea);
     }
     /** Used as a run function in VR. This function needs to be ran once to enter VR Run mode */
     public void runInVR()
