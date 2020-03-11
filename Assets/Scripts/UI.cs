@@ -183,6 +183,19 @@ public class UI : MonoBehaviour
     {
         return currentLine;
     }
+    private static string pastIfCondition = "0";
+    public static string getPastCond()
+    {
+        return pastIfCondition;
+    }
+    public static void setPastCond(string condition)
+    {
+        pastIfCondition = condition;
+    }
+    public static void setInstructionCount(int instructionValue)
+    {
+        currentLine = instructionValue;
+    }
     public static int[] getSpacing()
     {
         return sentenceSpacing;

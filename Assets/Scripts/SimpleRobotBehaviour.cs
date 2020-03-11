@@ -91,9 +91,19 @@ public class SimpleRobotBehaviour : RobotBehaviour {
         Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos mientras!");
         return base.mientras();
     }
-	/**
+    public override IEnumerator si()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos si!");
+        return base.si();
+    }
+    public override IEnumerator sino()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos si!");
+        return base.sino();
+    }
+    /**
 	 * Metodo a implementar
-	 */ 
+	 */
     public override IEnumerator comenzar()
     {
         Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando comenzar!");
