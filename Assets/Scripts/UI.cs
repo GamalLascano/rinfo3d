@@ -138,17 +138,15 @@ public class UI : MonoBehaviour
         public bool inLoop { get; set; }
         public int instructionStopValue { get; set; }
         public int instructionStartValue { get; set; }
-        public int loopFunction { get; set; }
-        public ControlBools(bool a, int b, int c, int d)
+        public ControlBools(bool a, int b, int c)
         {
             inLoop = a;
             instructionStopValue = b;
             instructionStartValue = c;
-            loopFunction = d;
         }
     }
     private static List<ControlBools> ListOfControlBools = new List<ControlBools>();
-    public static void setLoop(int mode, int value, bool state, int value2)
+    public static void setLoop(int value, bool state, int value2)
     {
         if (state == true)
         {
@@ -158,13 +156,13 @@ public class UI : MonoBehaviour
                 {
                     if (ListOfControlBools[ListOfControlBools.Count-1].instructionStartValue != value2)
                     {
-                        ListOfControlBools.Add(new ControlBools(state, value, value2, mode));
+                        ListOfControlBools.Add(new ControlBools(state, value, value2));
                     } 
                 }
             }
             else
             {
-                ListOfControlBools.Add(new ControlBools(state, value, value2, mode));
+                ListOfControlBools.Add(new ControlBools(state, value, value2));
             }
         }
         else
@@ -183,7 +181,7 @@ public class UI : MonoBehaviour
     {
         return currentLine;
     }
-    private static string pastIfCondition = "0";
+    private static string pastIfCondition  = "0";
     public static string getPastCond()
     {
         return pastIfCondition;
@@ -191,6 +189,29 @@ public class UI : MonoBehaviour
     public static void setPastCond(string condition)
     {
         pastIfCondition = condition;
+    }
+    private class RepeatBools
+    {
+        public int loops { get; set; }
+        public int currentLoop { get; set; }
+        public int instructionStopValue { get; set; }
+        public int instructionStartValue { get; set; }
+        public RepeatBools(int a, int b, int c)
+        {
+            loops = a;
+            currentLoop = 1;
+            instructionStopValue = b;
+            instructionStartValue = c;
+        }
+        public void setLoopR(int a)
+        {
+            currentLoop = a;
+        }
+    }
+    private static List<RepeatBools> ListOfRepeatBools = new List<RepeatBools>();
+    public static void setRepeat(int loop, int value, int value2)
+    {
+        ListOfRepeatBools.Add(new RepeatBools(loop, value, value2));
     }
     public static void setInstructionCount(int instructionValue)
     {
@@ -773,13 +794,27 @@ public class UI : MonoBehaviour
                 RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
                 behaviour.StartCoroutine("finalizar", 0);
             }
-           // if ((String)sentences[sentences.Count - 1] != "finalizar")
-            Debug.Log(programName);
         }
         else if (sentences[currentLine] != null && sentences[currentLine].ToString().Length > 0)
         {
             executingCurrentLine = true;
             executeLine(currentLine);
+            if (ListOfRepeatBools.Count > 0)
+            {
+                if (currentLine == ListOfRepeatBools[ListOfRepeatBools.Count - 1].instructionStopValue)
+                {
+                    if(ListOfRepeatBools[ListOfRepeatBools.Count - 1].currentLoop < ListOfRepeatBools[ListOfRepeatBools.Count - 1].loops)
+                    {
+                        Debug.Log(ListOfRepeatBools.Count);
+                        ListOfRepeatBools[ListOfRepeatBools.Count - 1].currentLoop++;
+                        currentLine = ListOfRepeatBools[ListOfRepeatBools.Count - 1].instructionStartValue - 1;
+                    }
+                    else
+                    {
+                        ListOfRepeatBools.RemoveAt(ListOfRepeatBools.Count - 1);
+                    }
+                }
+            }
             if (ListOfControlBools.Count > 0)
             {
                 if (currentLine == ListOfControlBools[ListOfControlBools.Count-1].instructionStopValue)
