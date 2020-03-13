@@ -43,6 +43,7 @@ public class Init : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Inicializar ciudad (visual)
+        
 		Object ciudadInstance = Instantiate (
 				ciudadPrefab, 
 				new Vector3 (CANT_AVENIDAS / 2 + DESP_CALLEAV, ELEVACION_CIUDAD, CANT_CALLES / 2 + DESP_CALLEAV ), 

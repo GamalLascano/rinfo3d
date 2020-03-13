@@ -101,6 +101,9 @@ public class I18N : MonoBehaviour {
 			{"lang_en",			"English"},
 			{"lang_es",			"Español"},
             {"fullscreen",   "Fullscreen mode"},
+            {"resolution",   "- RESOLUTION -"},
+            {"width",   "Width"},
+            {"height",   "Height"},
             {"accept",         	"Accept"},
 			{"avenue",          "Av"},
 			{"street",   		"St"},
@@ -183,7 +186,10 @@ public class I18N : MonoBehaviour {
 			{"street",   		"Ca"},
 			{"count",         	"Cant"},
 			{"set",         	"APLICAR!"},
-			{"wildcard",		" (* equivale a todas) "},
+            {"resolution",   "- RESOLUCION -"},
+            {"width",    "Ancho"},
+            {"height",   "Alto"},
+            {"wildcard",		" (* equivale a todas) "},
 			{"inthebag",		"- EN LA BOLSA -"},
 
 

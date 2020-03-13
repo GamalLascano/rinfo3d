@@ -113,7 +113,9 @@ public class UI : MonoBehaviour
     // Configurador: Bolsa
     protected string config_bag_flowers = "0";
     protected string config_bag_papers = "0";
-
+    // Configurador: Resolucion
+    protected string config_width = "0";
+    protected string config_height = "0";
     // Estilo de mensaje (ejecucion correcta o con error)
     static GUIStyle styleKO = null;
     static GUIStyle styleOK = null;
@@ -228,6 +230,8 @@ public class UI : MonoBehaviour
     {
         if (cameras == null)
         {
+            fullscreenButtonToggle = Screen.fullScreen;
+            oldFullscreen = !Screen.fullScreen;
             cameras = new ArrayList();
             cameraOnBoard = (Camera)((Transform)Init.robotInstance).GetComponentInChildren<Camera>();
             cameraTop.GetComponent<FollowRobot>().enabled = false;
@@ -609,7 +613,7 @@ public class UI : MonoBehaviour
             currentState = STATE_EDITING;
         }
         GUI.Box(new Rect(margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight), I18N.getValue("set_title"), styleButton);
-
+        int zone = 1;
         // Nueva fila
         row += rowSpace;
 
@@ -622,70 +626,68 @@ public class UI : MonoBehaviour
 
         // Configuracion de flores en esquina
         i = 1;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("avenue"));
-        config_flower_av = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_flower_av);
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone*margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("avenue"));
+        config_flower_av = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone*margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_flower_av);
         i++;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("street"));
-        config_flower_st = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_flower_st);
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("street"));
+        config_flower_st = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_flower_st);
         i++;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("count"));
-        config_flower_no = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_flower_no);
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("count"));
+        config_flower_no = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_flower_no);
         i++;
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
+        if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
         {
             Corner.setCorner(config_flower_av, config_flower_st, config_flower_no, false);
         }
 
         // Nueva fila
         row += rowSpace;
-        row += rowSpace;
-
+        zone++;
         // ========================================= PAPERS! =======================================
         i = 0;
-        GUI.Box(new Rect(margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("set_papers") + I18N.getValue("wildcard"));
+        GUI.Box(new Rect(margin + i * buttonWidth, zone * margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("set_papers") + I18N.getValue("wildcard"));
 
         // Nueva fila
         row += rowSpace;
 
         // Configuracion de papeles en esquina
         i = 1;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("avenue"));
-        config_paper_av = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_paper_av);
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("avenue"));
+        config_paper_av = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_paper_av);
         i++;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("street"));
-        config_paper_st = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_paper_st);
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("street"));
+        config_paper_st = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_paper_st);
         i++;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("count"));
-        config_paper_no = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_paper_no);
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("count"));
+        config_paper_no = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_paper_no);
         i++;
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
+        if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
         {
             Corner.setCorner(config_paper_av, config_paper_st, config_paper_no, true);
         }
 
         // Nueva fila
         row += rowSpace;
-        row += rowSpace;
-
+        zone++;
         // ========================================= BAG! =======================================
         i = 0;
-        GUI.Box(new Rect(margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("inthebag"));
+        GUI.Box(new Rect(margin + i * buttonWidth, zone * margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("inthebag"));
 
         // Nueva fila
         row += rowSpace;
 
         // Configuracion de papeles en esquina
         i = 1;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("flowers_bag"));
-        config_bag_flowers = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_bag_flowers);
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("flowers_bag"));
+        config_bag_flowers = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_bag_flowers);
         i++;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("papers_bag"));
-        config_bag_papers = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_bag_papers);
-        i++;
-        i++;
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("papers_bag"));
+        config_bag_papers = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_bag_papers);
         i++;
         i++;
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
+        i++;
+        i++;
+        if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
         {
             Init.getRobotBehaviour().flores = int.Parse(config_bag_flowers);
             Init.getRobotBehaviour().papeles = int.Parse(config_bag_papers);
@@ -693,26 +695,26 @@ public class UI : MonoBehaviour
 
         // Nueva fila
         row += rowSpace;
-        row += rowSpace;
+        zone++;
 
         // ========================================= LANGUAGE! =======================================
         i = 0;
-        GUI.Box(new Rect(margin + i * buttonWidth, margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("language"));
+        GUI.Box(new Rect(margin + i * buttonWidth, zone * margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("language"));
 
         // Nueva fila
         row += rowSpace;
 
         // Configuracion de idioma
         i = 1;
-        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue("lang_selected"));
-        langSelected = GUI.TextField(new Rect(margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), langSelected);
+        GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), I18N.getValue("lang_selected"));
+        langSelected = GUI.TextField(new Rect(margin + i++ * buttonWidth, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), langSelected);
         i++;
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("lang_en")))
+        if (GUI.Button(new Rect(margin + i++ * buttonWidth, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("lang_en")))
         {
             langSelected = I18N.getValue("lang_en");
             I18N.setLang("en_US");
         }
-        if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("lang_es")))
+        if (GUI.Button(new Rect(margin + i++ * buttonWidth, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("lang_es")))
         {
             langSelected = I18N.getValue("lang_es");
             I18N.setLang("es_AR");
@@ -720,10 +722,33 @@ public class UI : MonoBehaviour
         if ((Application.platform == RuntimePlatform.WindowsEditor) || (Application.platform == RuntimePlatform.WindowsPlayer) || (Application.platform == RuntimePlatform.OSXPlayer) || (Application.platform == RuntimePlatform.LinuxPlayer))
         {
             oldFullscreen = fullscreenButtonToggle;
-            fullscreenButtonToggle = GUI.Toggle(new Rect(2 * margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 3, margin + buttonHeight), fullscreenButtonToggle, I18N.getValue("fullscreen"),styleCheckbox);
+            fullscreenButtonToggle = GUI.Toggle(new Rect(2 * margin + i++ * buttonWidth, zone * margin + buttonHeight * row, buttonWidth * 3, margin + buttonHeight), fullscreenButtonToggle, I18N.getValue("fullscreen"),styleCheckbox);
             if (fullscreenButtonToggle != oldFullscreen)
             {
                 Screen.fullScreen = !Screen.fullScreen;
+            }
+            //Resolution options
+            i = 0;
+            row += rowSpace;
+            zone++;
+            GUI.Box(new Rect(margin + i * buttonWidth, zone * margin + buttonHeight * row, Screen.width - (2 * margin + i++ * buttonWidth), margin + buttonHeight * (rowSpace * 2)), I18N.getValue("resolution"));
+
+            // Nueva fila
+            row += rowSpace;
+            i = 1;
+            GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("width"));
+
+            config_width = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_width);
+            i++;
+            GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("height"));
+            config_height = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_height);
+            i++;
+            i++;
+            i++;
+            i++;
+            if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
+            {
+                Screen.SetResolution(int.Parse(config_width), int.Parse(config_height), Screen.fullScreen);
             }
         }
     }
