@@ -32,8 +32,8 @@ public class UI : MonoBehaviour
     public static int margin = deviceHeight / 40; //10
 
     // Estilo de los componentes
-    GUIStyle styleButton, styleTextArea;
-    Color textButtonColor, textTextAreaColor;
+    GUIStyle styleButton, styleTextArea, styleCheckbox;
+    Color textButtonColor, textTextAreaColor, textCheckboxColor;
 
     // Estado actual de la GUI. Inicia en EDITING logicamente
     public static int currentState = STATE_EDITING;
@@ -132,6 +132,8 @@ public class UI : MonoBehaviour
     //Utilizada para el movimiento del menu de salida o de informar
     private static bool flagMenu = false;
     private static bool flagInformar = false;
+    private bool fullscreenButtonToggle = false;
+    private bool oldFullscreen = true;
     //Flags para controlar los loops
     private class ControlBools
     {
@@ -262,11 +264,14 @@ public class UI : MonoBehaviour
         // Estilo de los botones
         textButtonColor = new Color(0.75F, 0.75F, 1.0F, 1);
         textTextAreaColor = new Color(0.75F, 1.0F, 0.75F, 1);
+        textCheckboxColor = new Color(1.0F, 1.0F, 1.0F, 1);
 
         styleButton = new GUIStyle("button");
         styleButton.normal.textColor = textButtonColor;
         styleButton.fontSize = deviceHeight / 25;
-
+        styleCheckbox = new GUIStyle("toggle");
+        styleCheckbox.normal.textColor = textCheckboxColor;
+        styleCheckbox.fontSize = deviceHeight / 25;
         styleTextArea = new GUIStyle("textArea");
         styleTextArea.normal.textColor = textTextAreaColor;
         styleTextArea.fontSize = deviceHeight / 30;
@@ -711,6 +716,15 @@ public class UI : MonoBehaviour
         {
             langSelected = I18N.getValue("lang_es");
             I18N.setLang("es_AR");
+        }
+        if ((Application.platform == RuntimePlatform.WindowsEditor) || (Application.platform == RuntimePlatform.WindowsPlayer) || (Application.platform == RuntimePlatform.OSXPlayer) || (Application.platform == RuntimePlatform.LinuxPlayer))
+        {
+            oldFullscreen = fullscreenButtonToggle;
+            fullscreenButtonToggle = GUI.Toggle(new Rect(2 * margin + i++ * buttonWidth, margin + buttonHeight * row, buttonWidth * 3, margin + buttonHeight), fullscreenButtonToggle, I18N.getValue("fullscreen"),styleCheckbox);
+            if (fullscreenButtonToggle != oldFullscreen)
+            {
+                Screen.fullScreen = !Screen.fullScreen;
+            }
         }
     }
 
