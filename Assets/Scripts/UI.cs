@@ -7,6 +7,7 @@ using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UI : MonoBehaviour
 {
@@ -27,9 +28,12 @@ public class UI : MonoBehaviour
     private static int deviceHeight = Screen.height;
 
     // Tamaño default de los botones 
-    public static int buttonWidth = deviceWidth / 8; //100
-    public static int buttonHeight = deviceHeight / 20; //20
-    public static int margin = deviceHeight / 40; //10
+    //public static int buttonWidth = Screen.width / 8; //100
+    public static int buttonWidth = 100;
+    //public static int buttonHeight = Screen.height / 20; //20
+    public static int buttonHeight = 20;
+    //public static int margin = Screen.height / 40; //10
+    public static int margin = 10;
 
     // Estilo de los componentes
     GUIStyle styleButton, styleTextArea, styleCheckbox;
@@ -272,13 +276,13 @@ public class UI : MonoBehaviour
 
         styleButton = new GUIStyle("button");
         styleButton.normal.textColor = textButtonColor;
-        styleButton.fontSize = deviceHeight / 25;
+        styleButton.fontSize = deviceHeight / 40;
         styleCheckbox = new GUIStyle("toggle");
         styleCheckbox.normal.textColor = textCheckboxColor;
-        styleCheckbox.fontSize = deviceHeight / 25;
+        styleCheckbox.fontSize = deviceHeight / 40;
         styleTextArea = new GUIStyle("textArea");
         styleTextArea.normal.textColor = textTextAreaColor;
-        styleTextArea.fontSize = deviceHeight / 30;
+        styleTextArea.fontSize = deviceHeight / 40;
 
         switch (currentState)
         {
@@ -599,8 +603,91 @@ public class UI : MonoBehaviour
             }
         }
     }
+    public class ComboBox
+    {
+        private static bool forceToUnShow = false;
+        private static int useControlID = -1;
+        private static bool isClickedComboButton = false;
 
+        private static int selectedItemIndex = 0;
 
+        public static int List(Rect rect, string buttonText, GUIContent[] listContent, GUIStyle listStyle)
+        {
+            return List(rect, new GUIContent(buttonText), listContent, "button", "box", listStyle);
+        }
+
+        public static int List(Rect rect, GUIContent buttonContent, GUIContent[] listContent, GUIStyle listStyle)
+        {
+            return List(rect, buttonContent, listContent, "button", "box", listStyle);
+        }
+
+        public static int List(Rect rect, string buttonText, GUIContent[] listContent, GUIStyle buttonStyle, GUIStyle boxStyle, GUIStyle listStyle)
+        {
+            return List(rect, new GUIContent(buttonText), listContent, buttonStyle, boxStyle, listStyle);
+        }
+
+        public static int List(Rect rect, GUIContent buttonContent, GUIContent[] listContent,
+                                        GUIStyle buttonStyle, GUIStyle boxStyle, GUIStyle listStyle)
+        {
+            if (forceToUnShow)
+            {
+                forceToUnShow = false;
+                isClickedComboButton = false;
+            }
+
+            bool done = false;
+            int controlID = GUIUtility.GetControlID(FocusType.Passive);
+
+            switch (Event.current.GetTypeForControl(controlID))
+            {
+                case EventType.MouseUp:
+                    {
+                        if (isClickedComboButton)
+                        {
+                            done = true;
+                        }
+                    }
+                    break;
+            }
+
+            if (GUI.Button(rect, buttonContent, buttonStyle))
+            {
+                if (useControlID == -1)
+                {
+                    useControlID = controlID;
+                    isClickedComboButton = false;
+                }
+
+                if (useControlID != controlID)
+                {
+                    forceToUnShow = true;
+                    useControlID = controlID;
+                }
+                isClickedComboButton = true;
+            }
+
+            if (isClickedComboButton)
+            {
+                Rect listRect = new Rect(rect.x, rect.y + listStyle.CalcHeight(listContent[0], 1.0f),
+                          rect.width, listStyle.CalcHeight(listContent[0], 1.0f) * listContent.Length);
+
+                GUI.Box(listRect, "", boxStyle);
+                int newSelectedItemIndex = GUI.SelectionGrid(listRect, selectedItemIndex, listContent, 1, listStyle);
+                if (newSelectedItemIndex != selectedItemIndex)
+                    selectedItemIndex = newSelectedItemIndex;
+            }
+
+            if (done)
+                isClickedComboButton = false;
+
+            return GetSelectedItemIndex();
+        }
+
+        public static int GetSelectedItemIndex()
+        {
+            return selectedItemIndex;
+        }
+    }
     /** Renders the Config Menu */
     void renderConfig()
     {
@@ -639,7 +726,25 @@ public class UI : MonoBehaviour
         {
             Corner.setCorner(config_flower_av, config_flower_st, config_flower_no, false);
         }
-
+        i++;
+        List<GUIContent> resol = new List<GUIContent>();
+        if (resol.Count == 0)
+        {
+            for (int k = 0; k < Screen.resolutions.Length; k++)
+            {
+                if(!new int[] { 23, 24, 50, 59, 99 }.Contains(Screen.resolutions[k].refreshRate))
+                {
+                    resol.Add(new GUIContent(Screen.resolutions[k].width + "x" + Screen.resolutions[k].height));
+                }
+            }
+        }
+        int item = ComboBox.List(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth * 2, margin + buttonHeight), "Elegir resolucion", resol.ToArray(), styleButton);
+        i = i + 3;
+        if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
+        {
+            //Screen.SetResolution(int.Parse(config_width), int.Parse(config_height), Screen.fullScreen);
+            Screen.SetResolution(Screen.resolutions[item].width, Screen.resolutions[item].height, Screen.fullScreen);
+        }
         // Nueva fila
         row += rowSpace;
         zone++;
@@ -743,13 +848,10 @@ public class UI : MonoBehaviour
             GUI.Label(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("height"));
             config_height = GUI.TextField(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth / 2, margin + buttonHeight), config_height);
             i++;
+
             i++;
             i++;
-            i++;
-            if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
-            {
-                Screen.SetResolution(int.Parse(config_width), int.Parse(config_height), Screen.fullScreen);
-            }
+
         }
     }
 
