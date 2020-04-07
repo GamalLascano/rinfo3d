@@ -247,6 +247,10 @@ public class UI : MonoBehaviour
             cameras.Add(cameraAngle);
             cameras.Add(cameraVR);
             setCurrentCamera(currentCamera);
+            double i = Screen.width / 1.5;
+            cameraAngle.pixelRect = new Rect(Screen.width / 3, Screen.height / 2, Screen.width/2, Screen.height/3);
+            Camera lol = bigBang.GetComponent<Camera>();
+            lol.pixelRect = new Rect(0, 0, Screen.width, Screen.height);
         }
     }
     //Esta funcion desactivara el ultimo menu en VR, desactivara los flags necesarios para cambiar a modo no VR, y desactivara el modo VR
