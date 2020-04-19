@@ -101,6 +101,16 @@ public class SimpleRobotBehaviour : RobotBehaviour {
         Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos si!");
         return base.sino();
     }
+    public override IEnumerator areas()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos si!");
+        return base.areas();
+    }
+    public override IEnumerator AreaC()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos si!");
+        return base.AreaC();
+    }
     /**
 	 * Metodo a implementar
 	 */

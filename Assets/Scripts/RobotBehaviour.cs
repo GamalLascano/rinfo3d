@@ -586,6 +586,17 @@ public abstract class RobotBehaviour : MonoBehaviour {
         yield return new WaitForSeconds(0);
         UI.executingCurrentLine = false;
     }
+    public virtual IEnumerator areas()
+    {
+        yield return new WaitForSeconds(0);
+        UI.executingCurrentLine = false;
+    }
+    public virtual IEnumerator AreaC()
+    {
+        Init.resetCity(int.Parse((string)arguments[2]) , int.Parse((string)arguments[3]));
+        yield return new WaitForSeconds(0);
+        UI.executingCurrentLine = false;
+    }
     /**
  * El robot finaliza la ejecucion realizando un super-festejo
  */
@@ -691,33 +702,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	
 	//Estructuras de control
 
-    //	public virtual IEnumerator repetir()
-    //{
-    //    Transform theRobot = (Transform)Init.robotInstance;
-    //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
-    //    int i = 0;
-    //    Type type = behaviour.GetType();
-    //    int n = int.Parse((string)arguments[0]);
-    //    string sentenceName = (string)arguments[1];
-    //    if (n > i)
-    //    {
-    //        for (i = 0; i < n; i++)
-    //        {
-               
-    //            MethodInfo methodInfo = type.GetMethod(sentenceName);
-    //            behaviour.StartCoroutine(methodInfo.Name, 0);
-    //        }
-            
-    //    }
-    //    else
-    //    {
-    //        UI.runtimeErrorMsg = I18N.getValue("the_number_of_repetitions_was_not_specified");
-    //    }
-    //    yield return new WaitForSeconds(0);
-    //        //Fin de ejecucion
-    //        UI.executingCurrentLine = false;
-        
-    //}
     public virtual IEnumerator repetir()
     {
         int[] sentenceSpace = UI.getSpacing();

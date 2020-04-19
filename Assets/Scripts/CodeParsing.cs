@@ -54,7 +54,14 @@ public class CodeParsing : MonoBehaviour
             return false;
         }
         if (codigo.Length < 1) return true;
-        int j = 1;
+        if ((!codigo[1].Contains("areas"))|| (!codigo[2].Contains("AreaC")))
+        {
+            Debug.Log("Sali en areas");
+            UI.runtimeErrorMsg = "1";
+            return false;
+        }
+
+        int j = 3;
         //Va a buscar a comenzar o a llegar al final, lo que ocurra primero. Si llega al final, no tendria que estar indentado.
         //Pero si para por comenzar, entraria al for, dado a que se cumple la condicion. Ahi evaluo si esta indentado o no
         while ((codigo[j]!="comenzar") && (j != (codigo.Length - 1)))

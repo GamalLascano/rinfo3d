@@ -60,7 +60,7 @@ public class UI : MonoBehaviour
     //Nombre del programa
     public static string programName = "Nuevo Programa";
     // Codigo fuente
-    protected string sourceCode = "programa Holis\ncomenzar\nIniciar(1,1);\nfinalizar;\n";
+    protected string sourceCode = "programa Holis\nareas\n ciudad: AreaC(1,1,100,100)\ncomenzar\n Iniciar(1,1)\n mover\nfinalizar\n";
 
     protected string statusRobot = "";
     // Contenido de la linea de estado de instruccion
@@ -1065,18 +1065,22 @@ public class UI : MonoBehaviour
             Type type = behaviour.GetType();
             // Pruebas para argumentos.  Esto igualmente se recibe desde libreria
             string sentence = (string)sentences[lineNo];
-            string sentenceName;
-            if (lineNo == 0)
+            string sentenceName = "";
+            switch (lineNo)
             {
-                sentenceName = sentence.Substring(0, "programa".Length);
-                behaviour.resetArguments();
-                string arg;
-                arg = sentence.Substring("programa".Length, sentence.Length - "programa".Length);
-                behaviour.addArgument(arg);
-            }
-            else
-            {
-                sentenceName = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
+                case 0:
+                    sentenceName = sentence.Substring(0, "programa".Length);
+                    behaviour.resetArguments();
+                    string arg;
+                    arg = sentence.Substring("programa".Length, sentence.Length - "programa".Length);
+                    behaviour.addArgument(arg);
+                    break;
+                case 2:
+                    sentenceName = sentence.Replace(" ", "").Substring(sentence.IndexOf(':')+1, "AreaC".Length);
+                break;
+                default:
+                    sentenceName = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
+                break;
             }
             // Cargar los parametros segun la instruccion que sea.  FIXME: Deshardcode
             if (sentence.Contains("("))
