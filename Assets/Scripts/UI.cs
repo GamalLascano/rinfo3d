@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using System.Collections.Generic;
 using System.Linq;
-
+using SFB;
 public class UI : MonoBehaviour
 {
 
@@ -363,17 +363,51 @@ public class UI : MonoBehaviour
             //			}
             //		}
             i++;
-            if (GUI.Button(new Rect(margin , 3 * Screen.height / 4 + buttonHeight+margin, buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton))
+            if (GUI.Button(new Rect(margin , 3 * Screen.height / 4 + buttonHeight+margin, buttonWidth, margin + buttonHeight), I18N.getValue("open_file"), styleButton))
+            {
+                var extensions = new[] {
+                     new ExtensionFilter("Text Files", "txt" ),
+                };
+                var pathopen = StandaloneFileBrowser.OpenFilePanel("Open File", "", extensions, false);
+                FileStream archivo;
+                if (pathopen.Length > 0)
+                {
+                    if (File.Exists(pathopen[0]))
+                    {
+                        archivo = File.OpenRead(pathopen[0]);
+                        using (var streamread = new StreamReader(archivo))
+                        {
+                            sourceCode = streamread.ReadToEnd();
+                        }
+                        archivo.Close();
+                    }
+                    else
+                    {
+                        Debug.LogError("File not found");
+                        return;
+                    }
+                }
+            }
+
+            if (GUI.Button(new Rect(margin + buttonWidth, 3 * Screen.height / 4 + buttonHeight + margin, buttonWidth, margin + buttonHeight), I18N.getValue("save_file"), styleButton))
+            {
+                var pathsave = StandaloneFileBrowser.SaveFilePanel("Save File", "", "", "txt");
+                if (!string.IsNullOrEmpty(pathsave))
+                {
+                    File.WriteAllText(pathsave, sourceCode);
+                }
+            }
+            i++;
+            if (GUI.Button(new Rect(margin, 3 * Screen.height / 4 + 2* (buttonHeight + margin), buttonWidth, margin + buttonHeight), I18N.getValue("settings"), styleButton))
             {
                 currentState = STATE_CONFIG;
                 return;
             }
 
-            if (GUI.Button(new Rect(margin + buttonWidth, 3 * Screen.height / 4 + buttonHeight + margin, buttonWidth, margin + buttonHeight), I18N.getValue("quit"), styleButton))
+            if (GUI.Button(new Rect(margin + buttonWidth, 3 * Screen.height / 4 + 2 * (buttonHeight + margin), buttonWidth, margin + buttonHeight), I18N.getValue("quit"), styleButton))
             {
                 Application.Quit();
             }
-
             GUI.Box(new Rect(margin, 3 * Screen.height / 4 - buttonHeight - margin, 2* buttonWidth, margin + buttonHeight), I18N.getValue("edit_title"), styleButton);
 
             // Visualizacion de codigo fuente

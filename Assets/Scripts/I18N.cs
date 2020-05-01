@@ -60,7 +60,7 @@ public class I18N : MonoBehaviour {
 			{"save",			"Save"},
 			{"settings",        "Settings"},
 			{"quit",	      	"Quit"},
-			{"edit_title",      ".:: EDITING ::."},
+            {"edit_title",      ".:: EDITING ::."},
 
 			// Menu RUN
 			{"pause",           "Pause"},
@@ -113,8 +113,8 @@ public class I18N : MonoBehaviour {
 			{"inthebag",		"- IN THE BAG -"},
 
 			// Menu OPEN/SAVE
-			{"open_file",       "Open file..."},
-			{"save_file",       "Save as..."},
+			{"open_file",       "Open File"},
+			{"save_file",       "Save File"},
 			{"filename",        "code.txt"},
 
 			// Error messages
@@ -139,7 +139,7 @@ public class I18N : MonoBehaviour {
 			{"save",			"Guardar"},
 			{"settings",        "Config."},
 			{"quit",	      	"Salir"},
-			{"edit_title",      ".:: EDITANDO ::."},
+            {"edit_title",      ".:: EDITANDO ::."},
 			
 			// Menu RUN
 			{"pause",           "Pausar"},
@@ -194,8 +194,8 @@ public class I18N : MonoBehaviour {
 
 
 			// Menu OPEN/SAVE
-			{"open_file",       "Abrir archivo..."},
-			{"save_file",       "Guardar como..."},
+			{"open_file",       "Abrir"},
+			{"save_file",       "Guardar"},
 			{"filename",        "codigo.txt"}, 
 
 			// Error messages
