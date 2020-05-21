@@ -42,6 +42,17 @@ public class Init : MonoBehaviour {
 	}
     // List of Streets Generated
     private static List<Object> streetPrefabsGenerated = new List<Object>();
+    // List of Variables the program has
+    public class VariableR {
+        public string nombre;
+        public string tipo;
+        public VariableR(string nomVar,string tipoVar)
+        {
+            nombre = nomVar;
+            tipo = tipoVar;
+        }
+    }
+    public static List<VariableR> Variables = new List<VariableR>();
     // Use this for initialization
     void Start () {
         createCity(100,100);

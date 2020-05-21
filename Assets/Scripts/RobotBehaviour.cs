@@ -499,7 +499,20 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		UI.executingCurrentLine = false;
 
 	}
-	
+	public virtual IEnumerator variables()
+    {
+        Debug.Log(Init.Variables.Count);
+        UI aux = (UI)UI.getBigBang().GetComponent(typeof(UI));
+        aux.VariableHandler();
+        if(Init.Variables.Count > 0)
+        {
+            Debug.Log(Init.Variables[0].nombre);
+            Debug.Log(Init.Variables[0].tipo);
+        }
+        yield return new WaitForSeconds(0);
+        // Fin de ejecucion
+        UI.executingCurrentLine = false;
+    }
 	/**
 	 * El robot deposita un papel
 	 */ 

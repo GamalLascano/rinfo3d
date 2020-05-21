@@ -55,11 +55,15 @@ public class SimpleRobotBehaviour : RobotBehaviour {
 		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando tomarFlor!");
 		return base.tomarFlor ();		
 	}
-	
-	/**
+    public override IEnumerator variables()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando variables!");
+        return base.variables();
+    }
+    /**
 	 * Metodo a implementar
-	 */ 
-	public override IEnumerator depositarFlor() {
+	 */
+    public override IEnumerator depositarFlor() {
 		Debug.Log ("Soy SimpleRobotBehaviour y estoy ejecutando depositarFlor!");
 		return base.depositarFlor ();		
 	}

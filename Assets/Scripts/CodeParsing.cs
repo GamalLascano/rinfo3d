@@ -67,7 +67,6 @@ public class CodeParsing : MonoBehaviour
         while ((codigo[j]!="comenzar") && (j != (codigo.Length - 1)))
         {
             j++;
-            Debug.Log("Sali en loop del medio");
         }
         j++;
         int i;
@@ -104,6 +103,35 @@ public class CodeParsing : MonoBehaviour
             Debug.Log("Sali en finalizar 2");
             UI.runtimeErrorMsg = (i + 1).ToString();
             return false;
+        }
+    }
+    public static void VariableManager(ref int codeLine,ArrayList ar)
+    {
+        bool found = false;
+        int limit = 0;
+        int i;
+        string aux;
+        string[] parame;
+        for (i = codeLine+1; i < ar.Count; i++)
+        {
+            aux = (string)ar[i];
+            if (aux.Contains("comenzar"))
+            {
+                found = true;
+                limit = i;
+                i = ar.Count;
+            }
+        }
+        if (found == true)
+        {
+            for(i = codeLine+1;i < limit; i++)
+            {
+                aux = (string)ar[i];
+                aux = aux.Replace(" ", "").Replace(":", " ");
+                parame = aux.Split(" "[0]);
+                Init.Variables.Add(new Init.VariableR(parame[0], parame[1]));
+            }
+            codeLine= limit-1;
         }
     }
     public static int checkCondition(string frase)

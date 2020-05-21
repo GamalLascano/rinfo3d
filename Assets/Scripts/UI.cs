@@ -247,7 +247,15 @@ public class UI : MonoBehaviour
             cameras.Add(cameraAngle);
             cameras.Add(cameraVR);
             setCurrentCamera(currentCamera);
-            cameraAngle.pixelRect = new Rect(Screen.width / 3, Screen.height / 2, Screen.width/2, Screen.height/3);
+            if ((Application.platform == RuntimePlatform.WindowsEditor) || (Application.platform == RuntimePlatform.WindowsPlayer) || (Application.platform == RuntimePlatform.OSXPlayer) || (Application.platform == RuntimePlatform.LinuxPlayer))
+            {
+                cameraAngle.pixelRect = new Rect(Screen.width / 3, Screen.height / 2, Screen.width / 2, Screen.height / 3);
+            }
+            else
+            {
+                cameraAngle.pixelRect = new Rect(0, 0, Screen.width , Screen.height );
+            }
+               
             if (bigBang != null)
             {
                 Camera lol = bigBang.GetComponent<Camera>();
@@ -1141,7 +1149,10 @@ public class UI : MonoBehaviour
             run = false;
         }
     }
-
+    public void VariableHandler()
+    {
+        CodeParsing.VariableManager(ref currentLine, sentences);
+    }
     /** Retorna la referencia al "creador" */
     public static GameObject getBigBang()
     {
