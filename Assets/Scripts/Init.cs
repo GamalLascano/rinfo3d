@@ -4,60 +4,81 @@ using System.Collections.Generic;
 
 public class Init : MonoBehaviour {
 
-	// Valores por defecto
-	public int CANT_CALLES = 100;
-	public int CANT_AVENIDAS = 100;
-	public static float ELEVACION_CIUDAD = -0.01f;
-	public static float ELEVACION_CALLEAV = 0.015f;
-	public static float ANCHO_CALLEAV = 0.25f;
-	public static float DESP_CALLEAV = ANCHO_CALLEAV * 2;
-	public static float ELEVACION_PAPEL = 0.02f;
-	public static float ELEVACION_FLOR =  0.02f;
-	public static float DESP_PAPEL = -0.075f;
-	public static float DESP_FLOR =  0.075f;
+    // Valores por defecto
+    public int CANT_CALLES = 100;
+    public int CANT_AVENIDAS = 100;
+    public static float ELEVACION_CIUDAD = -0.01f;
+    public static float ELEVACION_CALLEAV = 0.015f;
+    public static float ANCHO_CALLEAV = 0.25f;
+    public static float DESP_CALLEAV = ANCHO_CALLEAV * 2;
+    public static float ELEVACION_PAPEL = 0.02f;
+    public static float ELEVACION_FLOR = 0.02f;
+    public static float DESP_PAPEL = -0.075f;
+    public static float DESP_FLOR = 0.075f;
 
 
-	// Prefab ciudad, calles y avenidas para inicializar ciudad
-	public Transform ciudadPrefab;
-	public Transform callePrefab; 
-	public Transform avenidaPrefab; 
-	public Transform robotPrefab; 
-	public Transform papelPrefab;
-	public Transform florPrefab;
+    // Prefab ciudad, calles y avenidas para inicializar ciudad
+    public Transform ciudadPrefab;
+    public Transform callePrefab;
+    public Transform avenidaPrefab;
+    public Transform robotPrefab;
+    public Transform papelPrefab;
+    public Transform florPrefab;
 
-	// Preferencias
-	public bool instanciarFloresRandom = false;
-	public bool instanciarPapelesRandom = false;
-
-	/** Referencia al robot */
-	public static Object robotInstance = null;
-
+    // Preferencias
+    public bool instanciarFloresRandom = false;
+    public bool instanciarPapelesRandom = false;
+    public class VariableR
+    {
+        public string nombre;
+        public string tipo;
+        public VariableR(string nomVar, string tipoVar)
+        {
+            nombre = nomVar;
+            tipo = tipoVar;
+        }
+    }
+    /** Referencia al robot */
+    public class RobotInstances
+    {
+        public Object robInstance;
+        public List<VariableR> variables;
+        public string name;
+        public string type;
+        public RobotInstances()
+        {
+            variables = new List<VariableR>();
+            robInstance = null;
+            name = null;
+            type = null;
+        }
+    }
+    public static List<RobotInstances> robotInstance = null;
+    public static RobotInstances getRobotInstance(int index)
+    {
+        return robotInstance[index];
+    }
 	/** Ciudad modelo (array multidimensional de esquinas) */ 
 	public static Corner[,] city;
 
 	/** Retorna el comportamiento del robot */
-	public static RobotBehaviour getRobotBehaviour() {
-		Transform theRobot = (Transform)Init.robotInstance;
+	public static RobotBehaviour getRobotBehaviour(int index) {
+		Transform theRobot = (Transform)Init.robotInstance[index].robInstance;
 		return (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
 	}
     // List of Streets Generated
     private static List<Object> streetPrefabsGenerated = new List<Object>();
     // List of Variables the program has
-    public class VariableR {
-        public string nombre;
-        public string tipo;
-        public VariableR(string nomVar,string tipoVar)
-        {
-            nombre = nomVar;
-            tipo = tipoVar;
-        }
+    public void InitializeRobot(int index)
+    {
+        Init.robotInstance[index].robInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
     }
     public static List<VariableR> Variables = new List<VariableR>();
     // Use this for initialization
     void Start () {
         createCity(100,100);
 		// Inicializar robot
-		robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
+		//robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
         //Inicializar papeles y flores de forma que corra siempre el codigo ejemplo
         Corner.setCorner("1", "1", "1", false);
         Corner.setCorner("1", "1", "1", true);

@@ -247,16 +247,26 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 * Inicializa al robot en la posicion dada segun los argumentos
 	 */
     public virtual IEnumerator Iniciar() {
-		// Ubicacion inicial segun parametros, apuntando al norte
-		Transform theRobot = (Transform)Init.robotInstance;
+        // Ubicacion inicial segun parametros, apuntando al norte
+        string nomRob = (string)arguments[0];
+        int index = -1;
+        for (int i = 0;i < Init.robotInstance.Count; i++)
+        {
+            if (Init.robotInstance[i].name == nomRob)
+            {
+                index = i;
+            }
+        }
+        UI.getBigBang().GetComponent<Init>().InitializeRobot(index);
+        Transform theRobot = (Transform)Init.robotInstance[index].robInstance;
 
 		theRobot.localRotation = Quaternion.Euler(Mathf.RoundToInt (theRobot.localRotation.eulerAngles.x),
 		                                          0,
 		                                          Mathf.RoundToInt (theRobot.localRotation.eulerAngles.z));
 
-		theRobot.position = new Vector3 (Mathf.RoundToInt ( int.Parse((string)arguments[0]) ),
+		theRobot.position = new Vector3 (Mathf.RoundToInt ( int.Parse((string)arguments[1]) ),
 		                                 Mathf.RoundToInt ( 0 ),
-		                                 Mathf.RoundToInt ( int.Parse((string)arguments[1]) ) 
+		                                 Mathf.RoundToInt ( int.Parse((string)arguments[2]) ) 
 		                                 );
 
 		yield return new WaitForSeconds(0);
@@ -607,6 +617,30 @@ public abstract class RobotBehaviour : MonoBehaviour {
     public virtual IEnumerator AreaC()
     {
         Init.resetCity(int.Parse((string)arguments[2]) , int.Parse((string)arguments[3]));
+        yield return new WaitForSeconds(0);
+        UI.executingCurrentLine = false;
+    }
+    public virtual IEnumerator AsignarArea()
+    {
+        string nomRob = (string)arguments[0];
+        int index = -1;
+        for(int i=0;i < Init.Variables.Count; i++)
+        {
+            if (Init.Variables[i].nombre == nomRob)
+            {
+                index = i;
+            }
+        }
+        if (index != -1)
+        {
+            Init.robotInstance.Add(new Init.RobotInstances()) ;
+            Init.getRobotInstance(Init.robotInstance.Count-1).name=nomRob;
+            Init.getRobotInstance(Init.robotInstance.Count - 1).type = Init.Variables[index].tipo;
+        }
+        else
+        {
+            UI.runtimeErrorMsg = I18N.getValue("no_variable");
+        }
         yield return new WaitForSeconds(0);
         UI.executingCurrentLine = false;
     }

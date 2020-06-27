@@ -121,8 +121,9 @@ public class I18N : MonoBehaviour {
 			{"no_flowers_bag",		"No flowers in bag!"},
 			{"no_papers_bag",		"No papers in bag!"},
 			{"no_flowers_corner",	"No flowers in corner!"},
-			{"no_papers_corner",	"No papers in corner!"}
-		};
+			{"no_papers_corner",	"No papers in corner!"},
+            {"no_variable",        "No Variable Found with name assigned!"}
+        };
 	}
 
 	public class Spanish {
@@ -202,7 +203,8 @@ public class I18N : MonoBehaviour {
 			{"no_flowers_bag",		"No hay flores en la bolsa!"},
 			{"no_papers_bag",		"No hay papeles en la bolsa!"},
 			{"no_flowers_corner",	"No hay flores en la esquina!"},
-			{"no_papers_corner",	"No hay papeles en la esquina!"}
-		};
+			{"no_papers_corner",	"No hay papeles en la esquina!"},
+            {"no_variable",        "No hay variable asignada con ese nombre!"}
+        };
 	}
 }

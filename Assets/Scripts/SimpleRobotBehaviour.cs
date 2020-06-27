@@ -115,6 +115,11 @@ public class SimpleRobotBehaviour : RobotBehaviour {
         Debug.Log("Soy SimpleRobotBehaviour y estoy ejecutando la estructura de datos si!");
         return base.AreaC();
     }
+    public override IEnumerator AsignarArea()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy asignando area!");
+        return base.AsignarArea();
+    }
     /**
 	 * Metodo a implementar
 	 */
