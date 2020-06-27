@@ -523,10 +523,18 @@ public abstract class RobotBehaviour : MonoBehaviour {
         // Fin de ejecucion
         UI.executingCurrentLine = false;
     }
-	/**
+    public virtual IEnumerator robots()
+    {
+
+        yield return new WaitForSeconds(0);
+        // Fin de ejecucion
+        UI.executingCurrentLine = false;
+    }
+    /**
 	 * El robot deposita un papel
-	 */ 
-	public virtual IEnumerator depositarPapel() {
+	 */
+
+    public virtual IEnumerator depositarPapel() {
 
 		// Depositar papel en la esquina. 
 		Vector3 pos = getRobotPosition();

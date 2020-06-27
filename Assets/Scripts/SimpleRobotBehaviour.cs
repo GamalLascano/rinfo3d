@@ -120,6 +120,11 @@ public class SimpleRobotBehaviour : RobotBehaviour {
         Debug.Log("Soy SimpleRobotBehaviour y estoy asignando area!");
         return base.AsignarArea();
     }
+    public override IEnumerator robots()
+    {
+        Debug.Log("Soy SimpleRobotBehaviour y estoy dividendo el codigo entre los robots!");
+        return base.robots();
+    }
     /**
 	 * Metodo a implementar
 	 */
