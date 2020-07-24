@@ -77,8 +77,13 @@ public class Init : MonoBehaviour {
     // Use this for initialization
     void Start () {
         createCity(100,100);
-		// Inicializar robot
-		//robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
+        // Inicializar robot
+        robotInstance = new List<RobotInstances>();
+        robotInstance.Add(new RobotInstances());
+        robotInstance[0].robInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
+        Transform aux = (Transform)robotInstance[0].robInstance;
+        aux.GetComponent<MeshRenderer>().enabled = false;
+        //robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
         //Inicializar papeles y flores de forma que corra siempre el codigo ejemplo
         Corner.setCorner("1", "1", "1", false);
         Corner.setCorner("1", "1", "1", true);

@@ -971,7 +971,10 @@ public class UI : MonoBehaviour
         currentLine = -1;
     }
 
-
+    public void robotMessage()
+    {
+        ParallelRobots.parseRobotCode(currentLine, sentences);
+    }
     // Update is called once per frame
     void Update()
     {

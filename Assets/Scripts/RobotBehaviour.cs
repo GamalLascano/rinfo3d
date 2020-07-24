@@ -525,7 +525,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
     }
     public virtual IEnumerator robots()
     {
-
+        UI.getBigBang().GetComponent<UI>().robotMessage();
         yield return new WaitForSeconds(0);
         // Fin de ejecucion
         UI.executingCurrentLine = false;
