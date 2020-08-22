@@ -82,6 +82,8 @@ public class Init : MonoBehaviour {
         robotInstance.Add(new RobotInstances());
         robotInstance[0].robInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
         Transform aux = (Transform)robotInstance[0].robInstance;
+        RobotBehaviour behaviour = (RobotBehaviour)aux.GetComponent<RobotBehaviour>();
+        behaviour.robotIndex = 0;
         aux.GetComponent<MeshRenderer>().enabled = false;
         //robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
         //Inicializar papeles y flores de forma que corra siempre el codigo ejemplo

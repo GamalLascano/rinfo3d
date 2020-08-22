@@ -4,7 +4,8 @@ using System;
 using System.Reflection;
 
 public abstract class RobotBehaviour : MonoBehaviour {
-
+    // Identificador del robot para paralelismo
+    public int robotIndex = -1;
 	// Posicion y cantidad de papeles y flores
 	public int papeles = 0;
 	public int flores  = 0;
@@ -25,7 +26,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 	/** Retorna el estado del robot */
 	public string getRobotStatus() {
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 
 		int posAv = Mathf.RoundToInt(theRobot.position.x);
 		int posCa = Mathf.RoundToInt(theRobot.position.z);
@@ -61,7 +62,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 */
 	public Vector3 getRobotPosition() {
 		// Recuperar el robot
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 		return new Vector3 (Mathf.RoundToInt (theRobot.position.x),
 							Mathf.RoundToInt (theRobot.position.y),
 							Mathf.RoundToInt (theRobot.position.z));
@@ -73,7 +74,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	public virtual IEnumerator mover() {
 	
 		// Posicion inicial
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 		Vector3 startPos = theRobot.position;
 
 
@@ -125,7 +126,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	 * Realiza una rotacion del robot de 90 grados hacia la derecha sobre su eje
 	 */
 	public virtual IEnumerator Derecha() { 
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 		Quaternion initialRotation = theRobot.localRotation;
 		
 		float angle = 0;
@@ -167,7 +168,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 	public virtual IEnumerator Pos() {
 
 		// Recuperar el robot
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 
 		// Throttle ON!
 		Transform throttle = theRobot.Find("Throttle");
@@ -259,8 +260,9 @@ public abstract class RobotBehaviour : MonoBehaviour {
         }
         UI.getBigBang().GetComponent<Init>().InitializeRobot(index);
         Transform theRobot = (Transform)Init.robotInstance[index].robInstance;
-
-		theRobot.localRotation = Quaternion.Euler(Mathf.RoundToInt (theRobot.localRotation.eulerAngles.x),
+        RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+        behaviour.robotIndex = index;
+        theRobot.localRotation = Quaternion.Euler(Mathf.RoundToInt (theRobot.localRotation.eulerAngles.x),
 		                                          0,
 		                                          Mathf.RoundToInt (theRobot.localRotation.eulerAngles.z));
 
@@ -301,7 +303,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 		Transform cuerpo = theRobot.Find("CuerpoRobot");
 		Transform brazoIzq = cuerpo.Find("BrazoIzq");
 		Transform brazoDer = cuerpo.Find("BrazoDer");
@@ -376,7 +378,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 		Transform cuerpo = theRobot.Find("CuerpoRobot");
 		Transform brazoIzq = cuerpo.Find("BrazoIzq");
 		Transform brazoDer = cuerpo.Find("BrazoDer");
@@ -452,7 +454,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 		Transform cuerpo = theRobot.Find("CuerpoRobot");
 		Transform brazoIzq = cuerpo.Find("BrazoIzq");
 		Transform brazoDer = cuerpo.Find("BrazoDer");
@@ -547,7 +549,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 		Transform cuerpo = theRobot.Find("CuerpoRobot");
 		Transform brazoIzq = cuerpo.Find("BrazoIzq");
 		Transform brazoDer = cuerpo.Find("BrazoDer");
@@ -659,7 +661,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		// ======== Movimiento brazos robot. TODO: modularizar (ver problema de uso con Coroutines) ========
 		// Recuperar el robot
-		Transform theRobot = (Transform)Init.robotInstance;
+		Transform theRobot = (Transform)Init.robotInstance[robotIndex].robInstance;
 		Transform cuerpo = theRobot.Find("CuerpoRobot");
 		Transform brazoIzq = cuerpo.Find("BrazoIzq");
 		Transform brazoDer = cuerpo.Find("BrazoDer");

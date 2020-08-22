@@ -237,7 +237,7 @@ public class UI : MonoBehaviour
             fullscreenButtonToggle = Screen.fullScreen;
             oldFullscreen = !Screen.fullScreen;
             cameras = new ArrayList();
-            cameraOnBoard = (Camera)((Transform)Init.robotInstance).GetComponentInChildren<Camera>();
+            cameraOnBoard = (Camera)((Transform)Init.robotInstance[0].robInstance).GetComponentInChildren<Camera>();
             cameraTop.GetComponent<FollowRobot>().enabled = false;
             cameraTop.GetComponent<FollowRobot>().enabled = true;
             cameras.Add(cameraTop);
@@ -606,8 +606,8 @@ public class UI : MonoBehaviour
                 currentCamera = 0;
             setCurrentCamera(currentCamera);
         }
-        // Linea de estado del robot
-        GUI.TextArea(new Rect(margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i - 1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour().getRobotStatus(), styleTextArea);
+        // Linea de estado del robot, arreglar para multiples robots
+        GUI.TextArea(new Rect(margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i - 1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour(0).getRobotStatus(), styleTextArea);
         // Velocidad
         GUI.Label(new Rect(margin, Screen.height / 2 + buttonHeight * 4, buttonWidth * 2, buttonHeight + margin), I18N.getValue("speed"));
         currentRunningSpeed = GUI.VerticalScrollbar(new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight * 8), currentRunningSpeed, .1f, 1f, 0f);
@@ -842,8 +842,9 @@ public class UI : MonoBehaviour
         i++;
         if (GUI.Button(new Rect(margin + i++ * buttonWidth / 2, zone * margin + buttonHeight * row, buttonWidth, margin + buttonHeight), I18N.getValue("set")))
         {
-            Init.getRobotBehaviour().flores = int.Parse(config_bag_flowers);
-            Init.getRobotBehaviour().papeles = int.Parse(config_bag_papers);
+            //Arreglar para poder configurar cada robot.
+            Init.getRobotBehaviour(0).flores = int.Parse(config_bag_flowers);
+            Init.getRobotBehaviour(0).papeles = int.Parse(config_bag_papers);
         }
 
         // Nueva fila
@@ -1039,7 +1040,7 @@ public class UI : MonoBehaviour
             ended = true;
             if (!sentences.Contains("finalizar")){
                 // Invocar a la corutina encargada de ejecutar la visualizacion
-                Transform theRobot = (Transform)Init.robotInstance;
+                Transform theRobot = (Transform)Init.robotInstance[0].robInstance;
                 RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
                 behaviour.StartCoroutine("finalizar", 0);
             }
@@ -1105,7 +1106,7 @@ public class UI : MonoBehaviour
         {
             object result = null;
             // Recuperar el BigBang, y a partir de alli el Robot que se tenga configurado
-            Transform theRobot = (Transform)Init.robotInstance;
+            Transform theRobot = (Transform)Init.robotInstance[0].robInstance;
             RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
             Type type = behaviour.GetType();
             // Pruebas para argumentos.  Esto igualmente se recibe desde libreria
