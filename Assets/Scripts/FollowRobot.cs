@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class FollowRobot : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+    Transform theRobot;
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -12,9 +12,19 @@ public class FollowRobot : MonoBehaviour {
 	void Update () {
 		if (Init.robotInstance == null)
 			return;
-		Transform theRobot = (Transform)Init.robotInstance;
-		
-		transform.position = new Vector3(theRobot.position.x, Mathf.RoundToInt(transform.position.y), theRobot.position.z - UI.pan);
+        if (Init.robotInstance.Count > 1)
+        {
+            if (Init.robotInstance[1].robInstance != null)
+            {
+                theRobot = (Transform)Init.robotInstance[1].robInstance;
+            } else theRobot = (Transform)Init.robotInstance[0].robInstance;
+
+        }
+        else
+        {
+            theRobot = (Transform)Init.robotInstance[0].robInstance;
+        }
+        transform.position = new Vector3(theRobot.position.x, Mathf.RoundToInt(transform.position.y), theRobot.position.z - UI.pan);
 		transform.LookAt(theRobot);
 	}
 }

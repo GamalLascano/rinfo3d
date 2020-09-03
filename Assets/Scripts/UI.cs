@@ -974,7 +974,8 @@ public class UI : MonoBehaviour
 
     public void robotMessage()
     {
-        ParallelRobots.parseRobotCode(currentLine, sentences);
+        Debug.Log("Entre a robotmessage");
+        currentLine=ParallelRobots.parseRobotCode(currentLine, sentences);
     }
     // Update is called once per frame
     void Update()
@@ -1138,17 +1139,17 @@ public class UI : MonoBehaviour
                 for (int i = 0; i < args.Length; i++)
                     behaviour.addArgument(args[i]);
             }
-
+            Debug.Log(sentenceName);
             MethodInfo methodInfo = type.GetMethod(sentenceName);
             // ParameterInfo[] parameters = methodInfo.GetParameters();
-
+            
             // Invocar a la corutina encargada de ejecutar la visualizacion
             behaviour.StartCoroutine(methodInfo.Name, 0);
 
         }
         catch (Exception e)
         {
-            Debug.Log("Exception!! " + e.ToString());
+            
             statusText = I18N.getValue("unknown_line") + (currentLine + 1) + ": " + sentences[currentLine];
             run = false;
         }

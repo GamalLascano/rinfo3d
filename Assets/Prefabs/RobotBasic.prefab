@@ -4998,6 +4998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807db517618b74a48839e2b3a6c72bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  robotIndex: -1
   papeles: 0
   flores: 0
   posca: 1
@@ -5014,7 +5015,7 @@ GameObject:
   - component: {fileID: 2085566}
   - component: {fileID: 12429820}
   - component: {fileID: 9205418}
-  - component: {fileID: 8103544}
+  - component: {fileID: 828274607454235149}
   m_Layer: 0
   m_Name: Cam:Head
   m_TagString: Untagged
@@ -5095,14 +5096,14 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131990}
   m_Enabled: 1
---- !u!81 &8103544
+--- !u!81 &828274607454235149
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131990}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &135478
 GameObject:
   m_ObjectHideFlags: 0

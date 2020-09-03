@@ -11,37 +11,37 @@ public class CodeParsing : MonoBehaviour
         public string Type { get; set; }
     }
     private const string carOP = "~<>=&|";
-    private static int getPosCa()
+    private static int getPosCa(int robotID)
     {
-        return Mathf.RoundToInt(Init.getRobotBehaviour().getRobotPosition().z);
+        return Mathf.RoundToInt(Init.getRobotBehaviour(robotID).getRobotPosition().z);
     }
-    private static int getPosAv()
+    private static int getPosAv(int robotID)
     {
-        return Mathf.RoundToInt(Init.getRobotBehaviour().getRobotPosition().x);
+        return Mathf.RoundToInt(Init.getRobotBehaviour(robotID).getRobotPosition().x);
     }
-    private static int HayFlorEnLaEsquina()
+    private static int HayFlorEnLaEsquina(int robotID)
     {
-        Vector3 pos = Init.getRobotBehaviour().getRobotPosition();
+        Vector3 pos = Init.getRobotBehaviour(robotID).getRobotPosition();
         int i = Init.city[(int)pos.x - 1, (int)pos.z - 1].flowers;
         if (i > 0) return 1;
         else return 0;
     }
-    private static int HayFlorEnLaBolsa()
+    private static int HayFlorEnLaBolsa(int robotID)
     {
-        int i = Init.getRobotBehaviour().flores;
+        int i = Init.getRobotBehaviour(robotID).flores;
         if (i > 0) return 1;
         else return 0;
     }
-    private static int HayPapelEnLaEsquina()
+    private static int HayPapelEnLaEsquina(int robotID)
     {
-        Vector3 pos = Init.getRobotBehaviour().getRobotPosition();
+        Vector3 pos = Init.getRobotBehaviour(robotID).getRobotPosition();
         int i = Init.city[(int)pos.x - 1, (int)pos.z - 1].papers;
         if (i > 0) return 1;
         else return 0;
     }
-    private static int HayPapelEnLaBolsa()
+    private static int HayPapelEnLaBolsa(int robotID)
     {
-        int i = Init.getRobotBehaviour().papeles;
+        int i = Init.getRobotBehaviour(robotID).papeles;
         if (i > 0) return 1;
         else return 0;
     }
@@ -62,6 +62,10 @@ public class CodeParsing : MonoBehaviour
         }
 
         int j = 3;
+        if (codigo[j] == "robots")
+        {
+            while (codigo[j] != "variables") j++;
+        }
         //Va a buscar a comenzar o a llegar al final, lo que ocurra primero. Si llega al final, no tendria que estar indentado.
         //Pero si para por comenzar, entraria al for, dado a que se cumple la condicion. Ahi evaluo si esta indentado o no
         while ((codigo[j]!="comenzar") && (j != (codigo.Length - 1)))
@@ -134,7 +138,7 @@ public class CodeParsing : MonoBehaviour
             codeLine= limit-1;
         }
     }
-    public static int checkCondition(string frase)
+    public static int checkCondition(string frase,int robotID)
     {
         int i = 0;
         int wordstart = 0;
@@ -155,7 +159,7 @@ public class CodeParsing : MonoBehaviour
                 par1aux[0] = ' ';
                 par1aux[par1.Length - 1] = ' ';
                 par1 = new string(par1aux);
-                int valor = checkCondition(par1.Replace(" ", ""));
+                int valor = checkCondition(par1.Replace(" ", ""),robotID);
                 parameterList.Add(new ObjectListValue { Value = valor.ToString(), Type = "Value" });
                 i = frase.LastIndexOf(')');
                 wordstart = i;
@@ -204,17 +208,17 @@ public class CodeParsing : MonoBehaviour
             if (parameterList[f].Type == "Value")
             {
                 if (parameterList[f].Value.Contains("PosCa"))
-                    parameterList[f].Value = parameterList[f].Value.Replace("PosCa", getPosCa().ToString());
+                    parameterList[f].Value = parameterList[f].Value.Replace("PosCa", getPosCa(robotID).ToString());
                 if (parameterList[f].Value.Contains("PosAv"))
-                    parameterList[f].Value = parameterList[f].Value.Replace("PosAv", getPosAv().ToString());
+                    parameterList[f].Value = parameterList[f].Value.Replace("PosAv", getPosAv(robotID).ToString());
                 if (parameterList[f].Value.Contains("HayFlorEnLaBolsa"))
-                    parameterList[f].Value = parameterList[f].Value.Replace("HayFlorEnLaBolsa", HayFlorEnLaBolsa().ToString());
+                    parameterList[f].Value = parameterList[f].Value.Replace("HayFlorEnLaBolsa", HayFlorEnLaBolsa(robotID).ToString());
                 if (parameterList[f].Value.Contains("HayFlorEnLaEsquina"))
-                    parameterList[f].Value = parameterList[f].Value.Replace("HayFlorEnLaEsquina", HayFlorEnLaEsquina().ToString());
+                    parameterList[f].Value = parameterList[f].Value.Replace("HayFlorEnLaEsquina", HayFlorEnLaEsquina(robotID).ToString());
                 if (parameterList[f].Value.Contains("HayPapelEnLaBolsa"))
-                    parameterList[f].Value = parameterList[f].Value.Replace("HayPapelEnLaBolsa", HayPapelEnLaBolsa().ToString());
+                    parameterList[f].Value = parameterList[f].Value.Replace("HayPapelEnLaBolsa", HayPapelEnLaBolsa(robotID).ToString());
                 if (parameterList[f].Value.Contains("HayPapelEnLaEsquina"))
-                    parameterList[f].Value = parameterList[f].Value.Replace("HayPapelEnLaEsquina", HayPapelEnLaEsquina().ToString());
+                    parameterList[f].Value = parameterList[f].Value.Replace("HayPapelEnLaEsquina", HayPapelEnLaEsquina(robotID).ToString());
             }
         }
         if (parameterList.Count == 1)

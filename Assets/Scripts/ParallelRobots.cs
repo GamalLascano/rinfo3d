@@ -14,6 +14,11 @@ public class ParallelRobots : MonoBehaviour
             name = n;
             code = ar;
         }
+        public robotCode()
+        {
+            name = "null";
+            code = new ArrayList();
+        }
     }
     public class robotBools
     {
@@ -26,40 +31,56 @@ public class ParallelRobots : MonoBehaviour
     }
     public static List<robotCode> listOfRobotCodes=new List<robotCode>();
     public static List<robotBools> listOfRobotBools = new List<robotBools>();
-    public static void parseRobotCode(int currentline, ArrayList sentences)
+    public static int parseRobotCode(int currentline, ArrayList sentences)
     {
-        string aux = (string) sentences[currentline];
-        int index = currentline;
-        while (aux.Contains("robot "))
+        int index = currentline+1;
+        string aux = (string) sentences[index];
+        
+        while (aux.Contains("robot"))
         {
-            string name = aux.Substring("robot ".Length);
+            //Tengo que verificar si tiene comenzar tambien
+            string name = aux.Substring("robot".Length);
             index = index + 2;
             int start = index;
-            while(!((string) sentences[index] == "finalizar")||(index<sentences.Count))
+            
+            while(!String.Equals((string)sentences[index], "finalizar") && (index<sentences.Count))
             {
+                Debug.Log((string)sentences[index] + " finalizar");
                 index++;
             }
-            robotCode newRob = new robotCode(name, sentences.GetRange(start, index - 1));
+            int ayudapls = index - start;
+            robotCode newRob = new robotCode(name, sentences.GetRange(start, ayudapls));
+            if (Init.robotInstance.Count > 1) listOfRobotCodes.Add(new robotCode());
             listOfRobotCodes.Add(newRob);
             if((index+1)< sentences.Count)
             {
                 aux = (string)sentences[index + 1];
             }
         }
+        for(int i=1; i < listOfRobotCodes.Count; i++)
+        {
+            Debug.Log("---RobotCode " + i + "---");
+            for(int j = 0; j < listOfRobotCodes[i].code.Count; j++)
+            {
+                Debug.Log(listOfRobotCodes[i].code[j]);
+            }
+        }
+        return index;
     }
     public IEnumerator codeExecution(int robotIndex)
     {
+
         robotBools aux = new robotBools
         {
             robotIndexRef = robotIndex
         };
+        
         listOfRobotBools.Add(aux);
         int indexLRB = listOfRobotBools.IndexOf(aux);
         while (listOfRobotBools[indexLRB].ended==false)
         {
             listOfRobotBools[indexLRB].step = true;
             listOfRobotBools[indexLRB].currentLine++;
-
             if (listOfRobotBools[indexLRB].currentLine == listOfRobotCodes[robotIndex].code.Count - 1)
             {
                 //statusText = I18N.getValue("finished");
@@ -77,7 +98,8 @@ public class ParallelRobots : MonoBehaviour
             else if (listOfRobotCodes[robotIndex].code[listOfRobotBools[indexLRB].currentLine] != null && listOfRobotCodes[robotIndex].code[listOfRobotBools[indexLRB].currentLine].ToString().Length > 0)
             {
                 listOfRobotBools[indexLRB].executingCurrentLine = true;
-                executeParallelLine(listOfRobotBools[indexLRB].currentLine,indexLRB);
+                object[] paramos = new object[2] { listOfRobotBools[indexLRB].currentLine, indexLRB };
+                UI.getBigBang().GetComponent<ParallelRobots>().StartCoroutine("executeParallelLine", paramos);
                // if (ListOfRepeatBools.Count > 0)
                // {
                //     if (currentLine == ListOfRepeatBools[ListOfRepeatBools.Count - 1].instructionStopValue)
@@ -123,8 +145,10 @@ public class ParallelRobots : MonoBehaviour
         }
         yield return new WaitForSeconds(0);
     }
-    public IEnumerator executeParallelLine(int currentLine, int indexLRB)
+    public IEnumerator executeParallelLine(object[] paramos)
     {
+        int currentLine=(int)paramos[0]; 
+        int indexLRB = (int)paramos[1];
         // FIXME: Aqui deberia delegarse al robot a fin de que realice la animacion
         int robotIndex = listOfRobotBools[indexLRB].robotIndexRef;
         string status = I18N.getValue("exec_line") + (currentLine + 1) + ": " + listOfRobotCodes[robotIndex].code[currentLine];
@@ -133,7 +157,6 @@ public class ParallelRobots : MonoBehaviour
         // Invocar ejecucion visual via reflection
         try
         {
-            object result = null;
             // Recuperar el BigBang, y a partir de alli el Robot que se tenga configurado
             Transform theRobot = (Transform)Init.getRobotInstance(robotIndex).robInstance;
             RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
@@ -141,22 +164,7 @@ public class ParallelRobots : MonoBehaviour
             // Pruebas para argumentos.  Esto igualmente se recibe desde libreria
             string sentence = (string)listOfRobotCodes[robotIndex].code[currentLine];
             string sentenceName = "";
-            switch (currentLine)
-            {
-                case 0:
-                    sentenceName = sentence.Substring(0, "programa".Length);
-                    behaviour.resetArguments();
-                    string arg;
-                    arg = sentence.Substring("programa".Length, sentence.Length - "programa".Length);
-                    behaviour.addArgument(arg);
-                    break;
-                case 2:
-                    sentenceName = sentence.Replace(" ", "").Substring(sentence.IndexOf(':') + 1, "AreaC".Length);
-                    break;
-                default:
-                    sentenceName = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
-                    break;
-            }
+            sentenceName = sentence.Substring(0, sentence.Contains("(") ? sentence.IndexOf("(") : sentence.Length);
             // Cargar los parametros segun la instruccion que sea.  FIXME: Deshardcode
             if (sentence.Contains("("))
             {
@@ -170,7 +178,7 @@ public class ParallelRobots : MonoBehaviour
 
             MethodInfo methodInfo = type.GetMethod(sentenceName);
             // ParameterInfo[] parameters = methodInfo.GetParameters();
-
+            Debug.Log(sentenceName);
             // Invocar a la corutina encargada de ejecutar la visualizacion
             behaviour.StartCoroutine(methodInfo.Name, 0);
 

@@ -117,9 +117,24 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		                                 );
 		yield return new WaitForSeconds(0);
 
-		// Fin de ejecucion
-		UI.executingCurrentLine = false;
-
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;        
+            for(int i=0;i< ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
 	}
 
 	/**
@@ -144,10 +159,26 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		                                          Mathf.RoundToInt(initialRotation.eulerAngles.y) + 90,
 		                                          Mathf.RoundToInt(initialRotation.eulerAngles.z));
 
-		// Fin de ejecucion
-		UI.executingCurrentLine = false; 
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;
+            for (int i = 0; i < ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
 
-	}
+    }
 
 	/**
 	 * Informa texto en pantalla
@@ -158,9 +189,25 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		UI.informarMessage = message;
             while (UI.informarMessage != null)
                 yield return new WaitForSeconds(0);
-		// Fin de ejecucion
-		UI.executingCurrentLine = false; 
-	}
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;
+            for (int i = 0; i < ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
+    }
 
 	/**
 	 * Ubica al robot en la posicion dada segun los argumentos
@@ -240,10 +287,26 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		em.enabled = false;
 		yield return new WaitForSeconds(0);
 
-		// Fin de ejecucion
-		UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;
+            for (int i = 0; i < ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
 
-	}
+    }
     /**
 	 * Inicializa al robot en la posicion dada segun los argumentos
 	 */
@@ -251,6 +314,22 @@ public abstract class RobotBehaviour : MonoBehaviour {
         // Ubicacion inicial segun parametros, apuntando al norte
         string nomRob = (string)arguments[0];
         int index = -1;
+        if (Init.robotInstance.Count == 1)
+        {
+            Transform aux = (Transform)Init.robotInstance[0].robInstance;
+            aux.GetComponentInChildren<MeshRenderer>().enabled = true;
+            for (int i = 0; i < aux.GetChild(0).childCount; i++)
+            {
+                aux.GetChild(0).GetChild(i).GetComponent<MeshRenderer>().enabled = true;
+            }
+            for (int i = 0; i < aux.GetChild(0).GetChild(0).childCount; i++)
+            {
+                if (aux.GetChild(0).GetChild(0).GetChild(i).name != "Cam:Head")
+                {
+                    aux.GetChild(0).GetChild(0).GetChild(i).GetComponent<MeshRenderer>().enabled = true;
+                }
+            }
+        }
         for (int i = 0;i < Init.robotInstance.Count; i++)
         {
             if (Init.robotInstance[i].name == nomRob)
@@ -270,8 +349,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		                                 Mathf.RoundToInt ( 0 ),
 		                                 Mathf.RoundToInt ( int.Parse((string)arguments[2]) ) 
 		                                 );
-
-		yield return new WaitForSeconds(0);
+        UI.getBigBang().GetComponent<ParallelRobots>().StartCoroutine("codeExecution",behaviour.robotIndex);
 
 		float scale = 0f;
 		while (scale < 1) { 
@@ -282,8 +360,8 @@ public abstract class RobotBehaviour : MonoBehaviour {
 		
 		// Fin de ejecucion
 		UI.executingCurrentLine = false;
-
-	}
+        yield return new WaitForSeconds(0);
+    }
 
 	/**
 	 * El robot toma una flor
@@ -356,10 +434,26 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 
 		yield return new WaitForSeconds(0);
-		// Fin de ejecucion
-		UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;
+            for (int i = 0; i < ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
 
-	}
+    }
 
 	/**
 	 * El robot deposita una flor
@@ -431,10 +525,26 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 
 		yield return new WaitForSeconds(0);
-		// Fin de ejecucion
-		UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;
+            for (int i = 0; i < ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
 
-	}
+    }
 
 	/**
 	 * El robot toma un papel
@@ -507,10 +617,26 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 
 		yield return new WaitForSeconds(0);
-		// Fin de ejecucion
-		UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;
+            for (int i = 0; i < ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
 
-	}
+    }
 	public virtual IEnumerator variables()
     {
         Debug.Log(Init.Variables.Count);
@@ -602,10 +728,26 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 
 		yield return new WaitForSeconds(0);
-		// Fin de ejecucion
-		UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;
+            for (int i = 0; i < ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
 
-	}
+    }
     public virtual IEnumerator programa()
     {
         UI.programName = (string)arguments[0];
@@ -643,6 +785,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
         }
         if (index != -1)
         {
+            
             Init.robotInstance.Add(new Init.RobotInstances()) ;
             Init.getRobotInstance(Init.robotInstance.Count-1).name=nomRob;
             Init.getRobotInstance(Init.robotInstance.Count - 1).type = Init.Variables[index].tipo;
@@ -753,9 +896,25 @@ public abstract class RobotBehaviour : MonoBehaviour {
 
 		yield return new WaitForSeconds(0);
 
-		// Fin de ejecucion
-		UI.executingCurrentLine = false;
-	}
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            int indexLRB = -1;
+            for (int i = 0; i < ParallelRobots.listOfRobotBools.Count; i++)
+            {
+                //    Transform bla = (Transform)Init.robotInstance[i].robInstance;
+                //    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                Debug.Log(ParallelRobots.listOfRobotBools[i].robotIndexRef);
+                Debug.Log(robotIndex);
+                if (ParallelRobots.listOfRobotBools[i].robotIndexRef == robotIndex) indexLRB = i;
+            }
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
+    }
 	
 	//Estructuras de control
 
@@ -778,7 +937,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
         int currentSpacing = sentenceSpace[count];
         int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
         string condition = (string)arguments[0];
-        if (CodeParsing.checkCondition(condition) == 1)
+        if (CodeParsing.checkCondition(condition, robotIndex) == 1)
         {
             UI.setLoop(stopCount-1,true,count);
         }
@@ -798,7 +957,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
         int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
         string condition = (string)arguments[0];
         UI.setPastCond(condition);
-        if (CodeParsing.checkCondition(condition) != 1)
+        if (CodeParsing.checkCondition(condition,robotIndex) != 1)
         {
             UI.setInstructionCount(stopCount - 1);
         }
@@ -830,7 +989,7 @@ public abstract class RobotBehaviour : MonoBehaviour {
         int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
         string condition = UI.getPastCond();
 
-        if (CodeParsing.checkCondition(condition) == 1)
+        if (CodeParsing.checkCondition(condition, robotIndex) == 1)
         {
             UI.setInstructionCount(stopCount - 1);
         }

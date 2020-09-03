@@ -81,10 +81,22 @@ public class Init : MonoBehaviour {
         robotInstance = new List<RobotInstances>();
         robotInstance.Add(new RobotInstances());
         robotInstance[0].robInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
+        ParallelRobots.listOfRobotCodes.Add(new ParallelRobots.robotCode());
         Transform aux = (Transform)robotInstance[0].robInstance;
         RobotBehaviour behaviour = (RobotBehaviour)aux.GetComponent<RobotBehaviour>();
         behaviour.robotIndex = 0;
-        aux.GetComponent<MeshRenderer>().enabled = false;
+        aux.GetComponentInChildren<MeshRenderer>().enabled = false;
+        for (int i=0;i<aux.GetChild(0).childCount;i++)
+        {
+            aux.GetChild(0).GetChild(i).GetComponent<MeshRenderer>().enabled = false;
+        }
+        for (int i = 0; i < aux.GetChild(0).GetChild(0).childCount; i++)
+        {
+            if (aux.GetChild(0).GetChild(0).GetChild(i).name != "Cam:Head")
+            {
+                aux.GetChild(0).GetChild(0).GetChild(i).GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
         //robotInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
         //Inicializar papeles y flores de forma que corra siempre el codigo ejemplo
         Corner.setCorner("1", "1", "1", false);
