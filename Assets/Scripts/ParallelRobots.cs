@@ -81,7 +81,7 @@ public class ParallelRobots : MonoBehaviour
         {
             listOfRobotBools[indexLRB].step = true;
             listOfRobotBools[indexLRB].currentLine++;
-            if (listOfRobotBools[indexLRB].currentLine == listOfRobotCodes[robotIndex].code.Count - 1)
+            if (listOfRobotBools[indexLRB].currentLine == listOfRobotCodes[robotIndex].code.Count)
             {
                 //statusText = I18N.getValue("finished");
                 listOfRobotBools[indexLRB].currentLine = -1;
@@ -143,6 +143,7 @@ public class ParallelRobots : MonoBehaviour
             //    currentLine = -1;
             //}
         }
+        Debug.Log("Termino la ejecucion de parallelRobots");
         yield return new WaitForSeconds(0);
     }
     public IEnumerator executeParallelLine(object[] paramos)
