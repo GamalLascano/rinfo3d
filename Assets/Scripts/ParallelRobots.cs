@@ -128,7 +128,7 @@ public class ParallelRobots : MonoBehaviour
             // Mientras que este ejecutando, esperar 1 - currentRunningSpeed
             while (listOfRobotBools[indexLRB].executingCurrentLine)
             {
-                yield return new WaitForSeconds(0);
+                yield return new WaitForSeconds(1- UI.currentRunningSpeed);
             }
 
             listOfRobotBools[indexLRB].step = false;
