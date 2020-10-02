@@ -9,15 +9,18 @@ public class ParallelRobots : MonoBehaviour
     public class robotCode{
         public string name { get; set; }
         public ArrayList code { get; set; }
-        public robotCode(string n,ArrayList ar)
+        public int offset { get; set; }
+        public robotCode(string n,ArrayList ar,int of)
         {
             name = n;
             code = ar;
+            offset = of;
         }
         public robotCode()
         {
             name = "null";
             code = new ArrayList();
+            offset = 0;
         }
     }
     public class robotBools
@@ -49,7 +52,7 @@ public class ParallelRobots : MonoBehaviour
                 index++;
             }
             int ayudapls = index - start;
-            robotCode newRob = new robotCode(name, sentences.GetRange(start, ayudapls));
+            robotCode newRob = new robotCode(name, sentences.GetRange(start, ayudapls),start);
             if (Init.robotInstance.Count > 1) listOfRobotCodes.Add(new robotCode());
             listOfRobotCodes.Add(newRob);
             if((index+1)< sentences.Count)
@@ -77,6 +80,9 @@ public class ParallelRobots : MonoBehaviour
         
         listOfRobotBools.Add(aux);
         int indexLRB = listOfRobotBools.IndexOf(aux);
+        Transform theRobot = (Transform)Init.getRobotInstance(robotIndex).robInstance;
+        RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+        behaviour.robotOffset = listOfRobotCodes[robotIndex].offset;
         while (listOfRobotBools[indexLRB].ended==false)
         {
             listOfRobotBools[indexLRB].step = true;
@@ -90,8 +96,8 @@ public class ParallelRobots : MonoBehaviour
                 if (!listOfRobotCodes[robotIndex].code.Contains("finalizar"))
                 {
                     // Invocar a la corutina encargada de ejecutar la visualizacion
-                    Transform theRobot = (Transform)Init.getRobotInstance(robotIndex).robInstance;
-                    RobotBehaviour behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
+                    theRobot = (Transform)Init.getRobotInstance(robotIndex).robInstance;
+                    behaviour = (RobotBehaviour)theRobot.GetComponent<RobotBehaviour>();
                     behaviour.StartCoroutine("finalizar", 0);
                 }
             }
@@ -190,6 +196,7 @@ public class ParallelRobots : MonoBehaviour
          //   statusText = I18N.getValue("unknown_line") + (currentLine + 1) + ": " + sentences[currentLine];
             listOfRobotBools[indexLRB].run = false;
         }
+        Debug.Log("Salgo en linea " + listOfRobotBools[indexLRB].currentLine);
         yield return new WaitForSeconds(0);
     }
     // Start is called before the first frame update

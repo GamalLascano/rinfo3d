@@ -6,8 +6,11 @@ using System.Reflection;
 public abstract class RobotBehaviour : MonoBehaviour {
     // Identificador del robot para paralelismo
     public int robotIndex = -1;
-	// Posicion y cantidad de papeles y flores
-	public int papeles = 0;
+    public int robotOffset = 0;
+    //If pasado de los robots en paralelo
+    private static string pastIfCondition = "0";
+    // Posicion y cantidad de papeles y flores
+    public int papeles = 0;
 	public int flores  = 0;
     public int posca = 1;
     public int posav = 1;
@@ -952,18 +955,51 @@ public abstract class RobotBehaviour : MonoBehaviour {
     public virtual IEnumerator si()
     {
         int[] sentenceSpace = UI.getSpacing();
-        int count = UI.getInstructionCount();
+        int count = 0;
+        int indexLRB = -1;
+        if (robotIndex == 0)
+        {
+            count = UI.getInstructionCount();
+        }
+        else
+        {
+            for (int j = 0; j < ParallelRobots.listOfRobotBools.Count; j++)
+            {
+                if (ParallelRobots.listOfRobotBools[j].robotIndexRef == robotIndex) indexLRB = j;
+            }
+            count = robotOffset + ParallelRobots.listOfRobotBools[indexLRB].currentLine;
+        }
         int currentSpacing = sentenceSpace[count];
         int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
         string condition = (string)arguments[0];
-        UI.setPastCond(condition);
-        if (CodeParsing.checkCondition(condition,robotIndex) != 1)
+        if (robotIndex == 0)
         {
-            UI.setInstructionCount(stopCount - 1);
+            UI.setPastCond(condition);
+            if (CodeParsing.checkCondition(condition, robotIndex) != 1)
+            {
+                UI.setInstructionCount(stopCount - 1);
+            }
+        }
+        else
+        {
+            pastIfCondition = condition;
+            if (CodeParsing.checkCondition(condition, robotIndex) != 1)
+            {
+                Debug.Log(stopCount-1);
+                Debug.Log("Valor de salida:");
+                ParallelRobots.listOfRobotBools[indexLRB].currentLine= stopCount - count;
+            }
         }
         yield return new WaitForSeconds(0);
-        //Fin de ejecucion
-        UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
     }
     private int stopCountReturn(int[] sentenceSpace, int count, int currentSpacing)
     {
