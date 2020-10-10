@@ -34,6 +34,11 @@ public class ParallelRobots : MonoBehaviour
     }
     public static List<robotCode> listOfRobotCodes=new List<robotCode>();
     public static List<robotBools> listOfRobotBools = new List<robotBools>();
+    private static List<UI.RepeatBools> ListOfRepeatBools = new List<UI.RepeatBools>();
+    public static void setRepeat(int loop, int value, int value2)
+    {
+        ListOfRepeatBools.Add(new UI.RepeatBools(loop, value, value2));
+    }
     public static int parseRobotCode(int currentline, ArrayList sentences)
     {
         int index = currentline+1;
@@ -106,29 +111,28 @@ public class ParallelRobots : MonoBehaviour
                 listOfRobotBools[indexLRB].executingCurrentLine = true;
                 object[] paramos = new object[2] { listOfRobotBools[indexLRB].currentLine, indexLRB };
                 UI.getBigBang().GetComponent<ParallelRobots>().StartCoroutine("executeParallelLine", paramos);
-               // if (ListOfRepeatBools.Count > 0)
-               // {
-               //     if (currentLine == ListOfRepeatBools[ListOfRepeatBools.Count - 1].instructionStopValue)
-               //     {
-               //         if (ListOfRepeatBools[ListOfRepeatBools.Count - 1].currentLoop < ListOfRepeatBools[ListOfRepeatBools.Count - 1].loops)
-               //         {
-               //             Debug.Log(ListOfRepeatBools.Count);
-               //             ListOfRepeatBools[ListOfRepeatBools.Count - 1].currentLoop++;
-               //             currentLine = ListOfRepeatBools[ListOfRepeatBools.Count - 1].instructionStartValue - 1;
-               //         }
-               //         else
-               //         {
-               //             ListOfRepeatBools.RemoveAt(ListOfRepeatBools.Count - 1);
-               //         }
-               //     }
-               // }
-               // if (ListOfControlBools.Count > 0)
-               // {
-               //     if (currentLine == ListOfControlBools[ListOfControlBools.Count - 1].instructionStopValue)
-               //     {
-               //         currentLine = ListOfControlBools[ListOfControlBools.Count - 1].instructionStartValue - 1;
-               //     }
-               // }
+                if (ListOfRepeatBools.Count > 0)
+                {
+                    if (listOfRobotBools[indexLRB].currentLine == ListOfRepeatBools[ListOfRepeatBools.Count - 1].instructionStopValue)
+                    {
+                        if (ListOfRepeatBools[ListOfRepeatBools.Count - 1].currentLoop < ListOfRepeatBools[ListOfRepeatBools.Count - 1].loops)
+                        {
+                            ListOfRepeatBools[ListOfRepeatBools.Count - 1].currentLoop++;
+                            listOfRobotBools[indexLRB].currentLine = ListOfRepeatBools[ListOfRepeatBools.Count - 1].instructionStartValue - 1;
+                        }
+                        else
+                        {
+                            ListOfRepeatBools.RemoveAt(ListOfRepeatBools.Count - 1);
+                        }
+                    }
+                }
+                // if (ListOfControlBools.Count > 0)
+                // {
+                //     if (currentLine == ListOfControlBools[ListOfControlBools.Count - 1].instructionStopValue)
+                //     {
+                //         currentLine = ListOfControlBools[ListOfControlBools.Count - 1].instructionStartValue - 1;
+                //     }
+                // }
             }
 
             // Mientras que este ejecutando, esperar 1 - currentRunningSpeed

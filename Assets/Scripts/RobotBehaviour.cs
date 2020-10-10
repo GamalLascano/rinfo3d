@@ -918,22 +918,49 @@ public abstract class RobotBehaviour : MonoBehaviour {
             ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
         }
     }
-	
-	//Estructuras de control
+
+    //Estructuras de control
 
     public virtual IEnumerator repetir()
     {
         int[] sentenceSpace = UI.getSpacing();
-        int count = UI.getInstructionCount();
+        int count = 0;
+        int indexLRB = -1;
+        if (robotIndex == 0)
+        {
+            count = UI.getInstructionCount();
+        }
+        else
+        {
+            for (int j = 0; j < ParallelRobots.listOfRobotBools.Count; j++)
+            {
+                if (ParallelRobots.listOfRobotBools[j].robotIndexRef == robotIndex) indexLRB = j;
+            }
+            count = robotOffset + ParallelRobots.listOfRobotBools[indexLRB].currentLine;
+        }
         int currentSpacing = sentenceSpace[count];
         int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
         string loopCount = (string)arguments[0];
-        UI.setRepeat(int.Parse(loopCount), stopCount - 1, count+1);
+        if (robotIndex == 0)
+        {
+            UI.setRepeat(int.Parse(loopCount), stopCount - 1, count + 1);
+        }
+        else
+        {
+            ParallelRobots.setRepeat(int.Parse(loopCount), stopCount - count, ParallelRobots.listOfRobotBools[indexLRB].currentLine + 1);
+        }
         yield return new WaitForSeconds(0);
         //Fin de ejecucion
-        UI.executingCurrentLine = false;
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
     }
-	public virtual IEnumerator mientras()
+    public virtual IEnumerator mientras()
     {
         int[] sentenceSpace = UI.getSpacing();
         int count = UI.getInstructionCount();
@@ -985,8 +1012,6 @@ public abstract class RobotBehaviour : MonoBehaviour {
             pastIfCondition = condition;
             if (CodeParsing.checkCondition(condition, robotIndex) != 1)
             {
-                Debug.Log(stopCount-1);
-                Debug.Log("Valor de salida:");
                 ParallelRobots.listOfRobotBools[indexLRB].currentLine= stopCount - count;
             }
         }
@@ -1020,17 +1045,48 @@ public abstract class RobotBehaviour : MonoBehaviour {
     public virtual IEnumerator sino()
     {
         int[] sentenceSpace = UI.getSpacing();
-        int count = UI.getInstructionCount();
+        int count = 0;
+        int indexLRB = -1;
+        if (robotIndex == 0)
+        {
+            count = UI.getInstructionCount();
+        }
+        else
+        {
+            for (int j = 0; j < ParallelRobots.listOfRobotBools.Count; j++)
+            {
+                if (ParallelRobots.listOfRobotBools[j].robotIndexRef == robotIndex) indexLRB = j;
+            }
+            count = robotOffset + ParallelRobots.listOfRobotBools[indexLRB].currentLine;
+        }
         int currentSpacing = sentenceSpace[count];
         int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
-        string condition = UI.getPastCond();
-
-        if (CodeParsing.checkCondition(condition, robotIndex) == 1)
+        string condition = (string)arguments[0];
+        if (robotIndex == 0)
         {
-            UI.setInstructionCount(stopCount - 1);
+            UI.setPastCond(condition);
+            if (CodeParsing.checkCondition(condition, robotIndex) == 1)
+            {
+                UI.setInstructionCount(stopCount - 1);
+            }
+        }
+        else
+        {
+            pastIfCondition = condition;
+            if (CodeParsing.checkCondition(condition, robotIndex) == 1)
+            {
+                ParallelRobots.listOfRobotBools[indexLRB].currentLine = stopCount - count;
+            }
         }
         yield return new WaitForSeconds(0);
-        //Fin de ejecucion
-        UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
     }
 }

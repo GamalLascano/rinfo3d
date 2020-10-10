@@ -198,7 +198,7 @@ public class UI : MonoBehaviour
     {
         pastIfCondition = condition;
     }
-    private class RepeatBools
+    public class RepeatBools
     {
         public int loops { get; set; }
         public int currentLoop { get; set; }
