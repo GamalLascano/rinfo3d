@@ -141,7 +141,7 @@ public class UI : MonoBehaviour
     private bool fullscreenButtonToggle = false;
     private bool oldFullscreen = true;
     //Flags para controlar los loops
-    private class ControlBools
+    public class ControlBools
     {
         public bool inLoop { get; set; }
         public int instructionStopValue { get; set; }

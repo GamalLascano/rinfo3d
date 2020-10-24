@@ -27,6 +27,7 @@ public class ParallelRobots : MonoBehaviour
     {
         public int robotIndexRef { get; set; } = -1;
         public int currentLine { get; set; } = -1;
+        public List<UI.ControlBools> ListOfControlBools { get; set; } = new List<UI.ControlBools>();
         public bool step { get; set; } = false;
         public bool run { get; set; } = true;
         public bool ended { get; set; } = false;
@@ -126,13 +127,13 @@ public class ParallelRobots : MonoBehaviour
                         }
                     }
                 }
-                // if (ListOfControlBools.Count > 0)
-                // {
-                //     if (currentLine == ListOfControlBools[ListOfControlBools.Count - 1].instructionStopValue)
-                //     {
-                //         currentLine = ListOfControlBools[ListOfControlBools.Count - 1].instructionStartValue - 1;
-                //     }
-                // }
+                 if (listOfRobotBools[indexLRB].ListOfControlBools.Count > 0)
+                 {
+                     if (listOfRobotBools[indexLRB].currentLine == listOfRobotBools[indexLRB].ListOfControlBools[listOfRobotBools[indexLRB].ListOfControlBools.Count - 1].instructionStopValue)
+                     {
+                        listOfRobotBools[indexLRB].currentLine = listOfRobotBools[indexLRB].ListOfControlBools[listOfRobotBools[indexLRB].ListOfControlBools.Count - 1].instructionStartValue - 1;
+                     }
+                 }
             }
 
             // Mientras que este ejecutando, esperar 1 - currentRunningSpeed
@@ -202,6 +203,38 @@ public class ParallelRobots : MonoBehaviour
         }
         Debug.Log("Salgo en linea " + listOfRobotBools[indexLRB].currentLine);
         yield return new WaitForSeconds(0);
+    }
+    
+    public static void setLoop(int value, bool state, int value2,int indexLRB)
+    {
+        if (state == true)
+        {
+            if (listOfRobotBools[indexLRB].ListOfControlBools.Count > 0)
+            {
+                if (listOfRobotBools[indexLRB].ListOfControlBools[listOfRobotBools[indexLRB].ListOfControlBools.Count - 1].inLoop == true)
+                {
+                    if (listOfRobotBools[indexLRB].ListOfControlBools[listOfRobotBools[indexLRB].ListOfControlBools.Count - 1].instructionStartValue != value2)
+                    {
+                        listOfRobotBools[indexLRB].ListOfControlBools.Add(new UI.ControlBools(state, value, value2));
+                    }
+                }
+            }
+            else
+            {
+                listOfRobotBools[indexLRB].ListOfControlBools.Add(new UI.ControlBools(state, value, value2));
+            }
+        }
+        else
+        {
+            if (listOfRobotBools[indexLRB].ListOfControlBools.Count > 0)
+            {
+                if ((listOfRobotBools[indexLRB].ListOfControlBools[listOfRobotBools[indexLRB].ListOfControlBools.Count - 1].inLoop == true) && (listOfRobotBools[indexLRB].ListOfControlBools[listOfRobotBools[indexLRB].ListOfControlBools.Count - 1].instructionStartValue == value2))
+                {
+                    listOfRobotBools[indexLRB].ListOfControlBools.RemoveAt(listOfRobotBools[indexLRB].ListOfControlBools.Count - 1);
+                }
+            }
+            listOfRobotBools[indexLRB].currentLine = value;
+        }
     }
     // Start is called before the first frame update
     void Start()

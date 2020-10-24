@@ -963,21 +963,60 @@ public abstract class RobotBehaviour : MonoBehaviour {
     public virtual IEnumerator mientras()
     {
         int[] sentenceSpace = UI.getSpacing();
-        int count = UI.getInstructionCount();
-        int currentSpacing = sentenceSpace[count];
-        int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
-        string condition = (string)arguments[0];
-        if (CodeParsing.checkCondition(condition, robotIndex) == 1)
+        int count = 0;
+        int indexLRB = -1;
+        if (robotIndex == 0)
         {
-            UI.setLoop(stopCount-1,true,count);
+            count = UI.getInstructionCount();
         }
         else
         {
-            UI.setLoop(stopCount-1, false,count);
+            for (int j = 0; j < ParallelRobots.listOfRobotBools.Count; j++)
+            {
+                if (ParallelRobots.listOfRobotBools[j].robotIndexRef == robotIndex) indexLRB = j;
+            }
+            count = robotOffset + ParallelRobots.listOfRobotBools[indexLRB].currentLine;
+        }
+        int currentSpacing = sentenceSpace[count];
+        int stopCount = stopCountReturn(sentenceSpace, count, currentSpacing);
+        string condition = (string)arguments[0];
+        if (robotIndex > 0)
+        {
+            for (int j = 0; j < ParallelRobots.listOfRobotBools.Count; j++)
+            {
+                if (ParallelRobots.listOfRobotBools[j].robotIndexRef == robotIndex) indexLRB = j;
+            }
+            count = robotOffset + ParallelRobots.listOfRobotBools[indexLRB].currentLine;
+            if (CodeParsing.checkCondition(condition, robotIndex) == 1)
+            {
+                ParallelRobots.setLoop(stopCount - count, true, ParallelRobots.listOfRobotBools[indexLRB].currentLine, indexLRB);
+            }
+            else
+            {
+                ParallelRobots.setLoop(stopCount - count, false, ParallelRobots.listOfRobotBools[indexLRB].currentLine, indexLRB);
+            }
+        }
+        else
+        {
+            if (CodeParsing.checkCondition(condition, robotIndex) == 1)
+            {
+                UI.setLoop(stopCount - 1, true, count);
+            }
+            else
+            {
+                UI.setLoop(stopCount - 1, false, count);
+            }
         }
         yield return new WaitForSeconds(0);
-        //Fin de ejecucion
-        UI.executingCurrentLine = false;
+        // Fin de ejecucion
+        if (robotIndex == -1)
+        {
+            UI.executingCurrentLine = false;
+        }
+        else
+        {
+            ParallelRobots.listOfRobotBools[indexLRB].executingCurrentLine = false;
+        }
     }
     public virtual IEnumerator si()
     {
