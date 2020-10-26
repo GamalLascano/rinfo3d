@@ -92,7 +92,7 @@ public class UI : MonoBehaviour
     // Ya se ejecutaron todas las instrucciones del programa?
     protected bool ended = false;
     // Listado de Camaras
-    protected ArrayList cameras = null;
+    public ArrayList cameras = null;
     // Camara superior
     public Camera cameraTop = null;
     // Camara desde la esquina
@@ -249,11 +249,11 @@ public class UI : MonoBehaviour
             setCurrentCamera(currentCamera);
             if ((Application.platform == RuntimePlatform.WindowsEditor) || (Application.platform == RuntimePlatform.WindowsPlayer) || (Application.platform == RuntimePlatform.OSXPlayer) || (Application.platform == RuntimePlatform.LinuxPlayer))
             {
-                cameraAngle.pixelRect = new Rect(Screen.width / 3, Screen.height / 2, Screen.width / 2, Screen.height / 3);
+               // cameraAngle.pixelRect = new Rect(Screen.width / 3, Screen.height / 2, Screen.width / 2, Screen.height / 3);
             }
             else
             {
-                cameraAngle.pixelRect = new Rect(0, 0, Screen.width , Screen.height );
+               // cameraAngle.pixelRect = new Rect(0, 0, Screen.width , Screen.height );
             }
                
             if (bigBang != null)
@@ -355,21 +355,6 @@ public class UI : MonoBehaviour
                 step = false;
                 ended = false;
             }
-            //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("open"), styleButton)) {
-            //			var path = EditorUtility.OpenFilePanel(I18N.getValue("open_file"), "", "txt");
-            //			if (path.Length != 0) {
-            //				Debug.Log ("Reading data from: " + path);
-            //				readCode(path);
-            //			}
-
-            //		}
-            //		if (GUI.Button (new Rect (margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("save"), styleButton)) {
-            //			var path = EditorUtility.SaveFilePanel (I18N.getValue("save_file"), "", I18N.getValue("filename"), "txt");
-            //			if (path.Length != 0) {
-            //				Debug.Log ("Writing data to: " + path);
-            //				writeCode (path);
-            //			}
-            //		}
             i++;
             if (GUI.Button(new Rect(margin , 3 * Screen.height / 4 + buttonHeight+margin, buttonWidth, margin + buttonHeight), I18N.getValue("open_file"), styleButton))
             {
@@ -520,6 +505,13 @@ public class UI : MonoBehaviour
         }
         informarMessage = null;
     }
+    public void removeExtraCameras()
+    {
+        while (cameras.Count > 4)
+        {
+            cameras.RemoveAt(cameras.Count - 1);
+        }
+    }
     /** Renders the VR Run Cycle */
     void renderVRRUN()
     {
@@ -595,6 +587,8 @@ public class UI : MonoBehaviour
         if (GUI.Button(new Rect(margin + i++ * buttonWidth, margin, buttonWidth, margin + buttonHeight), I18N.getValue("stop"), styleButton) && informarMessage == null)
         {
             checkedCode = false;
+            UI.getBigBang().GetComponent<UI>().setCurrentCamera(2);
+            UI.getBigBang().GetComponent<Init>().ResetRobots();
             currentState = STATE_EDITING;
         }
         // Camara
@@ -913,7 +907,7 @@ public class UI : MonoBehaviour
 
 
     /** Actualiza la camara actual */
-    void setCurrentCamera(int cameraNo)
+    public void setCurrentCamera(int cameraNo)
     {
         pan = 0;
         for (int i = 0; i < cameras.Count; i++)

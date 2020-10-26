@@ -12,7 +12,20 @@ public class LookAtRobot : MonoBehaviour {
 	void Update () {
 		if (Init.robotInstance == null)
 			return;
-		Transform theRobot = (Transform)Init.robotInstance[0].robInstance;
+        Transform theRobot;
+        if (Init.robotInstance.Count > 1)
+        {
+            if (Init.robotInstance[1].robInstance != null)
+            {
+                theRobot = (Transform)Init.robotInstance[1].robInstance;
+            }
+            else theRobot = (Transform)Init.robotInstance[0].robInstance;
+
+        }
+        else
+        {
+            theRobot = (Transform)Init.robotInstance[0].robInstance;
+        }
 
 		Transform target = theRobot.Find("CuerpoRobot").Find("CabezaRobot");
 		transform.position = new Vector3(theRobot.position.x - 3 + UI.pan, Mathf.RoundToInt(transform.position.y), theRobot.position.z - 3  - UI.pan);

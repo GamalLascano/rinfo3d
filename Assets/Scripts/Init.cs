@@ -72,6 +72,23 @@ public class Init : MonoBehaviour {
     public void InitializeRobot(int index)
     {
         Init.robotInstance[index].robInstance = Instantiate(robotPrefab, new Vector3(1.0f, ELEVACION_CALLEAV, 1.0f), Quaternion.identity);
+        if (Init.robotInstance.Count > 1)
+        {
+            Transform theRobot = (Transform)Init.robotInstance[index].robInstance;
+            UI.getBigBang().GetComponent<UI>().cameras.Add(theRobot.GetComponentInChildren<Camera>());
+            UI.getBigBang().GetComponent<UI>().setCurrentCamera(3 + index);
+            UI.getBigBang().GetComponent<UI>().setCurrentCamera(2);
+        }
+    }
+    public void ResetRobots()
+    {
+        UI.getBigBang().GetComponent<UI>().removeExtraCameras();
+        while (Init.robotInstance.Count > 1)
+        {
+            Transform inst = (Transform)Init.robotInstance[Init.robotInstance.Count - 1].robInstance;
+            Destroy(inst.gameObject);
+            Init.robotInstance.RemoveAt(Init.robotInstance.Count - 1);
+        }
     }
     public static List<VariableR> Variables = new List<VariableR>();
     // Use this for initialization
