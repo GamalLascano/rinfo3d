@@ -601,7 +601,23 @@ public class UI : MonoBehaviour
             setCurrentCamera(currentCamera);
         }
         // Linea de estado del robot, arreglar para multiples robots
-        GUI.TextArea(new Rect(margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i - 1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour(0).getRobotStatus(), styleTextArea);
+        if (Init.robotInstance.Count == 1)
+        {
+            GUI.TextArea(new Rect(margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i - 1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour(0).getRobotStatus(), styleTextArea);
+        }
+        else
+        {
+            if(Init.robotInstance[Init.robotInstance.Count - 1].robInstance != null)
+            {
+                GUI.TextArea(new Rect(margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i - 1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour(Init.robotInstance.Count - 1).getRobotStatus(), styleTextArea);
+            }
+            else
+            {
+                GUI.TextArea(new Rect(margin + i++ * buttonWidth, margin, Screen.width - (2 * margin + (i - 1) * buttonWidth), margin + buttonHeight * 2), Init.getRobotBehaviour(0).getRobotStatus(), styleTextArea);
+            }
+            
+        }
+       
         // Velocidad
         GUI.Label(new Rect(margin, Screen.height / 2 + buttonHeight * 4, buttonWidth * 2, buttonHeight + margin), I18N.getValue("speed"));
         currentRunningSpeed = GUI.VerticalScrollbar(new Rect(margin, Screen.height / 2 - buttonHeight * 4, margin, buttonHeight * 8), currentRunningSpeed, .1f, 1f, 0f);
